@@ -1,36 +1,74 @@
 package com.example.TimeAttendanceAPI.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
+
+import java.time.LocalTime;
 import java.util.Date;
 
-import static javax.persistence.GenerationType.AUTO;
-
 @Entity
+@Table(name = "Employee")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Employee {
 
-    @Id
-    @GeneratedValue(strategy = AUTO)
-    private int id;
+    enum Role {
+        ADMIN,
+        USER
+    }
 
+    @Id
+    @Column(name = "employee_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Getter
+    private int employeeId;
+
+    @NotNull
+    @Column(name = "name")
+    @Size(min = 6)
+    @Getter @Setter
     private String name;
 
+    @NotNull
+    @Column(name = "age")
+    @Min(value = 18, message = "Age must be over 18")
+    @Max(value = 60, message = "Age must not be over 60")
+    @Getter @Setter
     private Integer age;
 
+    @NotNull
+    @Column(name = "department")
+    @Size(min = 6)
+    @Getter @Setter
     private String department;
 
+    @NotNull
+    @Column(name = "position")
+    @Size(min = 6)
+    @Getter @Setter
     private String position;
 
-    private Integer daysOff;
+    @NotNull
+    @Column(name = "start_time")
+    @Getter @Setter
+    private LocalTime startTime;
 
-    private Integer daysOT;
+    @NotNull
+    @Column(name = "end_time")
+    @Getter @Setter
+    private LocalTime endTime;
 
-    private Date startDate;
-
-    private Date endDate;
-
-    private String role;
+    @NotNull
+    @Column(name = "role")
+    @Size(min = 1)
+    @Getter @Setter
+    private Role role;
 }
