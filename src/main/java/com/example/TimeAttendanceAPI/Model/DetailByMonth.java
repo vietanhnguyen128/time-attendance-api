@@ -33,5 +33,15 @@ public class DetailByMonth {
     @Column(name = "hours_ot")
     @Min(value = 0, message = "Days OT must be at least 0")
     @Getter @Setter
-    private LocalTime hoursOT;
+    private Integer hoursOT;
+
+    @NotNull
+    @Column(name = "start_time")
+    @Getter @Setter
+    private Integer startTime;
+
+    @NotNull
+    @Column(name = "end_time")
+    @Getter @Setter
+    private Integer endTime;
 }

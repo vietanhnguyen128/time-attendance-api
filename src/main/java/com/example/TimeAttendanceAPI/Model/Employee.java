@@ -57,16 +57,6 @@ public class Employee {
     private String position;
 
     @NotNull
-    @Column(name = "start_time")
-    @Getter @Setter
-    private LocalTime startTime;
-
-    @NotNull
-    @Column(name = "end_time")
-    @Getter @Setter
-    private LocalTime endTime;
-
-    @NotNull
     @Column(name = "role")
     @Size(min = 1)
     @Getter @Setter

@@ -2,6 +2,7 @@ package com.example.TimeAttendanceAPI.Model;
 
 import com.sun.istack.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
+@NoArgsConstructor
 @Table(name = "Absent")
 public class Absent {
 
