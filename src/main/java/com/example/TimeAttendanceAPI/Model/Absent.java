@@ -14,7 +14,6 @@ import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
-@NoArgsConstructor
 @Table(name = "Absent")
 public class Absent {
 
@@ -22,6 +21,7 @@ public class Absent {
     @Column(name = "absent_id")
     @Getter
     private Integer absentId;
+
 
     @NotNull
     @Column(name = "employee_id")

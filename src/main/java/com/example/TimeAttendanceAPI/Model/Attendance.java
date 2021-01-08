@@ -14,11 +14,12 @@ import java.time.LocalTime;
 import java.util.Date;
 
 @Entity
-@NoArgsConstructor
 @Table(name = "Attendance")
 public class Attendance {
 
     @Id
+    private Integer id;
+
     @Column(name = "employee_id")
     @Getter
     private Integer employeeId;

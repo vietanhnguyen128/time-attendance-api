@@ -16,20 +16,13 @@ import java.util.Date;
 
 @Entity
 @Table(name = "Employee")
-@NoArgsConstructor
-@AllArgsConstructor
 public class Employee {
-
-    enum Role {
-        ADMIN,
-        USER
-    }
 
     @Id
     @Column(name = "employee_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Getter
-    private int employeeId;
+    private Integer employeeId;
 
     @NotNull
     @Column(name = "name")
@@ -60,5 +53,5 @@ public class Employee {
     @Column(name = "role")
     @Size(min = 1)
     @Getter @Setter
-    private Role role;
+    private String role;
 }

@@ -35,15 +35,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Employee> getEmployees() {
-        List<Employee> listOfEmployees = employeeRepository.findAll();
-
-        return listOfEmployees;
-    }
-
-    @Override
-    public Employee updateEmployeeInfo(Employee employee) {
-        Optional<Employee> currentInfo = employeeRepository.findById(employee.getEmployeeId());
+    public Employee updateEmployeeInfo(Integer id, Employee employee) {
+        Optional<Employee> currentInfo = employeeRepository.findById(id);
 
         if (currentInfo.isPresent()) {
             Employee updatedInfo = currentInfo.get();
@@ -82,6 +75,11 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public DetailByMonth createDetailByMonth(DetailByMonth detail) {
+        return detailByMonthRepository.save(detail);
+    }
+
+    @Override
     public DetailByMonth updateDetailByMonth(DetailByMonth detail) {
         Optional<DetailByMonth> currentInfo = Optional.ofNullable(detailByMonthRepository.findByEmployeeIdAndMonth(detail.getEmployeeId(), detail.getMonth()));
 
@@ -99,6 +97,10 @@ public class AdminServiceImpl implements AdminService {
 
             if (detail.getEndTime() != null)
                 updatedInfo.setEndTime(detail.getEndTime());
+
+            if(detail.getBreakTime() != null) {
+                updatedInfo.setBreakTime(detail.getBreakTime());
+            }
 
             return detailByMonthRepository.save(detail);
         }

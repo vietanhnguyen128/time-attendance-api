@@ -3,13 +3,17 @@ package com.example.TimeAttendanceAPI.Repository;
 import com.example.TimeAttendanceAPI.Model.Attendance;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
-public interface AttendanceRepository extends JpaRepository<AttendanceRepository, Integer> {
+@Repository
+public interface AttendanceRepository extends JpaRepository<Attendance, Integer> {
 
-    List<Attendance> findByIdAndMonth(Integer id, Month month);
-    Attendance findByIdAndDay(Integer id, LocalDate date);
+    @Query("select a from Attendance a where a.employeeId = ?1 and month(a.dateOfWork) = ?2")
+    List<Attendance> findByIdAndMonth(Integer id, Integer month);
+
+    Attendance findByIdAndDateOfWork(Integer id, LocalDate date);
 }

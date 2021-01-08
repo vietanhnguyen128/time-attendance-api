@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.LocalTime;
 import java.time.Month;
@@ -13,6 +14,9 @@ import java.time.Month;
 @Table(name = "Detail_By_Month")
 public class DetailByMonth {
 
+    @Id
+    private int detailId;
+
     @NotNull
     @Column(name = "employee_id")
     @Getter @Setter
@@ -20,8 +24,9 @@ public class DetailByMonth {
 
     @NotNull
     @Column(name = "month")
+    @Min(1) @Max(12)
     @Getter @Setter
-    private Month month;
+    private Integer month;
 
     @NotNull
     @Column(name = "days_off")
@@ -44,4 +49,9 @@ public class DetailByMonth {
     @Column(name = "end_time")
     @Getter @Setter
     private Integer endTime;
+
+    @NotNull
+    @Column(name = "break_time")
+    @Getter @Setter
+    private Integer breakTime;
 }

@@ -10,10 +10,10 @@ import java.util.Optional;
 public interface AdminService {
 
     Employee createEmployee(Employee employee);
-    List<Employee> getEmployees();
-    Employee updateEmployeeInfo(Employee employee);
+    Employee updateEmployeeInfo(Integer id, Employee employee);
     boolean deleteEmployee(Integer id);
-    DetailByMonth updateDetailByMonth(DetailByMonth detail);
     List<Employee> findAllEmployee();
     Optional<Employee> findEmployeeById(Integer id);
+    DetailByMonth createDetailByMonth(DetailByMonth detail);
+    DetailByMonth updateDetailByMonth(DetailByMonth detail);
 }
