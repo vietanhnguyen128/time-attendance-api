@@ -26,10 +26,10 @@ public class Attendance {
     @Column(name = "employee_id")
     private Integer employee_id;
 
-    @Column(name = "date_record")
+    @Column(name = "date_record", columnDefinition = "DATE")
     private LocalDate dateRecord;
 
-    @Column(name = "time_record")
+    @Column(name = "time_record", columnDefinition = "TIME")
     private LocalTime timeRecord;
 
     @Column(name = "created_by")

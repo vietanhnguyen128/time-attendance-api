@@ -23,10 +23,10 @@ public class FormRecord {
     @Min(0)
     private Integer employeeId;
 
-    @Column(name = "day")
+    @Column(name = "day", columnDefinition = "DATE")
     private LocalDate date;
 
-    @Column(name = "time_period")
+    @Column(name = "time_period", columnDefinition = "TIME")
     private LocalTime timePeriod;
 
     @Column(name = "form_type")
