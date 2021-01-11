@@ -1,21 +1,16 @@
 package com.example.TimeAttendanceAPI.Model;
 
-import com.sun.istack.NotNull;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.PastOrPresent;
-import java.time.LocalDate;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Entity
 @Data
-@Table(name = "attendance")
-public class Attendance {
+@Table(name = "role")
+public class Role {
 
     @Id
     @Column(name = "id")
@@ -23,14 +18,9 @@ public class Attendance {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "employee_id")
-    private Integer employee_id;
-
-    @Column(name = "date_record")
-    private LocalDate dateRecord;
-
-    @Column(name = "time_record")
-    private LocalTime timeRecord;
+    @Column(name = "role_name")
+    @Size(min = 0, max = 50)
+    private String roleName;
 
     @Column(name = "created_by")
     @Min(0)
@@ -38,4 +28,11 @@ public class Attendance {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @Column(name = "updated_by")
+    @Min(0)
+    private Integer updatedBy;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 }

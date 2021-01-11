@@ -1,57 +1,88 @@
 package com.example.TimeAttendanceAPI.Model;
 
-import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
 
 @Entity
-@Table(name = "Employee")
+@Data
+@Table(name = "employee")
 public class Employee {
 
     @Id
-    @Column(name = "employee_id")
+    @Column(name = "id")
+    @Min(0)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Getter
     private Integer employeeId;
 
-    @NotNull
-    @Column(name = "name")
-    @Size(min = 6)
-    @Getter @Setter
+    @Column(name = "employee_name")
+    @Size(min = 6, max = 100)
     private String name;
 
-    @NotNull
     @Column(name = "age")
     @Min(value = 18, message = "Age must be over 18")
     @Max(value = 60, message = "Age must not be over 60")
-    @Getter @Setter
     private Integer age;
 
-    @NotNull
-    @Column(name = "department")
-    @Size(min = 6)
-    @Getter @Setter
-    private String department;
+    @Column(name = "gender")
+    private String gender;
 
-    @NotNull
-    @Column(name = "position")
-    @Size(min = 6)
-    @Getter @Setter
-    private String position;
+    @Column(name = "department_id")
+    @Min(0)
+    private Integer departmentId;
 
-    @NotNull
-    @Column(name = "role")
-    @Size(min = 1)
-    @Getter @Setter
-    private String role;
+    @Column(name = "position_id")
+    @Min(0)
+    private Integer positionId;
+
+    @Column(name = "role_id")
+    @Min(0)
+    private Integer roleId;
+
+    @Column(name = "manager_id")
+    @Min(0)
+    private Integer managerId;
+
+    @Column(name = "start_time", columnDefinition = "TIME")
+    private LocalTime startTime;
+
+    @Column(name = "end_time", columnDefinition = "TIME")
+    private LocalTime endTime;
+
+    @Column(name = "break_time", columnDefinition = "TIME")
+    private LocalTime breakTime;
+
+    @Column(name = "total_leave_time", columnDefinition = "TIME")
+    private LocalTime totalLeaveTime;
+
+    @Column(name = "total_overtime", columnDefinition = "TIME")
+    private LocalTime totalOvertime;
+
+    @Column(name = "username")
+    @Size(min = 5, max = 50)
+    private String username;
+
+    @Column(name = "password")
+    @Size(min = 7, max = 100)
+    private String password;
+
+    @Column(name = "created_by")
+    @Min(0)
+    private Integer createdBy;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_by")
+    @Min(0)
+    private Integer updatedBy;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 }
