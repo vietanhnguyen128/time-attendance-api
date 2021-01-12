@@ -39,22 +39,18 @@ public class Employee {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
-    @Min(0)
     private Department department;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "position_id")
-    @Min(0)
     private Position position;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "role_id")
-    @Min(0)
     private AccountRole role;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id", referencedColumnName = "employeeId")
-    @Min(0)
     private Employee manager;
 
     @Column(name = "start_time", columnDefinition = "TIME")
@@ -82,7 +78,6 @@ public class Employee {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "created_by")
-    @Min(0)
     private Employee createdBy;
 
     @Column(name = "created_at")
@@ -91,7 +86,6 @@ public class Employee {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "updated_by")
-    @Min(0)
     private Employee updatedBy;
 
     @Column(name = "updated_at")

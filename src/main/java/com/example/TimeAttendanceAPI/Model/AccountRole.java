@@ -28,16 +28,16 @@ public class AccountRole {
     @Size(min = 0, max = 50)
     private String roleName;
 
+    @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "created_by")
-    @Min(0)
-    private Integer createdBy;
+    private Employee createdBy;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "updated_by")
-    @Min(0)
-    private Integer updatedBy;
+    private Employee updatedBy;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
