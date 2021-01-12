@@ -1,5 +1,7 @@
 package com.example.TimeAttendanceAPI.Model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -12,6 +14,7 @@ import java.time.LocalTime;
 
 @Entity
 @Data
+@AllArgsConstructor
 @Table(name = "employee")
 public class Employee {
 
@@ -33,21 +36,25 @@ public class Employee {
     @Column(name = "gender")
     private String gender;
 
-    @Column(name = "department_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id")
     @Min(0)
-    private Integer departmentId;
+    private Department department;
 
+    @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "position_id")
     @Min(0)
-    private Integer positionId;
+    private Position position;
 
+    @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "role_id")
     @Min(0)
-    private Integer roleId;
+    private AccountRole role;
 
-    @Column(name = "manager_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_id", referencedColumnName = "employeeId")
     @Min(0)
-    private Integer managerId;
+    private Employee manager;
 
     @Column(name = "start_time", columnDefinition = "TIME")
     private LocalTime startTime;
@@ -72,17 +79,21 @@ public class Employee {
     @Size(min = 7, max = 100)
     private String password;
 
+    @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "created_by")
     @Min(0)
-    private Integer createdBy;
+    private Employee createdBy;
 
     @Column(name = "created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yy HH:mm:ss")
     private LocalDateTime createdAt;
 
+    @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "updated_by")
     @Min(0)
-    private Integer updatedBy;
+    private Employee updatedBy;
 
     @Column(name = "updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime updatedAt;
 }

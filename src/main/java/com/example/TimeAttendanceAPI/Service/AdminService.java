@@ -1,9 +1,6 @@
 package com.example.TimeAttendanceAPI.Service;
 
-import com.example.TimeAttendanceAPI.Model.Department;
-import com.example.TimeAttendanceAPI.Model.Employee;
-import com.example.TimeAttendanceAPI.Model.Position;
-import com.example.TimeAttendanceAPI.Model.AccountRole;
+import com.example.TimeAttendanceAPI.Model.*;
 
 import java.util.List;
 
@@ -23,13 +20,19 @@ public interface AdminService {
 
     //Update
     Employee updateEmployee(Integer id, Employee employee) throws IllegalAccessException;
-    Department updateDepartment(Integer id, Department department);
-    Position updatePosition(Integer id, Position position);
-    AccountRole updateRole(Integer id, AccountRole role);
+    Department updateDepartment(Integer id, Department department) throws IllegalAccessException;
+    Position updatePosition(Integer id, Position position) throws IllegalAccessException;
+    AccountRole updateRole(Integer id, AccountRole role) throws IllegalAccessException;
 
     //Delete
     boolean deleteEmployee(Integer id);
     boolean deleteDepartment(Integer id);
     boolean deletePosition(Integer id);
     boolean deleteRole(Integer id);
+
+    //Form
+    List<FormRecord> getSubordinatesFormRecords();
+    List<FormRecord> getSubordinatesFormRecordsByType(String type);
+    List<FormRecord> getSubordinatesFormRecordsByStatus(String status);
+    FormRecord formApproval(Integer id, String status);
 }
