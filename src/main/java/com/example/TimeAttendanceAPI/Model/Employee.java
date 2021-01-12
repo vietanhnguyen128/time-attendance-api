@@ -11,6 +11,7 @@ import javax.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.*;
 
 @Entity
 @Data
@@ -96,4 +97,7 @@ public class Employee {
     @Column(name = "updated_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "manager")
+    private List<Employee> subordinates = new ArrayList<>();
 }
