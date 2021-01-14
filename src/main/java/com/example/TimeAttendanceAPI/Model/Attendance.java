@@ -1,5 +1,7 @@
 package com.example.TimeAttendanceAPI.Model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.Getter;
@@ -24,18 +26,11 @@ public class Attendance {
     private Integer id;
 
     @Column(name = "employee_id")
-    private Integer employee_id;
+    private Integer employeeId;
 
     @Column(name = "date_record", columnDefinition = "DATE")
     private LocalDate dateRecord;
 
     @Column(name = "time_record", columnDefinition = "TIME")
     private LocalTime timeRecord;
-
-    @Column(name = "created_by")
-    @Min(0)
-    private Integer createdBy;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
 }

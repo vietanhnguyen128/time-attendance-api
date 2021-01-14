@@ -2,7 +2,9 @@ package com.example.TimeAttendanceAPI.Service;
 
 import com.example.TimeAttendanceAPI.Model.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public interface AdminService {
 
@@ -13,10 +15,11 @@ public interface AdminService {
     AccountRole createNewRole(AccountRole role);
 
     //Read
-    List<Employee> getAllEmployee();
-    List<Department> getAllDepartment();
-    List<Position> getAllPosition();
-    List<AccountRole> getALlRole();
+    ArrayList<Employee> getAllEmployee();
+    Optional<Employee> getEmployeeById(Integer employeeId);
+    ArrayList<Department> getAllDepartment();
+    ArrayList<Position> getAllPosition();
+    ArrayList<AccountRole> getALlRole();
 
     //Update
     Employee updateEmployee(Integer id, Employee employee) throws IllegalAccessException;
@@ -31,8 +34,8 @@ public interface AdminService {
     boolean deleteRole(Integer id);
 
     //Form
-    List<FormRecord> getSubordinatesFormRecords();
-    List<FormRecord> getSubordinatesFormRecordsByType(String type);
-    List<FormRecord> getSubordinatesFormRecordsByStatus(String status);
-    FormRecord formApproval(Integer id, String status);
+    ArrayList<FormRecord> getSubordinatesFormRecords(Integer adminId);
+    ArrayList<FormRecord> getSubordinatesFormRecordsByType(Integer adminId, String type);
+    ArrayList<FormRecord> getSubordinatesFormRecordsByStatus(Integer adminId, String status);
+    FormRecord formApproval(Integer formId, String status);
 }

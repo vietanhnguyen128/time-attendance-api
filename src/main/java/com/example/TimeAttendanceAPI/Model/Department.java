@@ -1,5 +1,7 @@
 package com.example.TimeAttendanceAPI.Model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,20 +29,15 @@ public class Department {
     @Size(min = 0, max = 100)
     private String departmentName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "created_by")
-    private Employee createdBy;
+    private Integer createdBy;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "updated_by")
-    private Employee updatedBy;
+    private Integer updatedBy;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    @OneToMany(mappedBy = "department")
-    private List<Employee> listOfEmployees = new ArrayList<>();
 }

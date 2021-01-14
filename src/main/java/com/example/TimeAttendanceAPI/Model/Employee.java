@@ -1,8 +1,9 @@
 package com.example.TimeAttendanceAPI.Model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -16,6 +17,7 @@ import java.util.*;
 @Entity
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "employee")
 public class Employee {
 
@@ -37,21 +39,17 @@ public class Employee {
     @Column(name = "gender")
     private String gender;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id")
-    private Department department;
+    @Column(name = "department_id")
+    private Integer departmentId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "position_id")
-    private Position position;
+    private Integer positionId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "role_id")
-    private AccountRole role;
+    private Integer roleId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "manager_id", referencedColumnName = "employeeId")
-    private Employee manager;
+    @Column(name = "manager_id")
+    private Integer managerId;
 
     @Column(name = "start_time", columnDefinition = "TIME")
     private LocalTime startTime;
@@ -76,22 +74,17 @@ public class Employee {
     @Size(min = 7, max = 100)
     private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "created_by")
-    private Employee createdBy;
+    private Integer createdBy;
 
     @Column(name = "created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yy HH:mm:ss")
     private LocalDateTime createdAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "updated_by")
-    private Employee updatedBy;
+    private Integer updatedBy;
 
     @Column(name = "updated_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime updatedAt;
-
-    @OneToMany(mappedBy = "manager")
-    private List<Employee> subordinates = new ArrayList<>();
 }

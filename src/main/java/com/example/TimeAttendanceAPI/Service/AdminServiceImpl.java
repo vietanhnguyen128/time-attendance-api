@@ -1,14 +1,12 @@
 package com.example.TimeAttendanceAPI.Service;
 
 import com.example.TimeAttendanceAPI.Model.*;
-import com.example.TimeAttendanceAPI.Repository.AccountRoleRepository;
-import com.example.TimeAttendanceAPI.Repository.DepartmentRepository;
-import com.example.TimeAttendanceAPI.Repository.EmployeeRepository;
-import com.example.TimeAttendanceAPI.Repository.PositionRepository;
+import com.example.TimeAttendanceAPI.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +24,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private AccountRoleRepository accountRoleRepository;
+
+    @Autowired
+    private FormRecordRepository formRecordRepository;
 
     //Create
     @Override
@@ -52,27 +53,28 @@ public class AdminServiceImpl implements AdminService {
 
     //Read
     @Override
-    public List<Employee> getAllEmployee() {
-        List<Employee> result = employeeRepository.findAll();
-        return result;
+    public ArrayList<Employee> getAllEmployee() {
+        return (ArrayList<Employee>) employeeRepository.findAll();
     }
 
     @Override
-    public List<Department> getAllDepartment() {
-        List<Department> result = departmentRepository.findAll();
-        return result;
+    public Optional<Employee> getEmployeeById(Integer employeeId) {
+        return employeeRepository.findById(employeeId);
     }
 
     @Override
-    public List<Position> getAllPosition() {
-        List<Position> result = positionRepository.findAll();
-        return result;
+    public ArrayList<Department> getAllDepartment() {
+        return (ArrayList<Department>) departmentRepository.findAll();
     }
 
     @Override
-    public List<AccountRole> getALlRole() {
-        List<AccountRole> result = accountRoleRepository.findAll();
-        return result;
+    public ArrayList<Position> getAllPosition() {
+        return (ArrayList<Position>) positionRepository.findAll();
+    }
+
+    @Override
+    public ArrayList<AccountRole> getALlRole() {
+        return (ArrayList<AccountRole>) accountRoleRepository.findAll();
     }
 
 
@@ -224,22 +226,33 @@ public class AdminServiceImpl implements AdminService {
 
     //Handling forms
     @Override
-    public List<FormRecord> getSubordinatesFormRecords() {
-        return null;
+    public ArrayList<FormRecord> getSubordinatesFormRecords(Integer adminId) {
+        return getSubordinatesFormRecords(adminId);
     }
 
     @Override
-    public List<FormRecord> getSubordinatesFormRecordsByType(String type) {
-        return null;
+    public ArrayList<FormRecord> getSubordinatesFormRecordsByType(Integer adminId, String type) {
+        ArrayList<FormRecord> result = getSubordinatesFormRecords(adminId);
+        result.removeIf(form -> (form.getFormType() != type));
+        return result;
     }
 
     @Override
-    public List<FormRecord> getSubordinatesFormRecordsByStatus(String status) {
-        return null;
+    public ArrayList<FormRecord> getSubordinatesFormRecordsByStatus(Integer adminId, String status) {
+        ArrayList<FormRecord> result = getSubordinatesFormRecords(adminId);
+        result.removeIf(form -> (form.getStatus() != status));
+        return result;
     }
 
     @Override
-    public FormRecord formApproval(Integer id, String status) {
+    public FormRecord formApproval(Integer formId, String status) {
+        Optional<FormRecord> result = formRecordRepository.findById(formId);
+        if (result.isPresent()) {
+            FormRecord newRecord = result.get();
+            newRecord.setStatus(status);
+            return formRecordRepository.save(newRecord);
+        }
+
         return null;
     }
 }

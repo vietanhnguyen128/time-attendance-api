@@ -1,5 +1,7 @@
 package com.example.TimeAttendanceAPI.Model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,8 +21,7 @@ public class FormRecord {
     @Min(0)
     private Integer id;
 
-    @Column(name = "employee_id")
-    @Min(0)
+    @JoinColumn(name = "employee_id")
     private Integer employeeId;
 
     @Column(name = "day", columnDefinition = "DATE")
@@ -37,15 +38,10 @@ public class FormRecord {
     @Size(min = 0)
     private String status;
 
-    @Column(name = "created_by")
-    @Min(0)
-    private Integer createdBy;
-
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_by")
-    @Min(0)
+    @JoinColumn(name = "updated_by")
     private Integer updatedBy;
 
     @Column(name = "updated_at")

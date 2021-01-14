@@ -1,5 +1,7 @@
 package com.example.TimeAttendanceAPI.Model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +18,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "position")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Position {
 
     @Id
@@ -28,19 +33,16 @@ public class Position {
     private String positionName;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "created_by")
+    @JoinColumn(name = "created_by", referencedColumnName = "id")
     private Employee createdBy;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "updated_by")
+    @JoinColumn(name = "updated_by", referencedColumnName = "id")
     private Employee updatedBy;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    @OneToMany(mappedBy = "position")
-    private List<Employee> listOfEmployees = new ArrayList<>();
 }
