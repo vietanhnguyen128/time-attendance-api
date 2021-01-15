@@ -10,6 +10,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
@@ -24,7 +25,7 @@ public class Employee {
     @Id
     @Column(name = "id")
     @Min(0)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer employeeId;
 
     @Column(name = "employee_name")
@@ -51,7 +52,7 @@ public class Employee {
     @Column(name = "manager_id")
     private Integer managerId;
 
-    @Column(name = "start_time", columnDefinition = "TIME")
+    @Column(name = "start_time")
     private LocalTime startTime;
 
     @Column(name = "end_time", columnDefinition = "TIME")
@@ -60,11 +61,11 @@ public class Employee {
     @Column(name = "break_time", columnDefinition = "TIME")
     private LocalTime breakTime;
 
-    @Column(name = "total_leave_time", columnDefinition = "TIME")
-    private LocalTime totalLeaveTime;
+    @Column(name = "total_leave_time", columnDefinition = "INT default 0")
+    private Duration totalLeaveTime;
 
-    @Column(name = "total_overtime", columnDefinition = "TIME")
-    private LocalTime totalOvertime;
+    @Column(name = "total_overtime", columnDefinition = "INT default 0")
+    private Duration totalOvertime;
 
     @Column(name = "username")
     @Size(min = 5, max = 50)
@@ -78,7 +79,7 @@ public class Employee {
     private Integer createdBy;
 
     @Column(name = "created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yy HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime createdAt;
 
     @Column(name = "updated_by")

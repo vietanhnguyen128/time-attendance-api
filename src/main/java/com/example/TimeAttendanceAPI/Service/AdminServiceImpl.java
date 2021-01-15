@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,21 +35,39 @@ public class AdminServiceImpl implements AdminService {
     //Create
     @Override
     public Employee createNewEmployee(Employee employee) {
+        if (employee.getTotalLeaveTime() == null) {
+            employee.setTotalLeaveTime(Duration.ofSeconds(0));
+        }
+        if (employee.getTotalOvertime() == null) {
+            employee.setTotalOvertime(Duration.ofSeconds(0));
+        }
+        if (employee.getCreatedAt() == null) {
+            employee.setCreatedAt(LocalDateTime.now());
+        }
         return employeeRepository.save(employee);
     }
 
     @Override
     public Department createNewDepartment(Department department) {
+        if (department.getCreatedAt() == null) {
+            department.setCreatedAt(LocalDateTime.now());
+        }
         return departmentRepository.save(department);
     }
 
     @Override
     public Position createNewPosition(Position position) {
+        if (position.getCreatedAt() == null) {
+            position.setCreatedAt(LocalDateTime.now());
+        }
         return positionRepository.save(position);
     }
 
     @Override
     public AccountRole createNewRole(AccountRole role) {
+        if (role.getCreatedAt() == null) {
+            role.setCreatedAt(LocalDateTime.now());
+        }
         return accountRoleRepository.save(role);
     }
 
@@ -54,7 +76,12 @@ public class AdminServiceImpl implements AdminService {
     //Read
     @Override
     public ArrayList<Employee> getAllEmployee() {
-        return (ArrayList<Employee>) employeeRepository.findAll();
+        ArrayList<Employee> results = (ArrayList<Employee>) employeeRepository.findAll();
+        for (Employee e : results) {
+            e.setUsername(null);
+            e.setPassword(null);
+        }
+        return results;
     }
 
     @Override
@@ -98,6 +125,10 @@ public class AdminServiceImpl implements AdminService {
                 }
             }
 
+            if (newVal.getUpdatedAt() == null) {
+                newVal.setUpdatedAt(LocalDateTime.now());
+            }
+
             return employeeRepository.save(newVal);
         }
 
@@ -121,6 +152,9 @@ public class AdminServiceImpl implements AdminService {
                     field.set(newVal, v); //set value of the field in object newVal with v
                 }
             }
+
+            if (newVal.getUpdatedAt() == null)
+                newVal.setUpdatedAt(LocalDateTime.now());
 
             return departmentRepository.save(newVal);
         }
@@ -146,6 +180,9 @@ public class AdminServiceImpl implements AdminService {
                 }
             }
 
+            if (newVal.getUpdatedAt() == null)
+                newVal.setUpdatedAt(LocalDateTime.now());
+
             return positionRepository.save(newVal);
         }
 
@@ -169,6 +206,9 @@ public class AdminServiceImpl implements AdminService {
                     field.set(newVal, v); //set value of the field in object newVal with v
                 }
             }
+
+            if (newVal.getUpdatedAt() == null)
+                newVal.setUpdatedAt(LocalDateTime.now());
 
             return accountRoleRepository.save(newVal);
         }
@@ -250,6 +290,8 @@ public class AdminServiceImpl implements AdminService {
         if (result.isPresent()) {
             FormRecord newRecord = result.get();
             newRecord.setStatus(status);
+            if (newRecord.getUpdatedAt() == null)
+                newRecord.setUpdatedAt(LocalDateTime.now());
             return formRecordRepository.save(newRecord);
         }
 

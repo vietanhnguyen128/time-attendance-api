@@ -1,5 +1,6 @@
 package com.example.TimeAttendanceAPI.Model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
@@ -17,7 +18,7 @@ import java.time.LocalTime;
 public class FormRecord {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Min(0)
     private Integer id;
 
@@ -25,9 +26,11 @@ public class FormRecord {
     private Integer employeeId;
 
     @Column(name = "day", columnDefinition = "DATE")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate date;
 
     @Column(name = "time_period", columnDefinition = "TIME")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private LocalTime timePeriod;
 
     @Column(name = "form_type")
@@ -39,11 +42,13 @@ public class FormRecord {
     private String status;
 
     @Column(name = "created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime createdAt;
 
     @JoinColumn(name = "updated_by")
     private Integer updatedBy;
 
     @Column(name = "updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime updatedAt;
 }

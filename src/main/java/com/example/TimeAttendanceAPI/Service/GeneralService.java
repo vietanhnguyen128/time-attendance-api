@@ -5,6 +5,7 @@ import com.example.TimeAttendanceAPI.Model.Employee;
 import com.example.TimeAttendanceAPI.Model.FormRecord;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public interface GeneralService {
@@ -12,6 +13,8 @@ public interface GeneralService {
     Attendance createAttendanceRecord(Attendance record);
 
     FormRecord createForm(FormRecord form);
+
+    Duration getAttendanceTimeByDay(Integer employeeId, LocalDate date);
 
     Duration getTotalAttendanceTime(Integer employeeId);
 

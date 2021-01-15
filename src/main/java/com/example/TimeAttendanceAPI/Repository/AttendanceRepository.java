@@ -13,12 +13,13 @@ import java.util.List;
 @Repository
 public interface AttendanceRepository extends JpaRepository<Attendance, Integer> {
 
-    @Query("Select (a.dateRecord, a.timeRecord) from Employee e, Attendance a where e.employeeId = ?1 " +
-            "and e.employeeId = a.employeeId " +
+    @Query("Select a from Attendance a where a.employeeId = ?1 " +
             "and month(a.dateRecord) = ?2")
     ArrayList<Attendance> getAttendanceDetailByMonth(Integer employeeId, Integer month);
 
-    @Query("Select (a.dateRecord, a.timeRecord) from Employee e, Attendance a where e.employeeId = ?1 " +
-            "and e.employeeId = a.employeeId")
+    @Query("Select a from Attendance a where a.employeeId = ?1 and a.dateRecord = ?2")
+    ArrayList<Attendance> getAttendanceDetailByDay(Integer employeeId, LocalDate date);
+
+    @Query("Select a from Attendance a where a.employeeId = ?1")
     ArrayList<Attendance> getAttendanceDetail(Integer employeeId);
 }
