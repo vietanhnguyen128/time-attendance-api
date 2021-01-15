@@ -44,7 +44,7 @@ public class GeneralServiceImpl implements GeneralService {
             } else if (checkIn.isAfter(breakStart) && checkIn.isBefore(breakEnd)) {
                 total = total.plus(Duration.between(breakEnd, result.get(i).getTimeRecord()));
                 continue;
-            }
+            } // BIG MISTAKE!!!!!!!!!!!!!!
 
             total = total.plus(Duration.between(result.get(i+1).getTimeRecord(), result.get(i).getTimeRecord()));
         }
