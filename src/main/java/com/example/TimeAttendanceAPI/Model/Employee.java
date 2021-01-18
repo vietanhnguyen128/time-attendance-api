@@ -52,14 +52,17 @@ public class Employee {
     @Column(name = "manager_id")
     private Integer managerId;
 
-    @Column(name = "start_time")
-    private LocalTime startTime;
+    @Column(name = "shift_start", columnDefinition = "TIME")
+    private LocalTime shiftStart;
 
-    @Column(name = "end_time", columnDefinition = "TIME")
-    private LocalTime endTime;
+    @Column(name = "shift_end", columnDefinition = "TIME")
+    private LocalTime shiftEnd;
 
-    @Column(name = "break_time", columnDefinition = "TIME")
-    private LocalTime breakTime;
+    @Column(name = "break_start", columnDefinition = "TIME")
+    private LocalTime breakStart;
+
+    @Column(name = "break_end", columnDefinition = "TIME")
+    private LocalTime breakEnd;
 
     @Column(name = "total_leave_time", columnDefinition = "INT default 0")
     private Duration totalLeaveTime;

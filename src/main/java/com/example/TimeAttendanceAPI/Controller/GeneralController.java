@@ -34,10 +34,10 @@ public class GeneralController {
 
     //Get
     @GetMapping("/attendance")
-    public ResponseEntity<Duration> getTotalAttendanceTime(@Param("id") Integer id) {
+    public ResponseEntity<String> getTotalAttendanceTime(@Param("id") Integer id) {
         Duration result = generalService.getTotalAttendanceTime(id);
         if (result != null)
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return new ResponseEntity<>(String.format("%02d:%02d:%02d", result.toHours(), result.toMinutesPart(), result.toSecondsPart()), HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

@@ -148,19 +148,23 @@ public class AdminController {
     }
 
     //Form
-    public ResponseEntity<List<FormRecord>> getSubordinatesFormRecords(@Param("id") Integer adminId) {
+    @GetMapping("/form/{id}")
+    public ResponseEntity<List<FormRecord>> getSubordinatesFormRecords(@PathVariable("id") Integer adminId) {
         return new ResponseEntity<>(adminService.getSubordinatesFormRecords(adminId), HttpStatus.OK);
     }
 
-    public ResponseEntity<List<FormRecord>> getSubordinatesFormRecordsByType(@Param("id") Integer adminId, String type) {
+    @GetMapping("/form/{id}")
+    public ResponseEntity<List<FormRecord>> getSubordinatesFormRecordsByType(@PathVariable("id") Integer adminId, @Param("type") String type) {
         return new ResponseEntity<>(adminService.getSubordinatesFormRecordsByType(adminId, type), HttpStatus.OK);
     }
 
-    public ResponseEntity<List<FormRecord>> getSubordinatesFormRecordsByStatus(@Param("id") Integer adminId, String status) {
+    @GetMapping("/form/{id}")
+    public ResponseEntity<List<FormRecord>> getSubordinatesFormRecordsByStatus(@PathVariable("id") Integer adminId, @Param("status") String status) {
         return new ResponseEntity<>(adminService.getSubordinatesFormRecordsByStatus(adminId, status), HttpStatus.OK);
     }
 
-    public ResponseEntity<FormRecord> formApproval(@Param("id") Integer formId, String status) {
+    @GetMapping("/form/{id}")
+    public ResponseEntity<FormRecord> formApproval(@PathVariable("id") Integer adminId, @Param("id") Integer formId, @RequestBody String status) {
         FormRecord result = adminService.formApproval(formId, status);
         if (result != null) {
             return new ResponseEntity<>(result, HttpStatus.OK);
