@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @RestController
+@RequestMapping("/")
 public class GeneralController {
 
     @Autowired

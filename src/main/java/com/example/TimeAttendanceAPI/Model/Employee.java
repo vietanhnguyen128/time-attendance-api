@@ -91,4 +91,7 @@ public class Employee {
     @Column(name = "updated_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime updatedAt;
+
+    @Column(name = "token")
+    private String token;
 }

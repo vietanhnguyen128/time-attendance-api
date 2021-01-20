@@ -11,29 +11,29 @@ import java.util.ArrayList;
 
 public interface GeneralService {
 
-    Attendance createAttendanceRecord(Attendance record);
+    abstract Attendance createAttendanceRecord(Attendance record);
 
-    FormRecord createForm(FormRecord form);
+    abstract FormRecord createForm(FormRecord form);
 
-    Duration getAttendanceTimeByDay(Integer employeeId, LocalDate date);
+    abstract Duration getAttendanceTimeByDay(Integer employeeId, LocalDate date);
 
-    Duration getAttendanceTimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate);
+    abstract Duration getAttendanceTimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate);
 
-    Duration getTotalAttendanceTime(Integer employeeId);
+    abstract Duration getTotalAttendanceTime(Integer employeeId);
 
-    Duration getTotalLateTime(Integer employeeId);
+    abstract Duration getTotalLateTime(Integer employeeId);
 
-    Duration getLateTimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate);
+    abstract Duration getLateTimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate);
 
-    Duration getTotalWorkingTime(Integer employeeId);
+    abstract Duration getTotalWorkingTime(Integer employeeId);
 
-    Duration getWorkingTimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate);
+    abstract Duration getWorkingTimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate);
 
-    Duration getTotalAbsentTime(Integer employeeId);
+    abstract Duration getTotalAbsentTime(Integer employeeId);
 
-    Duration getAbsentTimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate);
+    abstract Duration getAbsentTimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate);
 
-    Duration getTotalOvertime(Integer employeeId);
+    abstract Duration getTotalOvertime(Integer employeeId);
 
-    Duration getOvertimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate);
+    abstract Duration getOvertimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate);
 }

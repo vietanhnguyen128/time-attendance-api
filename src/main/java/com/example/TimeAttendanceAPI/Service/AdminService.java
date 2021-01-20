@@ -9,33 +9,33 @@ import java.util.Optional;
 public interface AdminService {
 
     //Create
-    Employee createNewEmployee(Employee employee);
-    Department createNewDepartment(Department department);
-    Position createNewPosition(Position position);
-    AccountRole createNewRole(AccountRole role);
+    abstract Employee createNewEmployee(Employee employee);
+    abstract Department createNewDepartment(Department department);
+    abstract Position createNewPosition(Position position);
+    abstract AccountRole createNewRole(AccountRole role);
 
     //Read
-    ArrayList<Employee> getAllEmployee();
-    Optional<Employee> getEmployeeById(Integer employeeId);
-    ArrayList<Department> getAllDepartment();
-    ArrayList<Position> getAllPosition();
-    ArrayList<AccountRole> getALlRole();
+    abstract ArrayList<Employee> getAllEmployee();
+    abstract Optional<Employee> getEmployeeById(Integer employeeId);
+    abstract ArrayList<Department> getAllDepartment();
+    abstract ArrayList<Position> getAllPosition();
+    abstract ArrayList<AccountRole> getALlRole();
 
     //Update
-    Employee updateEmployee(Integer id, Employee employee) throws IllegalAccessException;
-    Department updateDepartment(Integer id, Department department) throws IllegalAccessException;
-    Position updatePosition(Integer id, Position position) throws IllegalAccessException;
-    AccountRole updateRole(Integer id, AccountRole role) throws IllegalAccessException;
+    abstract Employee updateEmployee(Integer id, Employee employee) throws IllegalAccessException;
+    abstract Department updateDepartment(Integer id, Department department) throws IllegalAccessException;
+    abstract Position updatePosition(Integer id, Position position) throws IllegalAccessException;
+    abstract AccountRole updateRole(Integer id, AccountRole role) throws IllegalAccessException;
 
     //Delete
-    boolean deleteEmployee(Integer id);
-    boolean deleteDepartment(Integer id);
-    boolean deletePosition(Integer id);
-    boolean deleteRole(Integer id);
+    abstract boolean deleteEmployee(Integer id);
+    abstract boolean deleteDepartment(Integer id);
+    abstract boolean deletePosition(Integer id);
+    abstract boolean deleteRole(Integer id);
 
     //Form
-    ArrayList<FormRecord> getSubordinatesFormRecords(Integer adminId);
-    ArrayList<FormRecord> getSubordinatesFormRecordsByType(Integer adminId, String type);
-    ArrayList<FormRecord> getSubordinatesFormRecordsByStatus(Integer adminId, String status);
-    FormRecord formApproval(Integer formId, String status);
+    abstract ArrayList<FormRecord> getSubordinatesFormRecords(Integer adminId);
+    abstract ArrayList<FormRecord> getSubordinatesFormRecordsByType(Integer adminId, String type);
+    abstract ArrayList<FormRecord> getSubordinatesFormRecordsByStatus(Integer adminId, String status);
+    abstract FormRecord formApproval(Integer formId, String status);
 }
