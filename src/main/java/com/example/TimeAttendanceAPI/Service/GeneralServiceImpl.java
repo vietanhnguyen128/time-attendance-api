@@ -6,7 +6,6 @@ import com.example.TimeAttendanceAPI.Model.FormRecord;
 import com.example.TimeAttendanceAPI.Repository.AttendanceRepository;
 import com.example.TimeAttendanceAPI.Repository.EmployeeRepository;
 import com.example.TimeAttendanceAPI.Repository.FormRecordRepository;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,8 +40,8 @@ public class GeneralServiceImpl implements GeneralService {
             int checkOut = input.get(i+1).getTimeRecord().toSecondOfDay();
 
             if (checkIn < shiftStart) {
-                if (checkOut < shiftStart)
-                    continue;
+                if (checkOut < shiftStart) {
+                }
                 else if (checkOut >= breakStart && checkOut < breakEnd) {
                     total += (shiftStart - breakStart);
                 } else if (checkOut >= breakEnd && checkOut < shiftEnd) {
@@ -66,7 +65,6 @@ public class GeneralServiceImpl implements GeneralService {
                 }
             } else if (checkIn >= breakStart && checkIn < breakEnd) {
                 if (checkOut < breakEnd) {
-                    continue;
                 } else if (checkOut >= breakEnd && checkOut < shiftEnd) {
                     total += checkOut - breakEnd;
                 } else {
@@ -78,8 +76,6 @@ public class GeneralServiceImpl implements GeneralService {
                 } else {
                     total += checkOut - checkIn;
                 }
-            } else {
-                continue;
             }
         }
 
@@ -105,8 +101,7 @@ public class GeneralServiceImpl implements GeneralService {
     @Override
     public Duration getAttendanceTimeByDay(Integer employeeId, LocalDate date) {
         if (employeeRepository.findById(employeeId).isPresent()) {
-            Duration total = calculateAttendanceTime(attendanceRepository.getAttendanceDetailByDay(employeeId, date));
-            return total;
+            return calculateAttendanceTime(attendanceRepository.getAttendanceDetailByDay(employeeId, date));
         }
         return null;
     }
@@ -114,8 +109,7 @@ public class GeneralServiceImpl implements GeneralService {
     @Override
     public Duration getAttendanceTimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate) {
         if (attendanceRepository.findById(employeeId).isPresent()) {
-            Duration total = calculateAttendanceTime(attendanceRepository.getAttendanceDetailByPeriod(employeeId, startDate, endDate));
-            return total;
+            return calculateAttendanceTime(attendanceRepository.getAttendanceDetailByPeriod(employeeId, startDate, endDate));
         }
         return null;
     }
@@ -123,7 +117,34 @@ public class GeneralServiceImpl implements GeneralService {
     @Override
     public Duration getTotalAttendanceTime(Integer employeeId) {
         if (employeeRepository.findById(employeeId).isPresent()) {
-            Duration total = calculateAttendanceTime(attendanceRepository.getAttendanceDetail(employeeId));
+            return calculateAttendanceTime(attendanceRepository.getAttendanceDetail(employeeId));
+        }
+
+        return null;
+    }
+
+    @Override
+    public Duration getTotalLateTime(Integer employeeId) {
+        if (employeeRepository.findById(employeeId).isPresent()) {
+
+            ArrayList<Attendance> records = attendanceRepository.getAttendanceDetail(employeeId);
+            Duration total = Duration.ZERO;
+            LocalTime startTime = employeeRepository.getOne(employeeId).getShiftStart();
+            LocalDate currentDate;
+            LocalDate previousDate = LocalDate.MIN;
+
+            for (int i = 0; i < records.size(); i += 2) {
+                currentDate = records.get(i).getDateRecord();
+                if (previousDate.equals(currentDate)) {
+                    continue;
+                }
+                Duration temp = Duration.between(startTime, records.get(i).getTimeRecord());
+                if (!temp.isNegative()) {
+                    total = total.plus(temp);
+                }
+                previousDate = currentDate;
+            }
+
             return total;
         }
 
@@ -132,16 +153,24 @@ public class GeneralServiceImpl implements GeneralService {
 
     @Override
     public Duration getLateTimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate) {
-        if (attendanceRepository.findById(employeeId).isPresent()) {
+        if (employeeRepository.findById(employeeId).isPresent()) {
 
             ArrayList<Attendance> records = attendanceRepository.getAttendanceDetailByPeriod(employeeId, startDate, endDate);
             Duration total = Duration.ZERO;
             LocalTime startTime = employeeRepository.getOne(employeeId).getShiftStart();
+            LocalDate currentDate;
+            LocalDate previousDate = LocalDate.MIN;
+
             for (int i = 0; i < records.size(); i += 2) {
+                currentDate = records.get(i).getDateRecord();
+                if (previousDate.equals(currentDate)) {
+                    continue;
+                }
                 Duration temp = Duration.between(startTime, records.get(i).getTimeRecord());
                 if (!temp.isNegative()) {
                     total = total.plus(temp);
                 }
+                previousDate = currentDate;
             }
 
             return total;
@@ -158,13 +187,36 @@ public class GeneralServiceImpl implements GeneralService {
     }
 
     @Override
+    public Duration getWorkingTimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate) {
+        Duration totalAttendance = getAttendanceTimeByPeriod(employeeId, startDate, endDate);
+        Duration totalOvertime = getOvertimeByPeriod(employeeId, startDate, endDate);
+        return totalAttendance.plus(totalOvertime);
+    }
+
+    @Override
     public Duration getTotalAbsentTime(Integer employeeId) {
         if (employeeRepository.findById(employeeId).isPresent()) {
             ArrayList<FormRecord> records = formRecordRepository.getApprovedForms(employeeId, "absent");
             Duration total = Duration.ZERO;
 
-            for (int i = 0; i < records.size(); i++) {
-                total = total.plus(Duration.between(LocalTime.MIN, records.get(i).getTimePeriod()));
+            for (FormRecord record : records) {
+                total = total.plus(Duration.between(LocalTime.MIN, record.getTimePeriod()));
+            }
+
+            return total;
+        }
+
+        return null;
+    }
+
+    @Override
+    public Duration getAbsentTimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate) {
+        if (employeeRepository.findById(employeeId).isPresent()) {
+            ArrayList<FormRecord> records = formRecordRepository.getApprovedFormsByPeriod(employeeId, "absent", startDate, endDate);
+            Duration total = Duration.ZERO;
+
+            for (FormRecord record : records) {
+                total = total.plus(Duration.between(LocalTime.MIN, record.getTimePeriod()));
             }
 
             return total;
@@ -179,8 +231,24 @@ public class GeneralServiceImpl implements GeneralService {
             ArrayList<FormRecord> records = formRecordRepository.getApprovedForms(employeeId, "overtime");
             Duration total = Duration.ZERO;
 
-            for (int i = 0; i < records.size(); i++) {
-                total = total.plus(Duration.between(LocalTime.MIN, records.get(i).getTimePeriod()));
+            for (FormRecord record : records) {
+                total = total.plus(Duration.between(LocalTime.MIN, record.getTimePeriod()));
+            }
+
+            return total;
+        }
+
+        return null;
+    }
+
+    @Override
+    public Duration getOvertimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate) {
+        if (employeeRepository.findById(employeeId).isPresent()) {
+            ArrayList<FormRecord> records = formRecordRepository.getApprovedFormsByPeriod(employeeId, "overtime", startDate, endDate);
+            Duration total = Duration.ZERO;
+
+            for (FormRecord record : records) {
+                total = total.plus(Duration.between(LocalTime.MIN, record.getTimePeriod()));
             }
 
             return total;

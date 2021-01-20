@@ -19,7 +19,7 @@ public class AdminController {
     @Autowired
     private AdminServiceImpl adminService;
 
-    //Employee
+    //Employee methods
     @PostMapping("/employee/add")
     public ResponseEntity<Employee> createEmployee(@RequestBody @Valid Employee employee) {
         return new ResponseEntity<>(adminService.createNewEmployee(employee), HttpStatus.OK);
@@ -36,7 +36,7 @@ public class AdminController {
     }
 
     @GetMapping("/employee")
-    public ResponseEntity<List<Employee>> getAllEmployees() {
+    public ResponseEntity<List<Employee>> getAllEmployees(@Param("page") Integer pageNo, @Param("size") Integer sizeNo) {
         return new ResponseEntity<>(adminService.getAllEmployee(), HttpStatus.OK);
     }
 
@@ -60,7 +60,7 @@ public class AdminController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    //Department
+    //Department methods
     @PostMapping("/department/add")
     public ResponseEntity<Department> createDepartment(@RequestBody @Valid Department department) {
         return new ResponseEntity<>(adminService.createNewDepartment(department), HttpStatus.OK);
@@ -89,7 +89,7 @@ public class AdminController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     
-    //Position
+    //Position methods
     @PostMapping("/position/add")
     public ResponseEntity<Position> createPosition(@RequestBody @Valid Position position) {
         return new ResponseEntity<>(adminService.createNewPosition(position), HttpStatus.OK);
@@ -118,7 +118,7 @@ public class AdminController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    //AccountRole
+    //AccountRole methods
     @PostMapping("/role/add")
     public ResponseEntity<AccountRole> createAccountRole(@RequestBody @Valid AccountRole role) {
         return new ResponseEntity<>(adminService.createNewRole(role), HttpStatus.OK);
@@ -147,7 +147,7 @@ public class AdminController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    //Form
+    //Form methods
     @GetMapping("/form/{id}")
     public ResponseEntity<List<FormRecord>> getSubordinatesFormRecords(@PathVariable("id") Integer adminId) {
         return new ResponseEntity<>(adminService.getSubordinatesFormRecords(adminId), HttpStatus.OK);

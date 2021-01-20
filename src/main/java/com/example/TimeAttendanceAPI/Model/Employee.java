@@ -75,7 +75,7 @@ public class Employee {
     private String username;
 
     @Column(name = "password")
-    @Size(min = 7, max = 100)
+    @Size(min = 7, max = 60)
     private String password;
 
     @Column(name = "created_by")

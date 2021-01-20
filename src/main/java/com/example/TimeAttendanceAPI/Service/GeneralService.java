@@ -21,11 +21,19 @@ public interface GeneralService {
 
     Duration getTotalAttendanceTime(Integer employeeId);
 
+    Duration getTotalLateTime(Integer employeeId);
+
     Duration getLateTimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate);
 
     Duration getTotalWorkingTime(Integer employeeId);
 
+    Duration getWorkingTimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate);
+
     Duration getTotalAbsentTime(Integer employeeId);
 
+    Duration getAbsentTimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate);
+
     Duration getTotalOvertime(Integer employeeId);
+
+    Duration getOvertimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate);
 }

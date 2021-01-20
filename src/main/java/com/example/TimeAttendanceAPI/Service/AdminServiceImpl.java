@@ -3,6 +3,7 @@ package com.example.TimeAttendanceAPI.Service;
 import com.example.TimeAttendanceAPI.Model.*;
 import com.example.TimeAttendanceAPI.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
@@ -44,6 +45,7 @@ public class AdminServiceImpl implements AdminService {
         if (employee.getCreatedAt() == null) {
             employee.setCreatedAt(LocalDateTime.now());
         }
+        employee.setPassword(new BCryptPasswordEncoder().encode(employee.getPassword()));
         return employeeRepository.save(employee);
     }
 
@@ -113,15 +115,17 @@ public class AdminServiceImpl implements AdminService {
         if(currentVal.isPresent()) {
             Employee newVal = currentVal.get();
 
+            if (employee.getPassword() != null)
+                employee.setPassword(new BCryptPasswordEncoder().encode(employee.getPassword()));
+
             Field[] fields = newVal.getClass().getDeclaredFields(); //Get an array of all fields including private field in object
 
-            for (Field field : fields) { //for each
+            for (Field field : fields) { //for each field
                 field.setAccessible(true); //set accessible for field, else throw IllegalAccessException
-                Class t = field.getType(); //get the type of the field
-                Object v = field.get(employee); //get value of the field in employee object
+                Object value = field.get(employee); //get value of the field in employee object
 
-                if (v != null) {
-                    field.set(newVal, v); //set value of the field in object newVal with v
+                if (value != null) {
+                    field.set(newVal, value); //set value of the field in object newVal with value
                 }
             }
 
@@ -145,11 +149,10 @@ public class AdminServiceImpl implements AdminService {
 
             for (Field field : fields) { //for each
                 field.setAccessible(true); //set accessible for field, else throw IllegalAccessException
-                Class t = field.getType(); //get the type of the field
-                Object v = field.get(department); //get value of the field in department object
+                Object value = field.get(department); //get value of the field in department object
 
-                if (v != null) {
-                    field.set(newVal, v); //set value of the field in object newVal with v
+                if (value != null) {
+                    field.set(newVal, value); //set value of the field in object newVal with v
                 }
             }
 
@@ -172,7 +175,6 @@ public class AdminServiceImpl implements AdminService {
 
             for (Field field : fields) { //for each
                 field.setAccessible(true); //set accessible for field, else throw IllegalAccessException
-                Class t = field.getType(); //get the type of the field
                 Object v = field.get(position); //get value of the field in position object
 
                 if (v != null) {
@@ -199,7 +201,6 @@ public class AdminServiceImpl implements AdminService {
 
             for (Field field : fields) { //for each
                 field.setAccessible(true); //set accessible for field, else throw IllegalAccessException
-                Class t = field.getType(); //get the type of the field
                 Object v = field.get(role); //get value of the field in role object
 
                 if (v != null) {
