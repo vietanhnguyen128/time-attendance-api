@@ -13,6 +13,8 @@ public class RequestInterceptorAppConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(requestInterceptor).excludePathPatterns("/login");
+        registry.addInterceptor(requestInterceptor)
+                .excludePathPatterns("/login")
+                .excludePathPatterns("/docs/**");
     }
 }

@@ -2,7 +2,14 @@ package com.example.TimeAttendanceAPI.Controller;
 
 import com.example.TimeAttendanceAPI.Model.*;
 import com.example.TimeAttendanceAPI.Service.AdminServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +27,18 @@ public class AdminController {
     private AdminServiceImpl adminService;
 
     //Employee methods
+    @Operation(summary = "Add new employee", description = "Add new employee")
+    @ApiResponse(responseCode = "200", description = "New employee added.")
     @PostMapping("/employee/add")
     public ResponseEntity<Employee> createEmployee(@RequestBody @Valid Employee employee) {
         return new ResponseEntity<>(adminService.createNewEmployee(employee), HttpStatus.OK);
     }
 
+    @Operation(summary = "Update employee", description = "Update employee info, based on employee id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Employee info successfully updated."),
+            @ApiResponse(responseCode = "404", description = "Employee not found")}
+    )
     @PutMapping("/employee/{id}")
     public ResponseEntity<Employee> updateEmployee(@PathVariable("id") Integer id, @RequestBody @Valid Employee employee) throws IllegalAccessException {
         Employee result = adminService.updateEmployee(id, employee);
@@ -35,8 +49,10 @@ public class AdminController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @Operation(summary = "Get all employee", description = "Get a list of all employee")
+    @ApiResponse(responseCode = "200", description = "OK", content = {@Content(array = @ArraySchema(schema = @Schema(implementation = Employee.class)))})
     @GetMapping("/employee")
-    public ResponseEntity<List<Employee>> getAllEmployees(@Param("page") Integer pageNo, @Param("size") Integer sizeNo) {
+    public ResponseEntity<List<Employee>> getAllEmployees(Pageable pageable) {
         return new ResponseEntity<>(adminService.getAllEmployee(), HttpStatus.OK);
     }
 

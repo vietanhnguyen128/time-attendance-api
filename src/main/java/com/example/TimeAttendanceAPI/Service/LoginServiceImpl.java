@@ -22,6 +22,7 @@ public class LoginServiceImpl implements LoginService {
         if (result != null) {
             status = new BCryptPasswordEncoder().matches(password, result.getPassword());
             result.setToken(DigestUtils.sha256Hex(username + password + LocalDateTime.now().toString()));
+            employeeRepository.save(result);
         }
         return status;
     }
