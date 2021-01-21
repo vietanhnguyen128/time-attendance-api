@@ -33,17 +33,15 @@ public class Position {
     @Size(min = 0, max = 100)
     private String positionName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by", referencedColumnName = "id")
-    private Employee createdBy;
+    @Column(name = "created_by")
+    private Integer createdBy;
 
     @Column(name = "created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime createdAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by", referencedColumnName = "id")
-    private Employee updatedBy;
+    @Column(name = "updated_by")
+    private Integer updatedBy;
 
     @Column(name = "updated_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")

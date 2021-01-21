@@ -56,6 +56,11 @@ public class AdminController {
         return new ResponseEntity<>(adminService.getAllEmployee(), HttpStatus.OK);
     }
 
+    @Operation(summary = "Get employee", description = "Get employee info, based on employee id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success."),
+            @ApiResponse(responseCode = "404", description = "Employee not found")}
+    )
     @GetMapping("/employee/{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") Integer id) {
         Optional<Employee> result = adminService.getEmployeeById(id);
@@ -65,6 +70,11 @@ public class AdminController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @Operation(summary = "Delete employee", description = "Delete employee info, based on employee id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "404", description = "Employee not found")}
+    )
     @DeleteMapping("/employee/{id}")
     public ResponseEntity<HttpStatus> deleteEmployee(@PathVariable("id") Integer id) {
         Optional<Employee> result = adminService.getEmployeeById(id);
@@ -77,16 +87,25 @@ public class AdminController {
     }
 
     //Department methods
+    @Operation(summary = "Add new department", description = "Add new department")
+    @ApiResponse(responseCode = "200", description = "New department added.")
     @PostMapping("/department/add")
     public ResponseEntity<Department> createDepartment(@RequestBody @Valid Department department) {
         return new ResponseEntity<>(adminService.createNewDepartment(department), HttpStatus.OK);
     }
 
+    @Operation(summary = "Get departments", description = "Get a list of all departments")
+    @ApiResponse(responseCode = "200", description = "Success", content = {@Content(array = @ArraySchema(schema = @Schema(implementation = Department.class)))})
     @GetMapping("/department")
     public ResponseEntity<List<Department>> getDepartments() {
         return new ResponseEntity<>(adminService.getAllDepartment(), HttpStatus.OK);
     }
 
+    @Operation(summary = "Update department", description = "Update department info, based on department id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Department info successfully updated."),
+            @ApiResponse(responseCode = "404", description = "Department not found")}
+    )
     @PutMapping("/department")
     public ResponseEntity<Department> updateDepartment(@Param("id") Integer id, @RequestBody @Valid Department department) throws IllegalAccessException {
         Department result = adminService.updateDepartment(id, department);
@@ -97,6 +116,11 @@ public class AdminController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @Operation(summary = "Delete department", description = "Delete department info, based on department id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "404", description = "Department not found")}
+    )
     @DeleteMapping("/department")
     public ResponseEntity<Department> deleteDepartment(@Param("id") Integer id) throws IllegalAccessException {
         if (adminService.deleteDepartment(id)) {
@@ -106,16 +130,25 @@ public class AdminController {
     }
     
     //Position methods
+    @Operation(summary = "Add new position", description = "Add new position")
+    @ApiResponse(responseCode = "200", description = "New position added.")
     @PostMapping("/position/add")
     public ResponseEntity<Position> createPosition(@RequestBody @Valid Position position) {
         return new ResponseEntity<>(adminService.createNewPosition(position), HttpStatus.OK);
     }
 
+    @Operation(summary = "Get positions", description = "Get a list of all positions")
+    @ApiResponse(responseCode = "200", description = "Success", content = {@Content(array = @ArraySchema(schema = @Schema(implementation = Position.class)))})
     @GetMapping("/position")
     public ResponseEntity<List<Position>> getPositions() {
         return new ResponseEntity<>(adminService.getAllPosition(), HttpStatus.OK);
     }
 
+    @Operation(summary = "Update position", description = "Update position info, based on position id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Position info successfully updated."),
+            @ApiResponse(responseCode = "404", description = "Position not found")}
+    )
     @PutMapping("/position")
     public ResponseEntity<Position> updatePosition(@Param("id") Integer id, @RequestBody @Valid Position position) throws IllegalAccessException {
         Position result = adminService.updatePosition(id, position);
@@ -126,6 +159,11 @@ public class AdminController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @Operation(summary = "Delete position", description = "Delete position info, based on position id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "404", description = "Position not found")}
+    )
     @DeleteMapping("/position")
     public ResponseEntity<Position> deletePosition(@Param("id") Integer id) throws IllegalAccessException {
         if (adminService.deletePosition(id)) {
@@ -135,16 +173,25 @@ public class AdminController {
     }
 
     //AccountRole methods
+    @Operation(summary = "Add new role", description = "Add new role")
+    @ApiResponse(responseCode = "200", description = "Success")
     @PostMapping("/role/add")
     public ResponseEntity<AccountRole> createAccountRole(@RequestBody @Valid AccountRole role) {
         return new ResponseEntity<>(adminService.createNewRole(role), HttpStatus.OK);
     }
 
+    @Operation(summary = "Get roles", description = "Get a list of all roles")
+    @ApiResponse(responseCode = "200", description = "Success", content = {@Content(array = @ArraySchema(schema = @Schema(implementation = AccountRole.class)))})
     @GetMapping("/role")
     public ResponseEntity<List<AccountRole>> getAccountRoles() {
         return new ResponseEntity<>(adminService.getALlRole(), HttpStatus.OK);
     }
 
+    @Operation(summary = "Update role", description = "Update role info, based on role id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "404", description = "Role not found")}
+    )
     @PutMapping("/role")
     public ResponseEntity<AccountRole> updateAccountRole(@Param("id") Integer id, @RequestBody @Valid AccountRole role) throws IllegalAccessException {
         AccountRole result = adminService.updateRole(id, role);
@@ -155,6 +202,11 @@ public class AdminController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @Operation(summary = "Delete role", description = "Delete role info, based on role id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "404", description = "Role not found")}
+    )
     @DeleteMapping("/role")
     public ResponseEntity<AccountRole> deleteAccountRole(@Param("id") Integer id) throws IllegalAccessException {
         if (adminService.deleteRole(id)) {
@@ -164,21 +216,29 @@ public class AdminController {
     }
 
     //Form methods
+    @Operation(summary = "Get form records", description = "Get all of subordinates form records")
+    @ApiResponse(responseCode = "200", description = "Success", content = {@Content(array = @ArraySchema(schema = @Schema(implementation = FormRecord.class)))} )
     @GetMapping("/form/{id}")
     public ResponseEntity<List<FormRecord>> getSubordinatesFormRecords(@PathVariable("id") Integer adminId) {
         return new ResponseEntity<>(adminService.getSubordinatesFormRecords(adminId), HttpStatus.OK);
     }
 
+    @Operation(summary = "Get form records by status", description = "Get all of subordinates form records by status")
+    @ApiResponse(responseCode = "200", description = "Success", content = {@Content(array = @ArraySchema(schema = @Schema(implementation = FormRecord.class)))} )
     @GetMapping(value = "/form/{id}", params = "type")
     public ResponseEntity<List<FormRecord>> getSubordinatesFormRecordsByType(@PathVariable("id") Integer adminId, @RequestParam String type) {
         return new ResponseEntity<>(adminService.getSubordinatesFormRecordsByType(adminId, type), HttpStatus.OK);
     }
 
+    @Operation(summary = "Get form records by status", description = "Get all of subordinates form records by status")
+    @ApiResponse(responseCode = "200", description = "Success", content = {@Content(array = @ArraySchema(schema = @Schema(implementation = FormRecord.class)))} )
     @GetMapping(value = "/form/{id}", params = "status")
     public ResponseEntity<List<FormRecord>> getSubordinatesFormRecordsByStatus(@PathVariable("id") Integer adminId, @RequestParam String status) {
         return new ResponseEntity<>(adminService.getSubordinatesFormRecordsByStatus(adminId, status), HttpStatus.OK);
     }
 
+    @Operation(summary = "Form approval", description = "Approve a from record")
+    @ApiResponse(responseCode = "200", description = "Success", content = {@Content(schema = @Schema(implementation = FormRecord.class))} )
     @GetMapping(value = "/form/{id}", params = {"formId", "status"})
     public ResponseEntity<FormRecord> formApproval(@PathVariable("id") Integer adminId, @Param("formId") Integer formId, @Param("status") String status) {
         FormRecord result = adminService.formApproval(formId, status);
