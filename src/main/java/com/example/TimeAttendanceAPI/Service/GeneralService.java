@@ -15,25 +15,25 @@ public interface GeneralService {
 
     abstract FormRecord createForm(FormRecord form);
 
-    abstract Duration getAttendanceTimeByDay(Integer employeeId, LocalDate date);
+    abstract Duration getAttendanceTimeByDay(Integer employeeId, String date);
 
-    abstract Duration getAttendanceTimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate);
+    abstract Duration getAttendanceTimeByPeriod(Integer employeeId, String startDate, String endDate);
 
     abstract Duration getTotalAttendanceTime(Integer employeeId);
 
     abstract Duration getTotalLateTime(Integer employeeId);
 
-    abstract Duration getLateTimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate);
+    abstract Duration getLateTimeByPeriod(Integer employeeId, String startDate, String endDate);
 
     abstract Duration getTotalWorkingTime(Integer employeeId);
 
-    abstract Duration getWorkingTimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate);
+    abstract Duration getWorkingTimeByPeriod(Integer employeeId, String startDate, String endDate);
 
     abstract Duration getTotalAbsentTime(Integer employeeId);
 
-    abstract Duration getAbsentTimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate);
+    abstract Duration getAbsentTimeByPeriod(Integer employeeId, String startDate, String endDate);
 
     abstract Duration getTotalOvertime(Integer employeeId);
 
-    abstract Duration getOvertimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate);
+    abstract Duration getOvertimeByPeriod(Integer employeeId, String startDate, String endDate);
 }

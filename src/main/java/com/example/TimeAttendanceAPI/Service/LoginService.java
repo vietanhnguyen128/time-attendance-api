@@ -5,7 +5,7 @@ import com.example.TimeAttendanceAPI.Model.Employee;
 import java.util.Optional;
 
 public interface LoginService {
-    abstract boolean checkLogin(String username, String password);
+    abstract boolean checkLogin(String header);
 
     abstract boolean validateToken(String token);
 

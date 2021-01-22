@@ -13,6 +13,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 @Service
@@ -26,6 +27,8 @@ public class GeneralServiceImpl implements GeneralService {
 
     @Autowired
     private FormRecordRepository formRecordRepository;
+
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     private Duration calculateAttendanceTime(ArrayList<Attendance> input) {
         Employee info = employeeRepository.getOne(input.get(0).getEmployeeId());
@@ -99,17 +102,20 @@ public class GeneralServiceImpl implements GeneralService {
     }
 
     @Override
-    public Duration getAttendanceTimeByDay(Integer employeeId, LocalDate date) {
+    public Duration getAttendanceTimeByDay(Integer employeeId, String date) {
         if (employeeRepository.findById(employeeId).isPresent()) {
-            return calculateAttendanceTime(attendanceRepository.getAttendanceDetailByDay(employeeId, date));
+            LocalDate convertedDate = LocalDate.parse(date, dateTimeFormatter);
+            return calculateAttendanceTime(attendanceRepository.getAttendanceDetailByDay(employeeId, convertedDate));
         }
         return null;
     }
 
     @Override
-    public Duration getAttendanceTimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate) {
+    public Duration getAttendanceTimeByPeriod(Integer employeeId, String startDate, String endDate) {
         if (attendanceRepository.findById(employeeId).isPresent()) {
-            return calculateAttendanceTime(attendanceRepository.getAttendanceDetailByPeriod(employeeId, startDate, endDate));
+            LocalDate convertedStartDate = LocalDate.parse(startDate, dateTimeFormatter);
+            LocalDate convertedEndDate = LocalDate.parse(endDate, dateTimeFormatter);
+            return calculateAttendanceTime(attendanceRepository.getAttendanceDetailByPeriod(employeeId, convertedStartDate, convertedEndDate));
         }
         return null;
     }
@@ -152,10 +158,13 @@ public class GeneralServiceImpl implements GeneralService {
     }
 
     @Override
-    public Duration getLateTimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate) {
+    public Duration getLateTimeByPeriod(Integer employeeId, String startDate, String endDate) {
         if (employeeRepository.findById(employeeId).isPresent()) {
 
-            ArrayList<Attendance> records = attendanceRepository.getAttendanceDetailByPeriod(employeeId, startDate, endDate);
+            LocalDate convertedStartDate = LocalDate.parse(startDate, dateTimeFormatter);
+            LocalDate convertedEndDate = LocalDate.parse(endDate, dateTimeFormatter);
+
+            ArrayList<Attendance> records = attendanceRepository.getAttendanceDetailByPeriod(employeeId, convertedStartDate, convertedEndDate);
             Duration total = Duration.ZERO;
             LocalTime startTime = employeeRepository.getOne(employeeId).getShiftStart();
             LocalDate currentDate;
@@ -187,7 +196,7 @@ public class GeneralServiceImpl implements GeneralService {
     }
 
     @Override
-    public Duration getWorkingTimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate) {
+    public Duration getWorkingTimeByPeriod(Integer employeeId, String startDate, String endDate) {
         Duration totalAttendance = getAttendanceTimeByPeriod(employeeId, startDate, endDate);
         Duration totalOvertime = getOvertimeByPeriod(employeeId, startDate, endDate);
         return totalAttendance.plus(totalOvertime);
@@ -210,9 +219,12 @@ public class GeneralServiceImpl implements GeneralService {
     }
 
     @Override
-    public Duration getAbsentTimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate) {
+    public Duration getAbsentTimeByPeriod(Integer employeeId, String startDate, String endDate) {
         if (employeeRepository.findById(employeeId).isPresent()) {
-            ArrayList<FormRecord> records = formRecordRepository.getApprovedFormsByPeriod(employeeId, "absent", startDate, endDate);
+            LocalDate convertedStartDate = LocalDate.parse(startDate, dateTimeFormatter);
+            LocalDate convertedEndDate = LocalDate.parse(endDate, dateTimeFormatter);
+
+            ArrayList<FormRecord> records = formRecordRepository.getApprovedFormsByPeriod(employeeId, "absent", convertedStartDate, convertedEndDate);
             Duration total = Duration.ZERO;
 
             for (FormRecord record : records) {
@@ -242,9 +254,12 @@ public class GeneralServiceImpl implements GeneralService {
     }
 
     @Override
-    public Duration getOvertimeByPeriod(Integer employeeId, LocalDate startDate, LocalDate endDate) {
+    public Duration getOvertimeByPeriod(Integer employeeId, String startDate, String endDate) {
         if (employeeRepository.findById(employeeId).isPresent()) {
-            ArrayList<FormRecord> records = formRecordRepository.getApprovedFormsByPeriod(employeeId, "overtime", startDate, endDate);
+            LocalDate convertedStartDate = LocalDate.parse(startDate, dateTimeFormatter);
+            LocalDate convertedEndDate = LocalDate.parse(endDate, dateTimeFormatter);
+
+            ArrayList<FormRecord> records = formRecordRepository.getApprovedFormsByPeriod(employeeId, "overtime", convertedStartDate, convertedEndDate);
             Duration total = Duration.ZERO;
 
             for (FormRecord record : records) {

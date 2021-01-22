@@ -3,6 +3,13 @@ package com.example.TimeAttendanceAPI.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.sun.istack.NotNull;
 import lombok.*;
 
@@ -30,10 +37,12 @@ public class Attendance {
     private Integer employeeId;
 
     @Column(name = "date_record", columnDefinition = "DATE")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate dateRecord;
 
     @Column(name = "time_record", columnDefinition = "TIME")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+    @JsonFormat(pattern = "HH:mm:ss")
+    @JsonSerialize(using = LocalTimeSerializer.class)
     private LocalTime timeRecord;
 }

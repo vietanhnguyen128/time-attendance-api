@@ -2,6 +2,9 @@ package com.example.TimeAttendanceAPI.Controller;
 
 import com.example.TimeAttendanceAPI.Model.Employee;
 import com.example.TimeAttendanceAPI.Service.LoginServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,21 +26,15 @@ public class LoginController {
     @Autowired
     LoginServiceImpl loginService;
 
+    @Operation(summary = "Login", description = "Login using username and password. Return a token")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "400", description = "Invalid username or password")})
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestHeader(value = HttpHeaders.AUTHORIZATION) String header) {
-
-        if (header != null && header.toLowerCase().startsWith("basic")) {
-            String credential = header.substring("Basic".length()).trim();
-            String decoded = new String(Base64.getDecoder().decode(credential), StandardCharsets.UTF_8);
-            int separatorIndex = decoded.indexOf(":");
-
-            String username = decoded.substring(0, separatorIndex);
-            String password = decoded.substring(separatorIndex + 1);
-
-            boolean result = loginService.checkLogin(username, password);
-            if (result == true)
-                return new ResponseEntity<>(loginService.getToken(username), HttpStatus.OK);
-        }
+        boolean result = loginService.checkLogin(header);
+        if (result)
+            return new ResponseEntity<>(loginService.getToken(header), HttpStatus.OK);
 
         return new ResponseEntity<>("Invalid username or password", HttpStatus.BAD_REQUEST);
     }

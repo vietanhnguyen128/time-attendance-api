@@ -3,6 +3,9 @@ package com.example.TimeAttendanceAPI.Controller;
 import com.example.TimeAttendanceAPI.Model.Attendance;
 import com.example.TimeAttendanceAPI.Model.FormRecord;
 import com.example.TimeAttendanceAPI.Service.GeneralServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -29,39 +32,62 @@ public class GeneralController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @Operation(summary = "Create attendance record", description = "Create attendance record")
+    @ApiResponse(responseCode = "200", description = "Success")
     @PostMapping("/attendance")
     public ResponseEntity<Attendance> createAttendanceRecord(@RequestBody @Valid Attendance record) {
         return new ResponseEntity<>(generalService.createAttendanceRecord(record), HttpStatus.OK);
     }
 
+    @Operation(summary = "Create form record", description = "Create form record")
+    @ApiResponse(responseCode = "200", description = "Success")
     @PostMapping("/form")
     public ResponseEntity<FormRecord> createForm(@RequestBody @Valid FormRecord form) {
         return new ResponseEntity<>(generalService.createForm(form), HttpStatus.OK);
     }
 
     //Attendance methods
+    @Operation(summary = "Get total attendance time", description = "Get total attendance time")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "404", description = "Employee not found")})
     @GetMapping("/attendance/{id}")
     public ResponseEntity<String> getTotalAttendanceTime(@PathVariable("id") Integer id) {
         Duration result = generalService.getTotalAttendanceTime(id);
-        return timeResponse(result);
+        if (result != null)
+            return timeResponse(result);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @Operation(summary = "Get attendance time by day", description = "Get attendance time by day")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "404", description = "Employee not found")})
     @GetMapping(value = "/attendance/{id}", params = "date")
     public ResponseEntity<String> getAttendanceTimeByDay(@PathVariable("id") Integer id, @Param("date") String date) {
-        LocalDate convertedDate = LocalDate.parse(date, dateTimeFormatter);
-        Duration result = generalService.getAttendanceTimeByDay(id, convertedDate);
-        return timeResponse(result);
+        Duration result = generalService.getAttendanceTimeByDay(id, date);
+        if (result != null)
+            return timeResponse(result);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @Operation(summary = "Get attendance time by period", description = "Get attendance time by period")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "404", description = "Employee not found")})
     @GetMapping(value = "/attendance/{id}", params = {"start", "end"})
     public ResponseEntity<String> getAttendanceTimeByPeriod(@PathVariable("id") Integer id, @Param("date") String startDate, @Param("end") String endDate) {
-        LocalDate convertedStartDate = LocalDate.parse(startDate, dateTimeFormatter);
-        LocalDate convertedEndDate = LocalDate.parse(endDate, dateTimeFormatter);
-        Duration result = generalService.getAttendanceTimeByPeriod(id, convertedStartDate, convertedEndDate);
-        return timeResponse(result);
+        Duration result = generalService.getAttendanceTimeByPeriod(id, startDate, endDate);
+        if (result != null)
+            return timeResponse(result);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     //Other methods
+    @Operation(summary = "Get total time by type", description = "Get total time by type. There are 4 types: late time, working time, absent time, overtime")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "404", description = "Employee not found")})
     @GetMapping(value = "/info/{id}", params = {"type"})
     public ResponseEntity<String> getTotalTimeByType(@PathVariable("id") Integer employeeId, @Param("type") String type) {
         Duration result;
@@ -82,34 +108,39 @@ public class GeneralController {
                 return new ResponseEntity<>("Invalid type", HttpStatus.BAD_REQUEST);
         }
 
-        return timeResponse(result);
+        if (result != null)
+            return timeResponse(result);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @Operation(summary = "Get total time by type and period", description = "Get total time by type and period. There are 4 types: late time, working time, absent time, overtime")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "404", description = "Employee not found")})
     @GetMapping(value = "/info/{id}", params = {"type", "start", "end"})
     public ResponseEntity<String> getTotalTimeByTypeAndPeriod(@PathVariable("id") Integer employeeId, @Param("type") String type,
                                                               @Param("start") String start, @Param("end") String end) {
 
-        LocalDate convertedStart = LocalDate.parse(start, dateTimeFormatter);
-        LocalDate convertedEnd = LocalDate.parse(end, dateTimeFormatter);
-
         Duration result;
         switch (type) {
             case "late":
-                result = generalService.getLateTimeByPeriod(employeeId, convertedStart, convertedEnd);
+                result = generalService.getLateTimeByPeriod(employeeId, start, end);
                 break;
             case "working":
-                result = generalService.getWorkingTimeByPeriod(employeeId, convertedStart, convertedEnd);
+                result = generalService.getWorkingTimeByPeriod(employeeId, start, end);
                 break;
             case "absent":
-                result = generalService.getAbsentTimeByPeriod(employeeId, convertedStart, convertedEnd);
+                result = generalService.getAbsentTimeByPeriod(employeeId, start, end);
                 break;
             case "overtime":
-                result = generalService.getOvertimeByPeriod(employeeId, convertedStart, convertedEnd);
+                result = generalService.getOvertimeByPeriod(employeeId, start, end);
                 break;
             default:
                 return new ResponseEntity<>("Invalid type", HttpStatus.BAD_REQUEST);
         }
 
-        return timeResponse(result);
+        if (result != null)
+            return timeResponse(result);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
