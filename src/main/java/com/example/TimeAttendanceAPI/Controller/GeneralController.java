@@ -76,7 +76,7 @@ public class GeneralController {
             @ApiResponse(responseCode = "200", description = "Success"),
             @ApiResponse(responseCode = "404", description = "Employee not found")})
     @GetMapping(value = "/attendance/{id}", params = {"start", "end"})
-    public ResponseEntity<String> getAttendanceTimeByPeriod(@PathVariable("id") Integer id, @Param("date") String startDate, @Param("end") String endDate) {
+    public ResponseEntity<String> getAttendanceTimeByPeriod(@PathVariable("id") Integer id, @Param("start") String startDate, @Param("end") String endDate) {
         Duration result = generalService.getAttendanceTimeByPeriod(id, startDate, endDate);
         if (result != null)
             return timeResponse(result);

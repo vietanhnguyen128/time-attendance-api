@@ -10,3 +10,4 @@ Time Attendance API
 - 20/01/2021: Add interceptor, login, token validation.
 - 21/01/2021: Fix interceptor, add API documentation. Add test classes.
 - 22/01/2021: Add more test cases, fix general service.
+- 25/01/2021: Fix test cases to correct behaviour, fix service methods to correct output.

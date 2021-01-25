@@ -52,7 +52,7 @@ public class AdminController {
     @Operation(summary = "Get all employee", description = "Get a list of all employee")
     @ApiResponse(responseCode = "200", description = "OK", content = {@Content(array = @ArraySchema(schema = @Schema(implementation = Employee.class)))})
     @GetMapping("/employee")
-    public ResponseEntity<List<Employee>> getAllEmployees(Pageable pageable) {
+    public ResponseEntity<List<Employee>> getAllEmployees() {
         return new ResponseEntity<>(adminService.getAllEmployee(), HttpStatus.OK);
     }
 

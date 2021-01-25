@@ -10,10 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -35,8 +32,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -57,12 +53,15 @@ public class GeneralControllerTest {
 
     ObjectMapper mapper;
 
-    DateTimeFormatter formatter;
-
-    @BeforeAll
+    @BeforeEach
     public void setup() throws Exception {
         when(requestInterceptor.preHandle(any(),any(),any())).thenReturn(true);
         mapper = new ObjectMapper();
+    }
+
+    @AfterEach
+    public void teardown() throws Exception {
+
     }
 
     @Test
@@ -99,8 +98,6 @@ public class GeneralControllerTest {
 
     @Test
     public void getTotalAttendanceSuccess() throws Exception {
-        String total = Duration.ofSeconds(3600).toString();
-
         when(generalService.getTotalAttendanceTime(anyInt())).thenReturn(Duration.ofSeconds(3600));
 
         this.mockMvc.perform(get("/attendance/{id}", 1))
@@ -109,8 +106,6 @@ public class GeneralControllerTest {
 
     @Test
     public void getTotalAttendanceFailed() throws Exception {
-        String total = Duration.ofSeconds(3600).toString();
-
         when(generalService.getTotalAttendanceTime(anyInt())).thenReturn(null);
 
         this.mockMvc.perform(get("/attendance/{id}", 1))
@@ -119,8 +114,6 @@ public class GeneralControllerTest {
 
     @Test
     public void getTotalAttendanceByDaySuccess() throws Exception {
-        String total = Duration.ofSeconds(3600).toString();
-
         when(generalService.getAttendanceTimeByDay(anyInt(), anyString())).thenReturn(Duration.ofSeconds(3600));
 
         this.mockMvc.perform(get("/attendance/{id}", 1)
@@ -131,8 +124,6 @@ public class GeneralControllerTest {
 
     @Test
     public void getTotalAttendanceByDayFailed() throws Exception {
-        String total = Duration.ofSeconds(3600).toString();
-
         when(generalService.getAttendanceTimeByDay(anyInt(), anyString())).thenReturn(null);
 
         this.mockMvc.perform(get("/attendance/{id}", 1)
@@ -143,26 +134,24 @@ public class GeneralControllerTest {
 
     @Test
     public void getTotalAttendanceByPeriodSuccess() throws Exception {
-        String total = Duration.ofSeconds(3600).toString();
-
         when(generalService.getAttendanceTimeByPeriod(anyInt(), anyString(), anyString())).thenReturn(Duration.ofSeconds(3600));
 
         this.mockMvc.perform(get("/attendance/{id}", 1)
-                .param("startDate", LocalDate.now().toString())
-                .param("endDate", LocalDate.now().toString()))
+                .param("start", LocalDate.now().toString())
+                .param("end", LocalDate.now().toString()))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
 
     @Test
     public void getTotalAttendanceByPeriodFailed() throws Exception {
-        String total = Duration.ofSeconds(3600).toString();
+        when(generalService.getAttendanceTimeByPeriod(anyInt(), any(), any())).thenReturn(null);
 
-        when(generalService.getAttendanceTimeByPeriod(anyInt(), anyString(), anyString())).thenReturn(null);
+        System.out.println(generalService.getAttendanceTimeByPeriod(anyInt(), anyString(), anyString()));
 
         this.mockMvc.perform(get("/attendance/{id}", 1)
-                .param("startDate", LocalDate.now().toString())
-                .param("endDate", LocalDate.now().toString()))
+                .param("start", LocalDate.now().toString())
+                .param("end", LocalDate.now().toString()))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
