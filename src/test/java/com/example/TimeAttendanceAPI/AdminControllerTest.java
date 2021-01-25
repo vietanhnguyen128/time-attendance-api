@@ -2,10 +2,7 @@ package com.example.TimeAttendanceAPI;
 
 import com.example.TimeAttendanceAPI.Controller.AdminController;
 import com.example.TimeAttendanceAPI.Interceptor.RequestInterceptor;
-import com.example.TimeAttendanceAPI.Model.AccountRole;
-import com.example.TimeAttendanceAPI.Model.Department;
-import com.example.TimeAttendanceAPI.Model.Employee;
-import com.example.TimeAttendanceAPI.Model.Position;
+import com.example.TimeAttendanceAPI.Model.*;
 import com.example.TimeAttendanceAPI.Service.AdminServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -277,5 +274,44 @@ public class AdminControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test
+    public void getFormRecordsSuccess() throws Exception {
+        when(adminService.getSubordinatesFormRecords(anyInt())).thenReturn(new ArrayList<FormRecord>());
+        this.mockMvc.perform(get("/form/1"))
+                .andExpect(status().isOk());
+    }
 
+    @Test
+    public void getFormRecordsByTypeSuccess() throws Exception {
+        when(adminService.getSubordinatesFormRecordsByType(anyInt(), anyString())).thenReturn(new ArrayList<FormRecord>());
+        this.mockMvc.perform(get("/form/1")
+                .param("type", "abc"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getFormRecordsByStatusSuccess() throws Exception {
+        when(adminService.getSubordinatesFormRecordsByStatus(anyInt(), anyString())).thenReturn(new ArrayList<FormRecord>());
+        this.mockMvc.perform(get("/form/1")
+                .param("status", "abc"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void formApprovalSuccess() throws Exception {
+        when(adminService.formApproval(anyInt(), anyString())).thenReturn(new FormRecord());
+        this.mockMvc.perform(get("/form/1")
+                .param("formId", String.valueOf(1))
+                .param("status", "accept"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void formApprovalFailed() throws Exception {
+        when(adminService.formApproval(anyInt(), anyString())).thenReturn(null);
+        this.mockMvc.perform(get("/form/1")
+                .param("formId", String.valueOf(1))
+                .param("status", "accept"))
+                .andExpect(status().isNotFound());
+    }
 }

@@ -39,7 +39,9 @@ public class FormRecord {
 
     @Column(name = "day", columnDefinition = "DATE")
     @JsonFormat(pattern = "dd-MM-yyyy")
-    @JsonSerialize(using = LocalDateSerializer.class) //Some black voodoo magic shenanigan again. Why doesn't LocalDateSerializer work here, when it works on Attendance entity?
+    @JsonSerialize(using = LocalDateSerializer.class)
+    //Some black voodoo magic shenanigan again. Why doesn't LocalDateSerializer work here, when it works on Attendance entity?
+    //PSA: my pigeon brain forgot NoArgsConstructor so it didn't work. It works now.
     private LocalDate date;
 
     @Column(name = "time_period", columnDefinition = "TIME")

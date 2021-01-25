@@ -223,7 +223,7 @@ public class AdminController {
         return new ResponseEntity<>(adminService.getSubordinatesFormRecords(adminId), HttpStatus.OK);
     }
 
-    @Operation(summary = "Get form records by status", description = "Get all of subordinates form records by status")
+    @Operation(summary = "Get form records by type", description = "Get all of subordinates form records by type")
     @ApiResponse(responseCode = "200", description = "Success", content = {@Content(array = @ArraySchema(schema = @Schema(implementation = FormRecord.class)))} )
     @GetMapping(value = "/form/{id}", params = "type")
     public ResponseEntity<List<FormRecord>> getSubordinatesFormRecordsByType(@PathVariable("id") Integer adminId, @RequestParam String type) {
@@ -238,7 +238,9 @@ public class AdminController {
     }
 
     @Operation(summary = "Form approval", description = "Approve a from record")
-    @ApiResponse(responseCode = "200", description = "Success", content = {@Content(schema = @Schema(implementation = FormRecord.class))} )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success", content = {@Content(schema = @Schema(implementation = FormRecord.class))}),
+            @ApiResponse(responseCode = "404", description = "Form ID not found")})
     @GetMapping(value = "/form/{id}", params = {"formId", "status"})
     public ResponseEntity<FormRecord> formApproval(@PathVariable("id") Integer adminId, @Param("formId") Integer formId, @Param("status") String status) {
         FormRecord result = adminService.formApproval(formId, status);
