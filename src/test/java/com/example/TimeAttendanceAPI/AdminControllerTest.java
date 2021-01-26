@@ -300,7 +300,7 @@ public class AdminControllerTest {
     @Test
     public void formApprovalSuccess() throws Exception {
         when(adminService.formApproval(anyInt(), anyString())).thenReturn(new FormRecord());
-        this.mockMvc.perform(get("/form/1")
+        this.mockMvc.perform(put("/form/1")
                 .param("formId", String.valueOf(1))
                 .param("status", "accept"))
                 .andExpect(status().isOk());
@@ -309,7 +309,7 @@ public class AdminControllerTest {
     @Test
     public void formApprovalFailed() throws Exception {
         when(adminService.formApproval(anyInt(), anyString())).thenReturn(null);
-        this.mockMvc.perform(get("/form/1")
+        this.mockMvc.perform(put("/form/1")
                 .param("formId", String.valueOf(1))
                 .param("status", "accept"))
                 .andExpect(status().isNotFound());
