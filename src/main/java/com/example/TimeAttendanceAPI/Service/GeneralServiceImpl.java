@@ -98,6 +98,8 @@ public class GeneralServiceImpl implements GeneralService {
     public FormRecord createForm(FormRecord form) {
         if (form.getCreatedAt() == null)
             form.setCreatedAt(LocalDateTime.now());
+        if (form.getStatus() == null)
+            form.setStatus("pending");
         return formRecordRepository.save(form);
     }
 

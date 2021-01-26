@@ -241,7 +241,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success", content = {@Content(schema = @Schema(implementation = FormRecord.class))}),
             @ApiResponse(responseCode = "404", description = "Form ID not found")})
-    @GetMapping(value = "/form/{id}", params = {"formId", "status"})
+    @PutMapping(value = "/form/{id}", params = {"formId", "status"})
     public ResponseEntity<FormRecord> formApproval(@PathVariable("id") Integer adminId, @Param("formId") Integer formId, @Param("status") String status) {
         FormRecord result = adminService.formApproval(formId, status);
         if (result != null) {

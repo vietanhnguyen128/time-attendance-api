@@ -274,14 +274,14 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public ArrayList<FormRecord> getSubordinatesFormRecordsByType(Integer adminId, String type) {
         ArrayList<FormRecord> result = getSubordinatesFormRecords(adminId);
-        result.removeIf(form -> (form.getFormType() != type));
+        result.removeIf(form -> (!form.getFormType().equals(type)));
         return result;
     }
 
     @Override
     public ArrayList<FormRecord> getSubordinatesFormRecordsByStatus(Integer adminId, String status) {
         ArrayList<FormRecord> result = getSubordinatesFormRecords(adminId);
-        result.removeIf(form -> (form.getStatus() != status));
+        result.removeIf(form -> (!form.getStatus().equals(status)));
         return result;
     }
 
@@ -291,11 +291,8 @@ public class AdminServiceImpl implements AdminService {
         if (result.isPresent()) {
             FormRecord newRecord = result.get();
             newRecord.setStatus(status);
-            if (newRecord.getUpdatedAt() == null)
-                newRecord.setUpdatedAt(LocalDateTime.now());
             return formRecordRepository.save(newRecord);
         }
-
         return null;
     }
 }
