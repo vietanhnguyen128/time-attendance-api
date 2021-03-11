@@ -1,4 +1,4 @@
-package com.example.TimeAttendanceAPI.Model;
+package com.example.TimeAttendanceAPI.domain.Model;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,6 @@ import javax.validation.constraints.Size;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
 
 @Entity
 @Data

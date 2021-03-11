@@ -2,34 +2,23 @@ package com.example.TimeAttendanceAPI;
 
 import com.example.TimeAttendanceAPI.Controller.GeneralController;
 import com.example.TimeAttendanceAPI.Interceptor.RequestInterceptor;
-import com.example.TimeAttendanceAPI.Model.Attendance;
-import com.example.TimeAttendanceAPI.Model.FormRecord;
-import com.example.TimeAttendanceAPI.Repository.EmployeeRepository;
+import com.example.TimeAttendanceAPI.domain.Model.Attendance;
+import com.example.TimeAttendanceAPI.domain.Model.FormRecord;
 import com.example.TimeAttendanceAPI.Service.GeneralServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.event.annotation.AfterTestMethod;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;

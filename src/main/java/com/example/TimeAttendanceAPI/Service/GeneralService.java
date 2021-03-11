@@ -1,13 +1,9 @@
 package com.example.TimeAttendanceAPI.Service;
 
-import com.example.TimeAttendanceAPI.Model.Attendance;
-import com.example.TimeAttendanceAPI.Model.Employee;
-import com.example.TimeAttendanceAPI.Model.FormRecord;
-import org.apache.tomcat.jni.Local;
+import com.example.TimeAttendanceAPI.domain.Model.Attendance;
+import com.example.TimeAttendanceAPI.domain.Model.FormRecord;
 
 import java.time.Duration;
-import java.time.LocalDate;
-import java.util.ArrayList;
 
 public interface GeneralService {
 

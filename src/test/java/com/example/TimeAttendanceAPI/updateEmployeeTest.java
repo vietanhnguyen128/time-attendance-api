@@ -1,15 +1,9 @@
 package com.example.TimeAttendanceAPI;
 
 
-import com.example.TimeAttendanceAPI.Model.Department;
-import com.example.TimeAttendanceAPI.Model.Employee;
-import org.junit.jupiter.api.Test;
+import com.example.TimeAttendanceAPI.domain.Model.Employee;
 
 import java.lang.reflect.Field;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 public class updateEmployeeTest {
 

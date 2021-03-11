@@ -1,7 +1,7 @@
 package com.example.TimeAttendanceAPI.Service;
 
-import com.example.TimeAttendanceAPI.Model.*;
-import com.example.TimeAttendanceAPI.Repository.*;
+import com.example.TimeAttendanceAPI.domain.Model.*;
+import com.example.TimeAttendanceAPI.domain.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,10 +9,7 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.Field;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service

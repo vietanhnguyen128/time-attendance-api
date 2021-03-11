@@ -1,20 +1,15 @@
 package com.example.TimeAttendanceAPI.Interceptor;
 
-import com.example.TimeAttendanceAPI.Model.Employee;
-import com.example.TimeAttendanceAPI.Repository.EmployeeRepository;
+import com.example.TimeAttendanceAPI.domain.Repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-import java.util.Optional;
 
 @Component
 public class RequestInterceptor implements HandlerInterceptor {

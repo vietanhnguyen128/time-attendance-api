@@ -1,4 +1,4 @@
-package com.example.TimeAttendanceAPI.Model;
+package com.example.TimeAttendanceAPI.domain.Model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -11,25 +11,25 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Data
-@Table(name = "role")
-@AllArgsConstructor
 @NoArgsConstructor
-public class AccountRole {
+@AllArgsConstructor
+@Table(name = "position")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
+public class Position {
 
     @Id
-    @Column(name = "id")
-    @Min(0)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Min(0)
     private Integer id;
 
-    @Column(name = "role_name")
-    @Size(min = 0, max = 50)
-    private String roleName;
+    @Column(name = "position_name")
+    @Size(min = 0, max = 100)
+    private String positionName;
 
     @Column(name = "created_by")
     private Integer createdBy;
