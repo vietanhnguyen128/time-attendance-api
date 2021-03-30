@@ -1,40 +1,31 @@
 package com.example.TimeAttendanceAPI.Model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "form_record")
-public class FormRecord {
+@Table
+public class FormRecord extends BaseModel {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Min(0)
     private Integer id;
 
-    @Column(name = "employee_id")
     private Integer employeeId;
 
     @Column(name = "day", columnDefinition = "DATE")
@@ -49,24 +40,7 @@ public class FormRecord {
     @JsonSerialize(using = LocalTimeSerializer.class)
     private LocalTime timePeriod;
 
-    @Column(name = "form_type")
-    @Size(min = 0)
     private String formType;
 
-    @Column(name = "status")
-    @Size(min = 0)
     private String status;
-
-    @Column(name = "created_at")
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private LocalDateTime createdAt;
-
-    @JoinColumn(name = "updated_by")
-    private Integer updatedBy;
-
-    @Column(name = "updated_at")
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private LocalDateTime updatedAt;
 }
