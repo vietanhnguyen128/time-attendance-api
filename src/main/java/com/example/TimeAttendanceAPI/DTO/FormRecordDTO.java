@@ -1,7 +1,6 @@
 package com.example.TimeAttendanceAPI.DTO;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class FormRecordDTO {
@@ -11,7 +10,4 @@ public class FormRecordDTO {
     private LocalTime timePeriod;
     private String formType;
     private String status;
-    private LocalDateTime createdAt;
-    private Integer updatedBy;
-    private LocalDateTime updatedAt;
 }
