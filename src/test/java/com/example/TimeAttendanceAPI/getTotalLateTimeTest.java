@@ -1,11 +1,9 @@
 package com.example.TimeAttendanceAPI;
 
-import com.example.TimeAttendanceAPI.Model.Attendance;
-import com.example.TimeAttendanceAPI.Repository.AttendanceRepository;
-import com.example.TimeAttendanceAPI.Repository.EmployeeRepository;
+import com.example.TimeAttendanceAPI.domain.Model.Attendance;
+import com.example.TimeAttendanceAPI.domain.Repository.AttendanceRepository;
+import com.example.TimeAttendanceAPI.domain.Repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.Duration;
@@ -13,7 +11,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Optional;
 
 public class getTotalLateTimeTest {
 

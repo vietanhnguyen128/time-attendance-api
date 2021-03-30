@@ -1,11 +1,11 @@
 package com.example.TimeAttendanceAPI.Service;
 
-import com.example.TimeAttendanceAPI.Model.Attendance;
-import com.example.TimeAttendanceAPI.Model.Employee;
-import com.example.TimeAttendanceAPI.Model.FormRecord;
-import com.example.TimeAttendanceAPI.Repository.AttendanceRepository;
-import com.example.TimeAttendanceAPI.Repository.EmployeeRepository;
-import com.example.TimeAttendanceAPI.Repository.FormRecordRepository;
+import com.example.TimeAttendanceAPI.domain.Model.Attendance;
+import com.example.TimeAttendanceAPI.domain.Model.Employee;
+import com.example.TimeAttendanceAPI.domain.Model.FormRecord;
+import com.example.TimeAttendanceAPI.domain.Repository.AttendanceRepository;
+import com.example.TimeAttendanceAPI.domain.Repository.EmployeeRepository;
+import com.example.TimeAttendanceAPI.domain.Repository.FormRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,9 +1,8 @@
 package com.example.TimeAttendanceAPI.Service;
 
-import com.example.TimeAttendanceAPI.Model.*;
+import com.example.TimeAttendanceAPI.domain.Model.*;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public interface AdminService {

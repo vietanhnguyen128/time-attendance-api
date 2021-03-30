@@ -1,4 +1,4 @@
-package com.example.TimeAttendanceAPI.Model;
+package com.example.TimeAttendanceAPI.domain.Model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

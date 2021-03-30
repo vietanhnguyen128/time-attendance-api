@@ -1,7 +1,7 @@
 package com.example.TimeAttendanceAPI.Controller;
 
-import com.example.TimeAttendanceAPI.Model.Attendance;
-import com.example.TimeAttendanceAPI.Model.FormRecord;
+import com.example.TimeAttendanceAPI.domain.Model.Attendance;
+import com.example.TimeAttendanceAPI.domain.Model.FormRecord;
 import com.example.TimeAttendanceAPI.Service.GeneralServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @RestController

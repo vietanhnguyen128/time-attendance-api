@@ -1,6 +1,5 @@
 package com.example.TimeAttendanceAPI.Controller;
 
-import com.example.TimeAttendanceAPI.Model.Employee;
 import com.example.TimeAttendanceAPI.Service.LoginServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -13,11 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-import java.util.Locale;
 
 @RestController
 @RequestMapping("/")
