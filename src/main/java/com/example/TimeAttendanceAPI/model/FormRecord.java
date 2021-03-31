@@ -1,4 +1,4 @@
-package com.example.TimeAttendanceAPI.domain.Model;
+package com.example.TimeAttendanceAPI.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

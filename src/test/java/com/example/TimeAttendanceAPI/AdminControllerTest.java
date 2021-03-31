@@ -1,9 +1,9 @@
 package com.example.TimeAttendanceAPI;
 
-import com.example.TimeAttendanceAPI.Controller.AdminController;
-import com.example.TimeAttendanceAPI.Interceptor.RequestInterceptor;
-import com.example.TimeAttendanceAPI.domain.Model.*;
-import com.example.TimeAttendanceAPI.Service.AdminServiceImpl;
+import com.example.TimeAttendanceAPI.controller.AdminController;
+import com.example.TimeAttendanceAPI.interceptor.RequestInterceptor;
+import com.example.TimeAttendanceAPI.model.*;
+import com.example.TimeAttendanceAPI.service.AdminServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

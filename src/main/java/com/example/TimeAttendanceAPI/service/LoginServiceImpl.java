@@ -1,7 +1,7 @@
-package com.example.TimeAttendanceAPI.Service;
+package com.example.TimeAttendanceAPI.service;
 
-import com.example.TimeAttendanceAPI.domain.Model.Employee;
-import com.example.TimeAttendanceAPI.domain.Repository.EmployeeRepository;
+import com.example.TimeAttendanceAPI.model.Employee;
+import com.example.TimeAttendanceAPI.repository.EmployeeRepository;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

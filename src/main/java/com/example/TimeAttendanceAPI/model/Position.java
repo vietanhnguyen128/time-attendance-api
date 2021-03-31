@@ -1,6 +1,8 @@
-package com.example.TimeAttendanceAPI.domain.Model;
+package com.example.TimeAttendanceAPI.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,19 +14,22 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "department")
-public class Department {
+@AllArgsConstructor
+@Table(name = "position")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
+public class Position {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Min(0)
     private Integer id;
 
-    @Column(name = "department_name")
+    @Column(name = "position_name")
     @Size(min = 0, max = 100)
-    private String departmentName;
+    private String positionName;
 
     @Column(name = "created_by")
     private Integer createdBy;

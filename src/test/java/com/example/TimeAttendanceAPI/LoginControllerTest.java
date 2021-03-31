@@ -1,8 +1,8 @@
 package com.example.TimeAttendanceAPI;
 
-import com.example.TimeAttendanceAPI.Controller.LoginController;
-import com.example.TimeAttendanceAPI.Interceptor.RequestInterceptor;
-import com.example.TimeAttendanceAPI.Service.LoginServiceImpl;
+import com.example.TimeAttendanceAPI.controller.LoginController;
+import com.example.TimeAttendanceAPI.interceptor.RequestInterceptor;
+import com.example.TimeAttendanceAPI.service.LoginServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

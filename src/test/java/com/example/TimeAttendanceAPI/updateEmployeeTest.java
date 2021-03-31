@@ -1,7 +1,7 @@
 package com.example.TimeAttendanceAPI;
 
 
-import com.example.TimeAttendanceAPI.domain.Model.Employee;
+import com.example.TimeAttendanceAPI.model.Employee;
 
 import java.lang.reflect.Field;
 

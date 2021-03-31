@@ -1,8 +1,8 @@
 package com.example.TimeAttendanceAPI;
 
-import com.example.TimeAttendanceAPI.domain.Model.Attendance;
-import com.example.TimeAttendanceAPI.domain.Repository.AttendanceRepository;
-import com.example.TimeAttendanceAPI.domain.Repository.EmployeeRepository;
+import com.example.TimeAttendanceAPI.model.Attendance;
+import com.example.TimeAttendanceAPI.repository.AttendanceRepository;
+import com.example.TimeAttendanceAPI.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 

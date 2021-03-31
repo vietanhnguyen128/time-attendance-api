@@ -1,4 +1,4 @@
-package com.example.TimeAttendanceAPI.Service;
+package com.example.TimeAttendanceAPI.service;
 
 public interface LoginService {
     abstract boolean checkLogin(String header);

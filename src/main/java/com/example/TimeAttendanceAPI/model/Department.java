@@ -1,4 +1,4 @@
-package com.example.TimeAttendanceAPI.domain.Model;
+package com.example.TimeAttendanceAPI.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -12,20 +12,19 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-@Table(name = "role")
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountRole {
+@Table(name = "department")
+public class Department {
 
     @Id
-    @Column(name = "id")
-    @Min(0)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Min(0)
     private Integer id;
 
-    @Column(name = "role_name")
-    @Size(min = 0, max = 50)
-    private String roleName;
+    @Column(name = "department_name")
+    @Size(min = 0, max = 100)
+    private String departmentName;
 
     @Column(name = "created_by")
     private Integer createdBy;

@@ -1,14 +1,6 @@
-package com.example.TimeAttendanceAPI.AppConfig;
+package com.example.TimeAttendanceAPI.app_config;
 
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 @Configuration
 public class TimeAttendanceAppConfig {

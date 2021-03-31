@@ -1,7 +1,11 @@
-package com.example.TimeAttendanceAPI.Controller;
+package com.example.TimeAttendanceAPI.controller;
 
-import com.example.TimeAttendanceAPI.domain.Model.*;
-import com.example.TimeAttendanceAPI.Service.AdminServiceImpl;
+import com.example.TimeAttendanceAPI.model.AccountRole;
+import com.example.TimeAttendanceAPI.model.Department;
+import com.example.TimeAttendanceAPI.model.Employee;
+import com.example.TimeAttendanceAPI.model.FormRecord;
+import com.example.TimeAttendanceAPI.model.Position;
+import com.example.TimeAttendanceAPI.service.AdminServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -12,7 +16,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;

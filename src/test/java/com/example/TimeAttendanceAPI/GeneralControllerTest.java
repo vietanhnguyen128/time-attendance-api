@@ -1,10 +1,10 @@
 package com.example.TimeAttendanceAPI;
 
-import com.example.TimeAttendanceAPI.Controller.GeneralController;
-import com.example.TimeAttendanceAPI.Interceptor.RequestInterceptor;
-import com.example.TimeAttendanceAPI.domain.Model.Attendance;
-import com.example.TimeAttendanceAPI.domain.Model.FormRecord;
-import com.example.TimeAttendanceAPI.Service.GeneralServiceImpl;
+import com.example.TimeAttendanceAPI.controller.GeneralController;
+import com.example.TimeAttendanceAPI.interceptor.RequestInterceptor;
+import com.example.TimeAttendanceAPI.model.Attendance;
+import com.example.TimeAttendanceAPI.model.FormRecord;
+import com.example.TimeAttendanceAPI.service.GeneralServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;

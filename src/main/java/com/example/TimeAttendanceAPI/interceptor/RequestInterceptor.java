@@ -1,6 +1,6 @@
-package com.example.TimeAttendanceAPI.Interceptor;
+package com.example.TimeAttendanceAPI.interceptor;
 
-import com.example.TimeAttendanceAPI.domain.Repository.EmployeeRepository;
+import com.example.TimeAttendanceAPI.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

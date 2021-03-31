@@ -1,4 +1,4 @@
-package com.example.TimeAttendanceAPI.Interceptor;
+package com.example.TimeAttendanceAPI.interceptor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

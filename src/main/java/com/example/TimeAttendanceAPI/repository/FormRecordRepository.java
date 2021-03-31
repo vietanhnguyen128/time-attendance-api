@@ -1,6 +1,6 @@
-package com.example.TimeAttendanceAPI.domain.Repository;
+package com.example.TimeAttendanceAPI.repository;
 
-import com.example.TimeAttendanceAPI.domain.Model.FormRecord;
+import com.example.TimeAttendanceAPI.model.FormRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

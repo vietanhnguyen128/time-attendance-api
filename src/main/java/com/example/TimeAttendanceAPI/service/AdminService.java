@@ -1,6 +1,11 @@
-package com.example.TimeAttendanceAPI.Service;
+package com.example.TimeAttendanceAPI.service;
 
-import com.example.TimeAttendanceAPI.domain.Model.*;
+
+import com.example.TimeAttendanceAPI.model.AccountRole;
+import com.example.TimeAttendanceAPI.model.Department;
+import com.example.TimeAttendanceAPI.model.Employee;
+import com.example.TimeAttendanceAPI.model.FormRecord;
+import com.example.TimeAttendanceAPI.model.Position;
 
 import java.util.ArrayList;
 import java.util.Optional;

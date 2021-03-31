@@ -1,7 +1,7 @@
-package com.example.TimeAttendanceAPI.Service;
+package com.example.TimeAttendanceAPI.service;
 
-import com.example.TimeAttendanceAPI.domain.Model.Attendance;
-import com.example.TimeAttendanceAPI.domain.Model.FormRecord;
+import com.example.TimeAttendanceAPI.model.Attendance;
+import com.example.TimeAttendanceAPI.model.FormRecord;
 
 import java.time.Duration;
 

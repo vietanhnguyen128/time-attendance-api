@@ -1,8 +1,8 @@
-package com.example.TimeAttendanceAPI.Controller;
+package com.example.TimeAttendanceAPI.controller;
 
-import com.example.TimeAttendanceAPI.domain.Model.Attendance;
-import com.example.TimeAttendanceAPI.domain.Model.FormRecord;
-import com.example.TimeAttendanceAPI.Service.GeneralServiceImpl;
+import com.example.TimeAttendanceAPI.model.Attendance;
+import com.example.TimeAttendanceAPI.model.FormRecord;
+import com.example.TimeAttendanceAPI.service.GeneralServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
