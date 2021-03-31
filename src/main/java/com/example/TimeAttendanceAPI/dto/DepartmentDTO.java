@@ -1,4 +1,4 @@
-package com.example.TimeAttendanceAPI.DTO;
+package com.example.TimeAttendanceAPI.dto;
 
 public class DepartmentDTO {
     private Integer id;

@@ -1,4 +1,4 @@
-package com.example.TimeAttendanceAPI.DTO;
+package com.example.TimeAttendanceAPI.dto;
 
 public class AccountRoleDTO {
     private Integer id;

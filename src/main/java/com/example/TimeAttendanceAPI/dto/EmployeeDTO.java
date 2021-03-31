@@ -1,4 +1,4 @@
-package com.example.TimeAttendanceAPI.DTO;
+package com.example.TimeAttendanceAPI.dto;
 
 import java.time.LocalTime;
 

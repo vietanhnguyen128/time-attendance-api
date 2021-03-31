@@ -1,4 +1,4 @@
-package com.example.TimeAttendanceAPI.Model;
+package com.example.TimeAttendanceAPI.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
