@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,6 +20,7 @@ import java.time.LocalTime;
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Table
 public class FormRecord extends BaseModel {
 
@@ -28,14 +30,14 @@ public class FormRecord extends BaseModel {
 
     private Integer employeeId;
 
-    @Column(name = "day", columnDefinition = "DATE")
+    @Column(columnDefinition = "DATE")
     @JsonFormat(pattern = "dd-MM-yyyy")
     @JsonSerialize(using = LocalDateSerializer.class)
     //Some black voodoo magic shenanigan again. Why doesn't LocalDateSerializer work here, when it works on Attendance entity?
     //PSA: my pigeon brain forgot NoArgsConstructor so it didn't work. It works now.
-    private LocalDate date;
+    private LocalDate day;
 
-    @Column(name = "time_period", columnDefinition = "TIME")
+    @Column(columnDefinition = "TIME")
     @JsonFormat(pattern = "HH:mm:ss")
     @JsonSerialize(using = LocalTimeSerializer.class)
     private LocalTime timePeriod;
