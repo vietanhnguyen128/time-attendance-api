@@ -1,6 +1,6 @@
 package com.example.TimeAttendanceAPI.controller;
 
-import com.example.TimeAttendanceAPI.service.LoginServiceImpl;
+import com.example.TimeAttendanceAPI.service.impl.LoginServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

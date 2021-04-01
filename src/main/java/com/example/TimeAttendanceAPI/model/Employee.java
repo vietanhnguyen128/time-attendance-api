@@ -12,7 +12,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.Duration;
-import java.time.LocalTime;
 
 @Entity
 @Data
@@ -40,22 +39,10 @@ public class Employee extends BaseModel {
 
     private Integer managerId;
 
-    @Column(name = "shift_start", columnDefinition = "TIME")
-    private LocalTime shiftStart;
-
-    @Column(name = "shift_end", columnDefinition = "TIME")
-    private LocalTime shiftEnd;
-
-    @Column(name = "break_start", columnDefinition = "TIME")
-    private LocalTime breakStart;
-
-    @Column(name = "break_end", columnDefinition = "TIME")
-    private LocalTime breakEnd;
-
-    @Column(name = "total_leave_time", columnDefinition = "INT default 0")
+    @Column(columnDefinition = "INT default 0")
     private Duration totalLeaveTime;
 
-    @Column(name = "total_overtime", columnDefinition = "INT default 0")
+    @Column(columnDefinition = "INT default 0")
     private Duration totalOvertime;
 
     private String username;

@@ -5,7 +5,7 @@ import com.example.TimeAttendanceAPI.model.Department;
 import com.example.TimeAttendanceAPI.model.Employee;
 import com.example.TimeAttendanceAPI.model.FormRecord;
 import com.example.TimeAttendanceAPI.model.Position;
-import com.example.TimeAttendanceAPI.service.AdminServiceImpl;
+import com.example.TimeAttendanceAPI.service.impl.AdminServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;

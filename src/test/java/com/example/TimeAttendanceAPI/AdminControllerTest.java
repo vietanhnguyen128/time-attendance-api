@@ -3,7 +3,7 @@ package com.example.TimeAttendanceAPI;
 import com.example.TimeAttendanceAPI.controller.AdminController;
 import com.example.TimeAttendanceAPI.interceptor.RequestInterceptor;
 import com.example.TimeAttendanceAPI.model.*;
-import com.example.TimeAttendanceAPI.service.AdminServiceImpl;
+import com.example.TimeAttendanceAPI.service.impl.AdminServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -4,7 +4,7 @@ import com.example.TimeAttendanceAPI.controller.GeneralController;
 import com.example.TimeAttendanceAPI.interceptor.RequestInterceptor;
 import com.example.TimeAttendanceAPI.model.Attendance;
 import com.example.TimeAttendanceAPI.model.FormRecord;
-import com.example.TimeAttendanceAPI.service.GeneralServiceImpl;
+import com.example.TimeAttendanceAPI.service.impl.GeneralServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

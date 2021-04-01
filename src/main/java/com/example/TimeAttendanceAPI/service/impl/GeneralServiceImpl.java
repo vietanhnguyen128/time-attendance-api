@@ -1,4 +1,4 @@
-package com.example.TimeAttendanceAPI.service;
+package com.example.TimeAttendanceAPI.service.impl;
 
 import com.example.TimeAttendanceAPI.model.Attendance;
 import com.example.TimeAttendanceAPI.model.Employee;
@@ -6,6 +6,7 @@ import com.example.TimeAttendanceAPI.model.FormRecord;
 import com.example.TimeAttendanceAPI.repository.AttendanceRepository;
 import com.example.TimeAttendanceAPI.repository.EmployeeRepository;
 import com.example.TimeAttendanceAPI.repository.FormRecordRepository;
+import com.example.TimeAttendanceAPI.service.GeneralService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,10 +33,10 @@ public class GeneralServiceImpl implements GeneralService {
 
     private Duration calculateAttendanceTime(ArrayList<Attendance> input) {
         Employee info = employeeRepository.getOne(input.get(0).getEmployeeId());
-        int shiftStart = info.getShiftStart().toSecondOfDay();
-        int shiftEnd = info.getShiftEnd().toSecondOfDay();
-        int breakStart = info.getBreakStart().toSecondOfDay();
-        int breakEnd = info.getBreakEnd().toSecondOfDay();
+        int shiftStart = 8;
+        int shiftEnd = 17;
+        int breakStart = 12;
+        int breakEnd = 13;
 
         int total = 0;
         for (int i = 0; i < input.size(); i+=2) {
@@ -137,7 +138,7 @@ public class GeneralServiceImpl implements GeneralService {
 
             ArrayList<Attendance> records = attendanceRepository.getAttendanceDetail(employeeId);
             Duration total = Duration.ZERO;
-            LocalTime startTime = employeeRepository.getOne(employeeId).getShiftStart();
+            LocalTime startTime = LocalTime.of(8, 0);
             LocalDate currentDate;
             LocalDate previousDate = LocalDate.MIN;
 
@@ -168,7 +169,7 @@ public class GeneralServiceImpl implements GeneralService {
 
             ArrayList<Attendance> records = attendanceRepository.getAttendanceDetailByPeriod(employeeId, convertedStartDate, convertedEndDate);
             Duration total = Duration.ZERO;
-            LocalTime startTime = employeeRepository.getOne(employeeId).getShiftStart();
+            LocalTime startTime = LocalTime.of(8, 0);
             LocalDate currentDate;
             LocalDate previousDate = LocalDate.MIN;
 

@@ -23,6 +23,6 @@ public interface FormRecordRepository extends JpaRepository<FormRecord, Integer>
             "and e.employeeId = f.employeeId " +
             "and f.status = 'accept' " +
             "and f.formType = ?2 " +
-            "and (f.date between ?3 and ?4)")
+            "and (f.day between ?3 and ?4)")
     ArrayList<FormRecord> getApprovedFormsByPeriod(Integer employeeId, String formType, LocalDate startTime, LocalDate endTime);
 }
