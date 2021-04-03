@@ -1,6 +1,6 @@
 package com.example.TimeAttendanceAPI.service.impl;
 
-import com.example.TimeAttendanceAPI.model.AccountRole;
+import com.example.TimeAttendanceAPI.model.Role;
 import com.example.TimeAttendanceAPI.model.Department;
 import com.example.TimeAttendanceAPI.model.Employee;
 import com.example.TimeAttendanceAPI.model.FormRecord;
@@ -64,7 +64,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public AccountRole createNewRole(AccountRole role) {
+    public Role createNewRole(Role role) {
         if (role.getCreatedAt() == null) {
             role.setCreatedAt(LocalDateTime.now());
         }
@@ -100,7 +100,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<AccountRole> getALlRole() {
+    public List<Role> getALlRole() {
         return accountRoleRepository.findAll();
     }
 
@@ -190,10 +190,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public AccountRole updateRole(Integer id, AccountRole role) throws IllegalAccessException {
-        Optional<AccountRole> currentVal = accountRoleRepository.findById(id);
+    public Role updateRole(Integer id, Role role) throws IllegalAccessException {
+        Optional<Role> currentVal = accountRoleRepository.findById(id);
         if(currentVal.isPresent()) {
-            AccountRole newVal = currentVal.get();
+            Role newVal = currentVal.get();
 
             Field[] fields = newVal.getClass().getDeclaredFields(); //Get an array of all fields including private field in object
 
@@ -253,7 +253,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public boolean deleteRole(Integer id) {
-        Optional<AccountRole> result = accountRoleRepository.findById(id);
+        Optional<Role> result = accountRoleRepository.findById(id);
         if (result.isPresent()) {
             accountRoleRepository.deleteById(id);
             return true;

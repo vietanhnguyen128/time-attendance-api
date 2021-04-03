@@ -9,18 +9,18 @@ import java.time.LocalDateTime;
 @Data
 public class BaseModel {
     @Column
-    private Integer createdBy;
+    protected Integer createdBy;
 
     @Column
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    private LocalDateTime createdAt;
+    protected LocalDateTime createdAt;
 
     @Column
-    private Integer updatedBy;
+    protected Integer updatedBy;
 
     @Column
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    private LocalDateTime updatedAt;
+    protected LocalDateTime updatedAt;
 
-    private boolean deleted = false;
+    protected boolean deleted = false;
 }

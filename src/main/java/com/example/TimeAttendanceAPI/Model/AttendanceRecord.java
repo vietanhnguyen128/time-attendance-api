@@ -4,36 +4,37 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import javax.validation.constraints.Min;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "attendance")
-public class Attendance {
+public class AttendanceRecord {
 
     @Id
-    @Column(name = "id")
-    @Min(0)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
-    @Column(name = "employee_id")
-    private Integer employeeId;
+    private int userId;
 
-    @Column(name = "date_record", columnDefinition = "DATE")
+    @Column(columnDefinition = "DATE")
     @JsonFormat(pattern = "dd-MM-yyyy")
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate dateRecord;
 
-    @Column(name = "time_record", columnDefinition = "TIME")
+    @Column(columnDefinition = "TIME")
     @JsonFormat(pattern = "HH:mm:ss")
     @JsonSerialize(using = LocalTimeSerializer.class)
     private LocalTime timeRecord;
+
+    private String type;
 }

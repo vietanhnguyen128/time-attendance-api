@@ -11,13 +11,25 @@ import javax.persistence.Id;
 @Entity
 @Data
 @NoArgsConstructor
-public class Department extends BaseModel {
+public class User extends BaseModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int departmentId;
+    private int userId;
 
-    private String departmentName;
+    private String name;
+
+    private int age;
+
+    private String gender;
 
     private String managerId;
+
+    private String departmentId;
+
+    private String shift;
+
+    private String username;
+
+    private String password;
 }

@@ -1,6 +1,6 @@
 package com.example.TimeAttendanceAPI.controller;
 
-import com.example.TimeAttendanceAPI.model.Attendance;
+import com.example.TimeAttendanceAPI.model.AttendanceRecord;
 import com.example.TimeAttendanceAPI.model.FormRecord;
 import com.example.TimeAttendanceAPI.service.GeneralService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,7 +39,7 @@ public class GeneralController {
     @Operation(summary = "Create attendance record", description = "Create attendance record")
     @ApiResponse(responseCode = "200", description = "Success")
     @PostMapping("/attendance")
-    public ResponseEntity<Attendance> createAttendanceRecord(@RequestBody @Valid Attendance record) {
+    public ResponseEntity<AttendanceRecord> createAttendanceRecord(@RequestBody @Valid AttendanceRecord record) {
         return new ResponseEntity<>(generalService.createAttendanceRecord(record), HttpStatus.OK);
     }
 

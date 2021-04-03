@@ -1,6 +1,6 @@
 package com.example.TimeAttendanceAPI.controller;
 
-import com.example.TimeAttendanceAPI.model.AccountRole;
+import com.example.TimeAttendanceAPI.model.Role;
 import com.example.TimeAttendanceAPI.model.Department;
 import com.example.TimeAttendanceAPI.model.Employee;
 import com.example.TimeAttendanceAPI.model.FormRecord;
@@ -187,14 +187,14 @@ public class AdminController {
     @Operation(summary = "Add new role", description = "Add new role")
     @ApiResponse(responseCode = "200", description = "Success")
     @PostMapping("/role/add")
-    public ResponseEntity<AccountRole> createAccountRole(@RequestBody @Valid AccountRole role) {
+    public ResponseEntity<Role> createAccountRole(@RequestBody @Valid Role role) {
         return new ResponseEntity<>(adminService.createNewRole(role), HttpStatus.OK);
     }
 
     @Operation(summary = "Get roles", description = "Get a list of all roles")
-    @ApiResponse(responseCode = "200", description = "Success", content = {@Content(array = @ArraySchema(schema = @Schema(implementation = AccountRole.class)))})
+    @ApiResponse(responseCode = "200", description = "Success", content = {@Content(array = @ArraySchema(schema = @Schema(implementation = Role.class)))})
     @GetMapping("/role")
-    public ResponseEntity<List<AccountRole>> getAccountRoles() {
+    public ResponseEntity<List<Role>> getAccountRoles() {
         return new ResponseEntity<>(adminService.getALlRole(), HttpStatus.OK);
     }
 
@@ -204,8 +204,8 @@ public class AdminController {
             @ApiResponse(responseCode = "404", description = "Role not found")}
     )
     @PutMapping("/role")
-    public ResponseEntity<AccountRole> updateAccountRole(@Param("id") Integer id, @RequestBody @Valid AccountRole role) throws IllegalAccessException {
-        AccountRole result = adminService.updateRole(id, role);
+    public ResponseEntity<Role> updateAccountRole(@Param("id") Integer id, @RequestBody @Valid Role role) throws IllegalAccessException {
+        Role result = adminService.updateRole(id, role);
         if (result != null) {
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
@@ -219,7 +219,7 @@ public class AdminController {
             @ApiResponse(responseCode = "404", description = "Role not found")}
     )
     @DeleteMapping("/role")
-    public ResponseEntity<AccountRole> deleteAccountRole(@Param("id") Integer id) throws IllegalAccessException {
+    public ResponseEntity<Role> deleteAccountRole(@Param("id") Integer id) throws IllegalAccessException {
         if (adminService.deleteRole(id)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }

@@ -7,17 +7,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalTime;
 
 @Entity
 @Data
 @NoArgsConstructor
-public class Department extends BaseModel {
+public class Shift extends BaseModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int departmentId;
+    private int shiftId;
 
-    private String departmentName;
+    private String shiftName;
 
-    private String managerId;
+    private LocalTime startTime;
+
+    private LocalTime endTime;
 }

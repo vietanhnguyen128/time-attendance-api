@@ -1,7 +1,7 @@
 package com.example.TimeAttendanceAPI.service;
 
 
-import com.example.TimeAttendanceAPI.model.AccountRole;
+import com.example.TimeAttendanceAPI.model.Role;
 import com.example.TimeAttendanceAPI.model.Department;
 import com.example.TimeAttendanceAPI.model.Employee;
 import com.example.TimeAttendanceAPI.model.FormRecord;
@@ -16,20 +16,20 @@ public interface AdminService {
     Employee createNewEmployee(Employee employee);
     Department createNewDepartment(Department department);
     Position createNewPosition(Position position);
-    AccountRole createNewRole(AccountRole role);
+    Role createNewRole(Role role);
 
     //Read
     List<Employee> getAllEmployee();
     Optional<Employee> getEmployeeById(Integer employeeId);
     List<Department> getAllDepartment();
     List<Position> getAllPosition();
-    List<AccountRole> getALlRole();
+    List<Role> getALlRole();
 
     //Update
     Employee updateEmployee(Integer id, Employee employee) throws IllegalAccessException;
     Department updateDepartment(Integer id, Department department) throws IllegalAccessException;
     Position updatePosition(Integer id, Position position) throws IllegalAccessException;
-    AccountRole updateRole(Integer id, AccountRole role) throws IllegalAccessException;
+    Role updateRole(Integer id, Role role) throws IllegalAccessException;
 
     //Delete
     boolean deleteEmployee(Integer id);

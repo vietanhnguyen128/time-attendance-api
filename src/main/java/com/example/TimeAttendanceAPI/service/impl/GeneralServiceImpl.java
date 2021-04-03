@@ -1,6 +1,6 @@
 package com.example.TimeAttendanceAPI.service.impl;
 
-import com.example.TimeAttendanceAPI.model.Attendance;
+import com.example.TimeAttendanceAPI.model.AttendanceRecord;
 import com.example.TimeAttendanceAPI.model.Employee;
 import com.example.TimeAttendanceAPI.model.FormRecord;
 import com.example.TimeAttendanceAPI.repository.AttendanceRepository;
@@ -32,7 +32,7 @@ public class GeneralServiceImpl implements GeneralService {
 
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-    private Duration calculateAttendanceTime(ArrayList<Attendance> input) {
+    private Duration calculateAttendanceTime(ArrayList<AttendanceRecord> input) {
         Employee info = employeeRepository.getOne(input.get(0).getEmployeeId());
         int shiftStart = 8;
         int shiftEnd = 17;
@@ -88,7 +88,7 @@ public class GeneralServiceImpl implements GeneralService {
     }
 
     @Override
-    public Attendance createAttendanceRecord(Attendance record) {
+    public AttendanceRecord createAttendanceRecord(AttendanceRecord record) {
         if (record.getDateRecord() == null)
             record.setDateRecord(LocalDate.now());
         if (record.getTimeRecord() == null)
@@ -137,7 +137,7 @@ public class GeneralServiceImpl implements GeneralService {
     public Duration getTotalLateTime(Integer employeeId) {
         if (employeeRepository.findById(employeeId).isPresent()) {
 
-            ArrayList<Attendance> records = attendanceRepository.getAttendanceDetail(employeeId);
+            ArrayList<AttendanceRecord> records = attendanceRepository.getAttendanceDetail(employeeId);
             Duration total = Duration.ZERO;
             LocalTime startTime = LocalTime.of(8, 0);
             LocalDate currentDate;
@@ -168,7 +168,7 @@ public class GeneralServiceImpl implements GeneralService {
             LocalDate convertedStartDate = LocalDate.parse(startDate, dateTimeFormatter);
             LocalDate convertedEndDate = LocalDate.parse(endDate, dateTimeFormatter);
 
-            ArrayList<Attendance> records = attendanceRepository.getAttendanceDetailByPeriod(employeeId, convertedStartDate, convertedEndDate);
+            ArrayList<AttendanceRecord> records = attendanceRepository.getAttendanceDetailByPeriod(employeeId, convertedStartDate, convertedEndDate);
             Duration total = Duration.ZERO;
             LocalTime startTime = LocalTime.of(8, 0);
             LocalDate currentDate;
