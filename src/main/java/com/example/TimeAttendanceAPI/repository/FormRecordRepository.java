@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface FormRecordRepository extends JpaRepository<FormRecord, Integer> {
     @Query("Select f from Employee e, FormRecord f where e.managerId = ?1 and e.employeeId = f.employeeId")
-    List<FormRecord> getSubordinatesFormRecords(Integer adminId);
+    List<FormRecord> getManagedFormRecords(Integer adminId);
 
     @Query("Select f from Employee e, FormRecord f where e.employeeId = ?1 " +
             "and e.employeeId = f.employeeId " +

@@ -266,7 +266,7 @@ public class AdminServiceImpl implements AdminService {
     //Handling forms
     @Override
     public List<FormRecord> getSubordinatesFormRecords(Integer adminId) {
-        return formRecordRepository.getSubordinatesFormRecords(adminId);
+        return formRecordRepository.getManagedFormRecords(adminId);
     }
 
     @Override

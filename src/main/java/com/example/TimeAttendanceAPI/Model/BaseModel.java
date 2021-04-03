@@ -21,4 +21,6 @@ public class BaseModel {
     @Column
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime updatedAt;
+
+    private boolean deleted = false;
 }
