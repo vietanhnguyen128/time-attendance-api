@@ -1,10 +1,10 @@
 package com.example.TimeAttendanceAPI.controller;
 
-import com.example.TimeAttendanceAPI.service.impl.LoginServiceImpl;
+import com.example.TimeAttendanceAPI.service.LoginService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/")
 public class LoginController {
 
-    @Autowired
-    LoginServiceImpl loginService;
+    private final LoginService loginService;
 
     @Operation(summary = "Login", description = "Login using username and password. Return a token")
     @ApiResponses(value = {

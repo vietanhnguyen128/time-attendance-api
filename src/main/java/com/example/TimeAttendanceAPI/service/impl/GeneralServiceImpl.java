@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class GeneralServiceImpl implements GeneralService {
@@ -208,7 +209,7 @@ public class GeneralServiceImpl implements GeneralService {
     @Override
     public Duration getTotalAbsentTime(Integer employeeId) {
         if (employeeRepository.findById(employeeId).isPresent()) {
-            ArrayList<FormRecord> records = formRecordRepository.getApprovedForms(employeeId, "absent");
+            List<FormRecord> records = formRecordRepository.getApprovedForms(employeeId, "absent");
             Duration total = Duration.ZERO;
 
             for (FormRecord record : records) {
@@ -227,7 +228,7 @@ public class GeneralServiceImpl implements GeneralService {
             LocalDate convertedStartDate = LocalDate.parse(startDate, dateTimeFormatter);
             LocalDate convertedEndDate = LocalDate.parse(endDate, dateTimeFormatter);
 
-            ArrayList<FormRecord> records = formRecordRepository.getApprovedFormsByPeriod(employeeId, "absent", convertedStartDate, convertedEndDate);
+            List<FormRecord> records = formRecordRepository.getApprovedFormsByPeriod(employeeId, "absent", convertedStartDate, convertedEndDate);
             Duration total = Duration.ZERO;
 
             for (FormRecord record : records) {
@@ -243,7 +244,7 @@ public class GeneralServiceImpl implements GeneralService {
     @Override
     public Duration getTotalOvertime(Integer employeeId) {
         if (employeeRepository.findById(employeeId).isPresent()) {
-            ArrayList<FormRecord> records = formRecordRepository.getApprovedForms(employeeId, "overtime");
+            List<FormRecord> records = formRecordRepository.getApprovedForms(employeeId, "overtime");
             Duration total = Duration.ZERO;
 
             for (FormRecord record : records) {
@@ -262,7 +263,7 @@ public class GeneralServiceImpl implements GeneralService {
             LocalDate convertedStartDate = LocalDate.parse(startDate, dateTimeFormatter);
             LocalDate convertedEndDate = LocalDate.parse(endDate, dateTimeFormatter);
 
-            ArrayList<FormRecord> records = formRecordRepository.getApprovedFormsByPeriod(employeeId, "overtime", convertedStartDate, convertedEndDate);
+            List<FormRecord> records = formRecordRepository.getApprovedFormsByPeriod(employeeId, "overtime", convertedStartDate, convertedEndDate);
             Duration total = Duration.ZERO;
 
             for (FormRecord record : records) {

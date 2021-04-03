@@ -5,14 +5,14 @@ import com.example.TimeAttendanceAPI.model.Department;
 import com.example.TimeAttendanceAPI.model.Employee;
 import com.example.TimeAttendanceAPI.model.FormRecord;
 import com.example.TimeAttendanceAPI.model.Position;
-import com.example.TimeAttendanceAPI.service.impl.AdminServiceImpl;
+import com.example.TimeAttendanceAPI.service.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,11 +31,11 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/")
 public class AdminController {
 
-    @Autowired
-    private AdminServiceImpl adminService;
+    private final AdminService adminService;
 
     //Employee methods
     @Operation(summary = "Add new employee", description = "Add new employee")

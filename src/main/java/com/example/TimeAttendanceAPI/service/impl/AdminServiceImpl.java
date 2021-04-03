@@ -1,35 +1,35 @@
 package com.example.TimeAttendanceAPI.service.impl;
 
-import com.example.TimeAttendanceAPI.model.*;
-import com.example.TimeAttendanceAPI.repository.*;
+import com.example.TimeAttendanceAPI.model.AccountRole;
+import com.example.TimeAttendanceAPI.model.Department;
+import com.example.TimeAttendanceAPI.model.Employee;
+import com.example.TimeAttendanceAPI.model.FormRecord;
+import com.example.TimeAttendanceAPI.model.Position;
+import com.example.TimeAttendanceAPI.repository.AccountRoleRepository;
+import com.example.TimeAttendanceAPI.repository.DepartmentRepository;
+import com.example.TimeAttendanceAPI.repository.EmployeeRepository;
+import com.example.TimeAttendanceAPI.repository.FormRecordRepository;
+import com.example.TimeAttendanceAPI.repository.PositionRepository;
 import com.example.TimeAttendanceAPI.service.AdminService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
-
-    @Autowired
-    private DepartmentRepository departmentRepository;
-
-    @Autowired
-    private PositionRepository positionRepository;
-
-    @Autowired
-    private AccountRoleRepository accountRoleRepository;
-
-    @Autowired
-    private FormRecordRepository formRecordRepository;
+    private final EmployeeRepository employeeRepository;
+    private final DepartmentRepository departmentRepository;
+    private final PositionRepository positionRepository;
+    private final AccountRoleRepository accountRoleRepository;
+    private final FormRecordRepository formRecordRepository;
 
     //Create
     @Override
@@ -75,8 +75,8 @@ public class AdminServiceImpl implements AdminService {
 
     //Read
     @Override
-    public ArrayList<Employee> getAllEmployee() {
-        ArrayList<Employee> results = (ArrayList<Employee>) employeeRepository.findAll();
+    public List<Employee> getAllEmployee() {
+        List<Employee> results = employeeRepository.findAll();
         for (Employee e : results) {
             e.setUsername(null);
             e.setPassword(null);
@@ -90,18 +90,18 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public ArrayList<Department> getAllDepartment() {
-        return (ArrayList<Department>) departmentRepository.findAll();
+    public List<Department> getAllDepartment() {
+        return departmentRepository.findAll();
     }
 
     @Override
-    public ArrayList<Position> getAllPosition() {
-        return (ArrayList<Position>) positionRepository.findAll();
+    public List<Position> getAllPosition() {
+        return positionRepository.findAll();
     }
 
     @Override
-    public ArrayList<AccountRole> getALlRole() {
-        return (ArrayList<AccountRole>) accountRoleRepository.findAll();
+    public List<AccountRole> getALlRole() {
+        return accountRoleRepository.findAll();
     }
 
 
@@ -265,20 +265,20 @@ public class AdminServiceImpl implements AdminService {
 
     //Handling forms
     @Override
-    public ArrayList<FormRecord> getSubordinatesFormRecords(Integer adminId) {
+    public List<FormRecord> getSubordinatesFormRecords(Integer adminId) {
         return formRecordRepository.getSubordinatesFormRecords(adminId);
     }
 
     @Override
-    public ArrayList<FormRecord> getSubordinatesFormRecordsByType(Integer adminId, String type) {
-        ArrayList<FormRecord> result = getSubordinatesFormRecords(adminId);
+    public List<FormRecord> getSubordinatesFormRecordsByType(Integer adminId, String type) {
+        List<FormRecord> result = getSubordinatesFormRecords(adminId);
         result.removeIf(form -> (!form.getFormType().equals(type)));
         return result;
     }
 
     @Override
-    public ArrayList<FormRecord> getSubordinatesFormRecordsByStatus(Integer adminId, String status) {
-        ArrayList<FormRecord> result = getSubordinatesFormRecords(adminId);
+    public List<FormRecord> getSubordinatesFormRecordsByStatus(Integer adminId, String status) {
+        List<FormRecord> result = getSubordinatesFormRecords(adminId);
         result.removeIf(form -> (!form.getStatus().equals(status)));
         return result;
     }

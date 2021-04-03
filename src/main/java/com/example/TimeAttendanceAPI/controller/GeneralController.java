@@ -2,26 +2,31 @@ package com.example.TimeAttendanceAPI.controller;
 
 import com.example.TimeAttendanceAPI.model.Attendance;
 import com.example.TimeAttendanceAPI.model.FormRecord;
-import com.example.TimeAttendanceAPI.service.impl.GeneralServiceImpl;
+import com.example.TimeAttendanceAPI.service.GeneralService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.time.Duration;
 import java.time.format.DateTimeFormatter;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/")
 public class GeneralController {
 
-    @Autowired
-    private GeneralServiceImpl generalService;
+    private final GeneralService generalService;
 
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
