@@ -4,7 +4,7 @@ import com.example.TimeAttendanceAPI.model.AttendanceRecord;
 import com.example.TimeAttendanceAPI.model.Employee;
 import com.example.TimeAttendanceAPI.model.FormRecord;
 import com.example.TimeAttendanceAPI.repository.AttendanceRepository;
-import com.example.TimeAttendanceAPI.repository.EmployeeRepository;
+import com.example.TimeAttendanceAPI.repository.UserRepository;
 import com.example.TimeAttendanceAPI.repository.FormRecordRepository;
 import com.example.TimeAttendanceAPI.service.GeneralService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import java.util.List;
 public class GeneralServiceImpl implements GeneralService {
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private AttendanceRepository attendanceRepository;
@@ -33,7 +33,7 @@ public class GeneralServiceImpl implements GeneralService {
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     private Duration calculateAttendanceTime(ArrayList<AttendanceRecord> input) {
-        Employee info = employeeRepository.getOne(input.get(0).getEmployeeId());
+        Employee info = userRepository.getOne(input.get(0).getEmployeeId());
         int shiftStart = 8;
         int shiftEnd = 17;
         int breakStart = 12;
@@ -107,7 +107,7 @@ public class GeneralServiceImpl implements GeneralService {
 
     @Override
     public Duration getAttendanceTimeByDay(Integer employeeId, String date) {
-        if (employeeRepository.findById(employeeId).isPresent()) {
+        if (userRepository.findById(employeeId).isPresent()) {
             LocalDate convertedDate = LocalDate.parse(date, dateTimeFormatter);
             return calculateAttendanceTime(attendanceRepository.getAttendanceDetailByDay(employeeId, convertedDate));
         }
@@ -126,7 +126,7 @@ public class GeneralServiceImpl implements GeneralService {
 
     @Override
     public Duration getTotalAttendanceTime(Integer employeeId) {
-        if (employeeRepository.findById(employeeId).isPresent()) {
+        if (userRepository.findById(employeeId).isPresent()) {
             return calculateAttendanceTime(attendanceRepository.getAttendanceDetail(employeeId));
         }
 
@@ -135,7 +135,7 @@ public class GeneralServiceImpl implements GeneralService {
 
     @Override
     public Duration getTotalLateTime(Integer employeeId) {
-        if (employeeRepository.findById(employeeId).isPresent()) {
+        if (userRepository.findById(employeeId).isPresent()) {
 
             ArrayList<AttendanceRecord> records = attendanceRepository.getAttendanceDetail(employeeId);
             Duration total = Duration.ZERO;
@@ -163,7 +163,7 @@ public class GeneralServiceImpl implements GeneralService {
 
     @Override
     public Duration getLateTimeByPeriod(Integer employeeId, String startDate, String endDate) {
-        if (employeeRepository.findById(employeeId).isPresent()) {
+        if (userRepository.findById(employeeId).isPresent()) {
 
             LocalDate convertedStartDate = LocalDate.parse(startDate, dateTimeFormatter);
             LocalDate convertedEndDate = LocalDate.parse(endDate, dateTimeFormatter);
@@ -208,7 +208,7 @@ public class GeneralServiceImpl implements GeneralService {
 
     @Override
     public Duration getTotalAbsentTime(Integer employeeId) {
-        if (employeeRepository.findById(employeeId).isPresent()) {
+        if (userRepository.findById(employeeId).isPresent()) {
             List<FormRecord> records = formRecordRepository.getApprovedForms(employeeId, "absent");
             Duration total = Duration.ZERO;
 
@@ -224,7 +224,7 @@ public class GeneralServiceImpl implements GeneralService {
 
     @Override
     public Duration getAbsentTimeByPeriod(Integer employeeId, String startDate, String endDate) {
-        if (employeeRepository.findById(employeeId).isPresent()) {
+        if (userRepository.findById(employeeId).isPresent()) {
             LocalDate convertedStartDate = LocalDate.parse(startDate, dateTimeFormatter);
             LocalDate convertedEndDate = LocalDate.parse(endDate, dateTimeFormatter);
 
@@ -243,7 +243,7 @@ public class GeneralServiceImpl implements GeneralService {
 
     @Override
     public Duration getTotalOvertime(Integer employeeId) {
-        if (employeeRepository.findById(employeeId).isPresent()) {
+        if (userRepository.findById(employeeId).isPresent()) {
             List<FormRecord> records = formRecordRepository.getApprovedForms(employeeId, "overtime");
             Duration total = Duration.ZERO;
 
@@ -259,7 +259,7 @@ public class GeneralServiceImpl implements GeneralService {
 
     @Override
     public Duration getOvertimeByPeriod(Integer employeeId, String startDate, String endDate) {
-        if (employeeRepository.findById(employeeId).isPresent()) {
+        if (userRepository.findById(employeeId).isPresent()) {
             LocalDate convertedStartDate = LocalDate.parse(startDate, dateTimeFormatter);
             LocalDate convertedEndDate = LocalDate.parse(endDate, dateTimeFormatter);
 

@@ -5,5 +5,5 @@ public interface LoginService {
 
     boolean validateToken(String token);
 
-    String getToken(String username);
+    //String getToken(String username);
 }

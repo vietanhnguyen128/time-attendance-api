@@ -7,7 +7,7 @@ import com.example.TimeAttendanceAPI.model.FormRecord;
 import com.example.TimeAttendanceAPI.model.Position;
 import com.example.TimeAttendanceAPI.repository.AccountRoleRepository;
 import com.example.TimeAttendanceAPI.repository.DepartmentRepository;
-import com.example.TimeAttendanceAPI.repository.EmployeeRepository;
+import com.example.TimeAttendanceAPI.repository.UserRepository;
 import com.example.TimeAttendanceAPI.repository.FormRecordRepository;
 import com.example.TimeAttendanceAPI.repository.PositionRepository;
 import com.example.TimeAttendanceAPI.service.AdminService;
@@ -25,7 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
 
-    private final EmployeeRepository employeeRepository;
+    private final UserRepository userRepository;
     private final DepartmentRepository departmentRepository;
     private final PositionRepository positionRepository;
     private final AccountRoleRepository accountRoleRepository;
@@ -44,7 +44,7 @@ public class AdminServiceImpl implements AdminService {
             employee.setCreatedAt(LocalDateTime.now());
         }
         employee.setPassword(new BCryptPasswordEncoder().encode(employee.getPassword()));
-        return employeeRepository.save(employee);
+        return userRepository.save(employee);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class AdminServiceImpl implements AdminService {
     //Read
     @Override
     public List<Employee> getAllEmployee() {
-        List<Employee> results = employeeRepository.findAll();
+        List<Employee> results = userRepository.findAll();
         for (Employee e : results) {
             e.setUsername(null);
             e.setPassword(null);
@@ -86,7 +86,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Optional<Employee> getEmployeeById(Integer employeeId) {
-        return employeeRepository.findById(employeeId);
+        return userRepository.findById(employeeId);
     }
 
     @Override
@@ -109,7 +109,7 @@ public class AdminServiceImpl implements AdminService {
     //Update
     @Override
     public Employee updateEmployee(Integer id, Employee employee) throws IllegalAccessException {
-        Optional<Employee> currentVal = employeeRepository.findById(id);
+        Optional<Employee> currentVal = userRepository.findById(id);
         if(currentVal.isPresent()) {
             Employee newVal = currentVal.get();
 
@@ -131,7 +131,7 @@ public class AdminServiceImpl implements AdminService {
                 newVal.setUpdatedAt(LocalDateTime.now());
             }
 
-            return employeeRepository.save(newVal);
+            return userRepository.save(newVal);
         }
 
         return null;
@@ -220,9 +220,9 @@ public class AdminServiceImpl implements AdminService {
     //Delete
     @Override
     public boolean deleteEmployee(Integer id) {
-        Optional<Employee> result = employeeRepository.findById(id);
+        Optional<Employee> result = userRepository.findById(id);
         if (result.isPresent()) {
-            employeeRepository.deleteById(id);
+            userRepository.deleteById(id);
             return true;
         }
 
