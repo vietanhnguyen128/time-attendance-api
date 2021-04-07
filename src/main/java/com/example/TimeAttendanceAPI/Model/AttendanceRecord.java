@@ -27,14 +27,11 @@ public class AttendanceRecord {
     private int userId;
 
     @Column(columnDefinition = "DATE")
-    @JsonFormat(pattern = "dd-MM-yyyy")
-    @JsonSerialize(using = LocalDateSerializer.class)
-    private LocalDate dateRecord;
+    private LocalDate date;
 
     @Column(columnDefinition = "TIME")
-    @JsonFormat(pattern = "HH:mm:ss")
-    @JsonSerialize(using = LocalTimeSerializer.class)
-    private LocalTime timeRecord;
+    private LocalTime checkIn;
 
-    private String type;
+    @Column(columnDefinition = "TIME")
+    private LocalTime checkOut;
 }

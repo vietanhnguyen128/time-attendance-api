@@ -26,23 +26,33 @@ public class FormRecord extends BaseModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
-    private Integer employeeId;
+    private int employeeId;
+
+    private int managerId;
+
+    private String formType;
 
     @Column(columnDefinition = "DATE")
     @JsonFormat(pattern = "dd-MM-yyyy")
     @JsonSerialize(using = LocalDateSerializer.class)
-    //Some black voodoo magic shenanigan again. Why doesn't LocalDateSerializer work here, when it works on Attendance entity?
-    //PSA: my pigeon brain forgot NoArgsConstructor so it didn't work. It works now.
-    private LocalDate day;
+    private LocalDate date;
+
+    @Column(columnDefinition = "TIME")
+    @JsonFormat(pattern = "HH:mm:ss")
+    @JsonSerialize(using = LocalTimeSerializer.class)
+    private LocalTime startTime;
+
+    @Column(columnDefinition = "TIME")
+    @JsonFormat(pattern = "HH:mm:ss")
+    @JsonSerialize(using = LocalTimeSerializer.class)
+    private LocalTime endTime;
 
     @Column(columnDefinition = "TIME")
     @JsonFormat(pattern = "HH:mm:ss")
     @JsonSerialize(using = LocalTimeSerializer.class)
     private LocalTime timePeriod;
-
-    private String formType;
 
     private String status;
 }

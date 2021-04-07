@@ -1,6 +1,6 @@
 package com.example.TimeAttendanceAPI.dto;
 
-public class PositionDTO {
+public class RoleDTO {
     private Integer id;
-    private String positionName;
+    private String roleName;
 }
