@@ -1,5 +1,6 @@
 package com.example.TimeAttendanceAPI.model;
 
+import com.example.TimeAttendanceAPI.dto.DepartmentDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,4 +21,10 @@ public class Department extends BaseModel {
     private String departmentName;
 
     private String managerId;
+
+    public Department(DepartmentDTO departmentDTO) {
+        this.departmentId = departmentDTO.getDepartmentId();
+        this.departmentName = departmentDTO.getDepartmentName();
+        this.managerId = departmentDTO.getManagerId();
+    }
 }
