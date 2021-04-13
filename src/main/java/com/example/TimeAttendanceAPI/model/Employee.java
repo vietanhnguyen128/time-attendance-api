@@ -17,7 +17,7 @@ import java.time.Duration;
 @Data
 @NoArgsConstructor
 @Table
-public class Employee extends BaseModel {
+public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

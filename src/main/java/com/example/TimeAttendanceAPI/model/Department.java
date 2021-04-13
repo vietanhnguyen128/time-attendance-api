@@ -12,7 +12,7 @@ import javax.persistence.Id;
 @Entity
 @Data
 @NoArgsConstructor
-public class Department extends BaseModel {
+public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

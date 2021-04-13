@@ -23,7 +23,7 @@ import javax.validation.constraints.Size;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
-public class Position extends BaseModel {
+public class Position {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

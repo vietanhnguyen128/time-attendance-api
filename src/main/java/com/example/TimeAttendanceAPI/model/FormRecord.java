@@ -1,5 +1,6 @@
 package com.example.TimeAttendanceAPI.model;
 
+import com.example.TimeAttendanceAPI.dto.FormRecordDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
@@ -22,7 +23,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table
-public class FormRecord extends BaseModel {
+public class FormRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,4 +56,14 @@ public class FormRecord extends BaseModel {
     private LocalTime timePeriod;
 
     private String status;
+
+    public FormRecord(FormRecordDTO record) {
+        this.employeeId = record.getEmployeeId();
+        this.managerId = record.getManagerId();
+        this.formType = record.getFormType();
+        this.date = record.getDate();
+        this.startTime = record.getStartTime();
+        this.endTime = record.getEndTime();
+        this.status = record.getStatus();
+    }
 }
