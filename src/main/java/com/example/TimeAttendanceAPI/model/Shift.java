@@ -12,7 +12,7 @@ import java.time.LocalTime;
 @Entity
 @Data
 @NoArgsConstructor
-public class Shift extends BaseModel {
+public class Shift {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
