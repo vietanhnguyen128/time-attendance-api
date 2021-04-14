@@ -2,7 +2,7 @@ package com.example.TimeAttendanceAPI.controller;
 
 import com.example.TimeAttendanceAPI.model.AttendanceRecord;
 import com.example.TimeAttendanceAPI.model.FormRecord;
-import com.example.TimeAttendanceAPI.service.GeneralService;
+import com.example.TimeAttendanceAPI.service.general.GeneralService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

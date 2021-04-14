@@ -1,4 +1,4 @@
-package com.example.TimeAttendanceAPI.service.impl;
+package com.example.TimeAttendanceAPI.service.general;
 
 import com.example.TimeAttendanceAPI.model.AttendanceRecord;
 import com.example.TimeAttendanceAPI.model.Employee;
@@ -6,7 +6,8 @@ import com.example.TimeAttendanceAPI.model.FormRecord;
 import com.example.TimeAttendanceAPI.repository.AttendanceRepository;
 import com.example.TimeAttendanceAPI.repository.UserRepository;
 import com.example.TimeAttendanceAPI.repository.FormRecordRepository;
-import com.example.TimeAttendanceAPI.service.GeneralService;
+import com.example.TimeAttendanceAPI.service.general.GeneralService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,90 +20,90 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class GeneralServiceImpl implements GeneralService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private AttendanceRepository attendanceRepository;
+    private final AttendanceRepository attendanceRepository;
 
-    @Autowired
-    private FormRecordRepository formRecordRepository;
+    private final FormRecordRepository formRecordRepository;
 
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     private Duration calculateAttendanceTime(ArrayList<AttendanceRecord> input) {
-        Employee info = userRepository.getOne(input.get(0).getEmployeeId());
+//        Employee info = userRepository.getOne(input.get(0).getEmployeeId());
         int shiftStart = 8;
         int shiftEnd = 17;
         int breakStart = 12;
         int breakEnd = 13;
 
         int total = 0;
-        for (int i = 0; i < input.size(); i+=2) {
-            int checkIn = input.get(i).getTimeRecord().toSecondOfDay();
-            int checkOut = input.get(i+1).getTimeRecord().toSecondOfDay();
-
-            if (checkIn < shiftStart) {
-                if (checkOut < shiftStart) {
-                }
-                else if (checkOut >= breakStart && checkOut < breakEnd) {
-                    total += (shiftStart - breakStart);
-                } else if (checkOut >= breakEnd && checkOut < shiftEnd) {
-                    int seconds = checkOut - shiftStart - (breakEnd - breakStart);
-                    total += seconds;
-                } else {
-                    int seconds = shiftEnd - shiftStart - (breakEnd - breakStart);
-                    total += seconds;
-                }
-            } else if (checkIn < breakStart) {
-                if (checkOut < breakStart) {
-                    total += checkOut - checkIn;
-                } else if (checkOut < breakEnd) {
-                    total += breakStart - checkIn;
-                } else if (checkOut >= breakEnd && checkOut < shiftEnd) {
-                    int seconds = checkOut - checkIn - (breakEnd - breakStart);
-                    total += seconds;
-                } else {
-                    int seconds = shiftEnd - checkIn - (breakEnd - breakStart);
-                    total += seconds;
-                }
-            } else if (checkIn >= breakStart && checkIn < breakEnd) {
-                if (checkOut < breakEnd) {
-                } else if (checkOut >= breakEnd && checkOut < shiftEnd) {
-                    total += checkOut - breakEnd;
-                } else {
-                    total += shiftEnd - breakEnd;
-                }
-            } else if (checkIn >= breakEnd && checkIn < shiftEnd) {
-                if (checkOut >= shiftEnd) {
-                    total += shiftEnd - checkIn;
-                } else {
-                    total += checkOut - checkIn;
-                }
-            }
-        }
+//        for (int i = 0; i < input.size(); i+=2) {
+//            int checkIn = input.get(i).getTimeRecord().toSecondOfDay();
+//            int checkOut = input.get(i+1).getTimeRecord().toSecondOfDay();
+//
+//            if (checkIn < shiftStart) {
+//                if (checkOut < shiftStart) {
+//                }
+//                else if (checkOut >= breakStart && checkOut < breakEnd) {
+//                    total += (shiftStart - breakStart);
+//                } else if (checkOut >= breakEnd && checkOut < shiftEnd) {
+//                    int seconds = checkOut - shiftStart - (breakEnd - breakStart);
+//                    total += seconds;
+//                } else {
+//                    int seconds = shiftEnd - shiftStart - (breakEnd - breakStart);
+//                    total += seconds;
+//                }
+//            } else if (checkIn < breakStart) {
+//                if (checkOut < breakStart) {
+//                    total += checkOut - checkIn;
+//                } else if (checkOut < breakEnd) {
+//                    total += breakStart - checkIn;
+//                } else if (checkOut >= breakEnd && checkOut < shiftEnd) {
+//                    int seconds = checkOut - checkIn - (breakEnd - breakStart);
+//                    total += seconds;
+//                } else {
+//                    int seconds = shiftEnd - checkIn - (breakEnd - breakStart);
+//                    total += seconds;
+//                }
+//            } else if (checkIn >= breakStart && checkIn < breakEnd) {
+//                if (checkOut < breakEnd) {
+//                } else if (checkOut >= breakEnd && checkOut < shiftEnd) {
+//                    total += checkOut - breakEnd;
+//                } else {
+//                    total += shiftEnd - breakEnd;
+//                }
+//            } else if (checkIn >= breakEnd && checkIn < shiftEnd) {
+//                if (checkOut >= shiftEnd) {
+//                    total += shiftEnd - checkIn;
+//                } else {
+//                    total += checkOut - checkIn;
+//                }
+//            }
+//        }
 
         return Duration.ofSeconds(total);
     }
 
     @Override
     public AttendanceRecord createAttendanceRecord(AttendanceRecord record) {
-        if (record.getDateRecord() == null)
-            record.setDateRecord(LocalDate.now());
-        if (record.getTimeRecord() == null)
-            record.setTimeRecord(LocalTime.now());
-        return attendanceRepository.save(record);
+//        if (record.getDateRecord() == null)
+//            record.setDateRecord(LocalDate.now());
+//        if (record.getTimeRecord() == null)
+//            record.setTimeRecord(LocalTime.now());
+//        return attendanceRepository.save(record);
+        return null;
     }
 
     @Override
     public FormRecord createForm(FormRecord form) {
-        if (form.getCreatedAt() == null)
-            form.setCreatedAt(LocalDateTime.now());
-        if (form.getStatus() == null)
-            form.setStatus("pending");
-        return formRecordRepository.save(form);
+//        if (form.getCreatedAt() == null)
+//            form.setCreatedAt(LocalDateTime.now());
+//        if (form.getStatus() == null)
+//            form.setStatus("pending");
+//        return formRecordRepository.save(form);
+        return null;
     }
 
     @Override
@@ -135,59 +136,59 @@ public class GeneralServiceImpl implements GeneralService {
 
     @Override
     public Duration getTotalLateTime(Integer employeeId) {
-        if (userRepository.findById(employeeId).isPresent()) {
-
-            ArrayList<AttendanceRecord> records = attendanceRepository.getAttendanceDetail(employeeId);
-            Duration total = Duration.ZERO;
-            LocalTime startTime = LocalTime.of(8, 0);
-            LocalDate currentDate;
-            LocalDate previousDate = LocalDate.MIN;
-
-            for (int i = 0; i < records.size(); i += 2) {
-                currentDate = records.get(i).getDateRecord();
-                if (previousDate.equals(currentDate)) {
-                    continue;
-                }
-                Duration temp = Duration.between(startTime, records.get(i).getTimeRecord());
-                if (!temp.isNegative()) {
-                    total = total.plus(temp);
-                }
-                previousDate = currentDate;
-            }
-
-            return total;
-        }
+//        if (userRepository.findById(employeeId).isPresent()) {
+//
+//            ArrayList<AttendanceRecord> records = attendanceRepository.getAttendanceDetail(employeeId);
+//            Duration total = Duration.ZERO;
+//            LocalTime startTime = LocalTime.of(8, 0);
+//            LocalDate currentDate;
+//            LocalDate previousDate = LocalDate.MIN;
+//
+//            for (int i = 0; i < records.size(); i += 2) {
+//                currentDate = records.get(i).getDateRecord();
+//                if (previousDate.equals(currentDate)) {
+//                    continue;
+//                }
+//                Duration temp = Duration.between(startTime, records.get(i).getTimeRecord());
+//                if (!temp.isNegative()) {
+//                    total = total.plus(temp);
+//                }
+//                previousDate = currentDate;
+//            }
+//
+//            return total;
+//        }
 
         return null;
     }
 
     @Override
     public Duration getLateTimeByPeriod(Integer employeeId, String startDate, String endDate) {
-        if (userRepository.findById(employeeId).isPresent()) {
-
-            LocalDate convertedStartDate = LocalDate.parse(startDate, dateTimeFormatter);
-            LocalDate convertedEndDate = LocalDate.parse(endDate, dateTimeFormatter);
-
-            ArrayList<AttendanceRecord> records = attendanceRepository.getAttendanceDetailByPeriod(employeeId, convertedStartDate, convertedEndDate);
-            Duration total = Duration.ZERO;
-            LocalTime startTime = LocalTime.of(8, 0);
-            LocalDate currentDate;
-            LocalDate previousDate = LocalDate.MIN;
-
-            for (int i = 0; i < records.size(); i += 2) {
-                currentDate = records.get(i).getDateRecord();
-                if (previousDate.equals(currentDate)) {
-                    continue;
-                }
-                Duration temp = Duration.between(startTime, records.get(i).getTimeRecord());
-                if (!temp.isNegative()) {
-                    total = total.plus(temp);
-                }
-                previousDate = currentDate;
-            }
-
-            return total;
-        }
+//        if (userRepository.findById(employeeId).isPresent()) {
+//
+//            LocalDate convertedStartDate = LocalDate.parse(startDate, dateTimeFormatter);
+//            LocalDate convertedEndDate = LocalDate.parse(endDate, dateTimeFormatter);
+//
+//            ArrayList<AttendanceRecord> records = attendanceRepository.getAttendanceDetailByPeriod(employeeId, convertedStartDate, convertedEndDate);
+//            Duration total = Duration.ZERO;
+//            LocalTime startTime = LocalTime.of(8, 0);
+//            LocalDate currentDate;
+//            LocalDate previousDate = LocalDate.MIN;
+//
+//            for (int i = 0; i < records.size(); i += 2) {
+//                currentDate = records.get(i).getDateRecord();
+//                if (previousDate.equals(currentDate)) {
+//                    continue;
+//                }
+//                Duration temp = Duration.between(startTime, records.get(i).getTimeRecord());
+//                if (!temp.isNegative()) {
+//                    total = total.plus(temp);
+//                }
+//                previousDate = currentDate;
+//            }
+//
+//            return total;
+//        }
 
         return null;
     }

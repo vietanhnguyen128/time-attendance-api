@@ -1,4 +1,4 @@
-package com.example.TimeAttendanceAPI.service;
+package com.example.TimeAttendanceAPI.service.general;
 
 import com.example.TimeAttendanceAPI.model.AttendanceRecord;
 import com.example.TimeAttendanceAPI.model.FormRecord;
