@@ -1,31 +1,39 @@
 package com.example.TimeAttendanceAPI.model;
 
-import lombok.AllArgsConstructor;
+import com.example.TimeAttendanceAPI.dto.DepartmentDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import java.util.List;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "department")
-public class Department extends BaseModel {
+public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Min(0)
-    private Integer id;
+    private int departmentId;
 
-    @Column(name = "department_name")
-    @Size(min = 0, max = 100)
     private String departmentName;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_id")
+    private User manager;
+
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
+    private List<User> employeesInDepartment;
+
+    public Department(DepartmentDTO departmentDTO) {
+        this.departmentId = departmentDTO.getDepartmentId();
+        this.departmentName = departmentDTO.getDepartmentName();
+    }
 }

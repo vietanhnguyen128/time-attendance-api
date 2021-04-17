@@ -1,15 +1,20 @@
-package com.example.TimeAttendanceAPI.service;
+package com.example.TimeAttendanceAPI.service.attendance;
 
-import com.example.TimeAttendanceAPI.model.Attendance;
-import com.example.TimeAttendanceAPI.model.FormRecord;
+import com.example.TimeAttendanceAPI.dto.AttendanceRecordDTO;
 
 import java.time.Duration;
+import java.util.List;
 
-public interface GeneralService {
+public interface AttendanceService {
+    AttendanceRecordDTO createAttendanceRecord(AttendanceRecordDTO AttendanceRecordDTO);
 
-    Attendance createAttendanceRecord(Attendance record);
+    List<AttendanceRecordDTO> getAttendanceRecordList();
 
-    FormRecord createForm(FormRecord form);
+    AttendanceRecordDTO getSingleAttendanceRecord(String AttendanceRecordId);
+
+    AttendanceRecordDTO updateAttendanceRecord(AttendanceRecordDTO AttendanceRecordDTO);
+
+    void deleteAttendanceRecord(String AttendanceRecordId);
 
     Duration getAttendanceTimeByDay(Integer employeeId, String date);
 

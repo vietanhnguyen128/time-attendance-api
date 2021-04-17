@@ -1,5 +1,6 @@
 package com.example.TimeAttendanceAPI.model;
 
+import com.example.TimeAttendanceAPI.dto.FormRecordDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
@@ -10,9 +11,12 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -22,27 +26,44 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table
-public class FormRecord extends BaseModel {
+public class FormRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
-    private Integer employeeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_id")
+    private User manager;
+
+    private String formType;
 
     @Column(columnDefinition = "DATE")
     @JsonFormat(pattern = "dd-MM-yyyy")
     @JsonSerialize(using = LocalDateSerializer.class)
-    //Some black voodoo magic shenanigan again. Why doesn't LocalDateSerializer work here, when it works on Attendance entity?
-    //PSA: my pigeon brain forgot NoArgsConstructor so it didn't work. It works now.
-    private LocalDate day;
+    private LocalDate date;
 
     @Column(columnDefinition = "TIME")
     @JsonFormat(pattern = "HH:mm:ss")
     @JsonSerialize(using = LocalTimeSerializer.class)
-    private LocalTime timePeriod;
+    private LocalTime startTime;
 
-    private String formType;
+    @Column(columnDefinition = "TIME")
+    @JsonFormat(pattern = "HH:mm:ss")
+    @JsonSerialize(using = LocalTimeSerializer.class)
+    private LocalTime endTime;
 
     private String status;
+
+    public FormRecord(FormRecordDTO record) {
+        this.formType = record.getFormType();
+        this.date = record.getDate();
+        this.startTime = record.getStartTime();
+        this.endTime = record.getEndTime();
+        this.status = record.getStatus();
+    }
 }
