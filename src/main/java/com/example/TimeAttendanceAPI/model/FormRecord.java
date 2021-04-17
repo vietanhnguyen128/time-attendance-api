@@ -11,9 +11,12 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -29,8 +32,11 @@ public class FormRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int employeeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
     private int managerId;
 
     private String formType;
@@ -50,16 +56,14 @@ public class FormRecord {
     @JsonSerialize(using = LocalTimeSerializer.class)
     private LocalTime endTime;
 
-    @Column(columnDefinition = "TIME")
-    @JsonFormat(pattern = "HH:mm:ss")
-    @JsonSerialize(using = LocalTimeSerializer.class)
-    private LocalTime timePeriod;
+//    @Column(columnDefinition = "TIME")
+//    @JsonFormat(pattern = "HH:mm:ss")
+//    @JsonSerialize(using = LocalTimeSerializer.class)
+//    private LocalTime timePeriod;
 
     private String status;
 
     public FormRecord(FormRecordDTO record) {
-        this.employeeId = record.getEmployeeId();
-        this.managerId = record.getManagerId();
         this.formType = record.getFormType();
         this.date = record.getDate();
         this.startTime = record.getStartTime();
