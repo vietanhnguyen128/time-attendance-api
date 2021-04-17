@@ -21,11 +21,11 @@ import java.util.List;
 public class User {
 
     @Id
-    private int userId;
+    private Integer userId;
 
     private String name;
 
-    private int age;
+    private Integer age;
 
     private String gender;
 

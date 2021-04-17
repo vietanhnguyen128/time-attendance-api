@@ -1,16 +1,8 @@
 package com.example.TimeAttendanceAPI.dto;
 
 import com.example.TimeAttendanceAPI.model._enum.Shift;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-public class UserDTO {
-    private String userId;
-
-    private String password;
-
+public class UserInfoDTO {
     private String name;
 
     private int age;

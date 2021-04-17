@@ -11,17 +11,17 @@ import java.time.LocalTime;
 public class FormRecordDTO {
     private Integer id;
 
-    private Integer employeeId;
+    private Integer userId;
 
     private Integer managerId;
+
+    private String formType;
 
     private LocalDate date;
 
     private LocalTime startTime;
 
     private LocalTime endTime;
-
-    private String formType;
 
     private String status;
 }

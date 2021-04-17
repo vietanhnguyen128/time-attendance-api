@@ -9,9 +9,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class AttendanceRecordDTO {
-
-    private int id;
-
     private int userId;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
