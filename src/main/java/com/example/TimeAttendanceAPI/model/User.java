@@ -45,8 +45,11 @@ public class User {
     private List<User> managedUsers;
 
     @OneToOne(mappedBy = "manager", fetch = FetchType.LAZY)
-    private Department managedDepartment;
+    private Department managedDepartments;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<AttendanceRecord> attendanceRecordList;
+
+    @OneToMany(mappedBy = "manager", fetch = FetchType.LAZY)
+    private List<FormRecord> managedForms;
 }

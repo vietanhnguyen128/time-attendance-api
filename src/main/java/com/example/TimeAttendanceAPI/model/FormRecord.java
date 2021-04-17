@@ -37,7 +37,8 @@ public class FormRecord {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private int managerId;
+    @JoinColumn(name = "manager_id")
+    private User manager;
 
     private String formType;
 
@@ -55,11 +56,6 @@ public class FormRecord {
     @JsonFormat(pattern = "HH:mm:ss")
     @JsonSerialize(using = LocalTimeSerializer.class)
     private LocalTime endTime;
-
-//    @Column(columnDefinition = "TIME")
-//    @JsonFormat(pattern = "HH:mm:ss")
-//    @JsonSerialize(using = LocalTimeSerializer.class)
-//    private LocalTime timePeriod;
 
     private String status;
 
