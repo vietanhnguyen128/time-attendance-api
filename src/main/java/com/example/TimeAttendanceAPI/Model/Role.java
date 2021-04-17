@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Data
 @Table(name = "role")
 @NoArgsConstructor
-public class Role extends BaseModel {
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,9 +1,5 @@
 package com.example.TimeAttendanceAPI.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -34,4 +30,6 @@ public class AttendanceRecord {
 
     @Column(columnDefinition = "TIME")
     private LocalTime checkOut;
+
+
 }
