@@ -42,21 +42,44 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<DepartmentDTO> getDepartmentList() {
         List<DepartmentDTO> departmentDTOList = departmentRepository.findAll()
                 .stream().map(DepartmentDTO::new).collect(Collectors.toList());
-        return null;
+        return departmentDTOList;
     }
 
     @Override
-    public DepartmentDTO getSingleDepartment(String departmentId) {
-        return null;
+    public DepartmentDTO getSingleDepartment(Integer departmentId) {
+        Optional<Department> result = departmentRepository.findById(departmentId);
+        if (result.isEmpty()) {
+            throw new RuntimeException("Department not found!");
+        }
+        return new DepartmentDTO(result.get());
     }
 
     @Override
     public DepartmentDTO updateDepartment(DepartmentDTO departmentDTO) {
-        return null;
+        Optional<Department> result = departmentRepository.findById(departmentDTO.getDepartmentId());
+        if (result.isEmpty()) {
+            throw new RuntimeException("Department not found!");
+        }
+
+        Optional<Department> checkIfNameExists = departmentRepository.findByDepartmentName(departmentDTO.getDepartmentName());
+        if (checkIfNameExists.isPresent()) {
+            throw new RuntimeException("Department name already exists!");
+        }
+
+        Optional<User> managerOpt = userRepository.findById(departmentDTO.getManagerId());
+        if (managerOpt.isEmpty()) {
+            throw new RuntimeException("Manager not found!");
+        }
+
+        Department toUpdate = result.get();
+        toUpdate.setDepartmentName(departmentDTO.getDepartmentName());
+        toUpdate.setManager(managerOpt.get());
+
+        return new DepartmentDTO(departmentRepository.save(toUpdate));
     }
 
     @Override
-    public void deleteDepartment(String departmentId) {
-
+    public void deleteDepartment(Integer departmentId) {
+        departmentRepository.deleteById(departmentId);
     }
 }

@@ -8,9 +8,9 @@ public interface DepartmentService {
 
     List<DepartmentDTO> getDepartmentList();
 
-    DepartmentDTO getSingleDepartment(String departmentId);
+    DepartmentDTO getSingleDepartment(Integer departmentId);
 
     DepartmentDTO updateDepartment(DepartmentDTO departmentDTO);
 
-    void deleteDepartment(String departmentId);
+    void deleteDepartment(Integer departmentId);
 }
