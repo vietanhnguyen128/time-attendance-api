@@ -57,13 +57,21 @@ public class FormRecord {
     @JsonSerialize(using = LocalTimeSerializer.class)
     private LocalTime endTime;
 
-    private String status;
+    private String status = "PENDING";
+
+    //todo set canModify to prevent modify after accept/decline
 
     public FormRecord(FormRecordDTO record) {
         this.formType = record.getFormType();
         this.date = record.getDate();
         this.startTime = record.getStartTime();
         this.endTime = record.getEndTime();
-        this.status = record.getStatus();
+    }
+
+    public void updateFromDTO(FormRecordDTO record) {
+        this.formType = record.getFormType();
+        this.date = record.getDate();
+        this.startTime = record.getStartTime();
+        this.endTime = record.getEndTime();
     }
 }

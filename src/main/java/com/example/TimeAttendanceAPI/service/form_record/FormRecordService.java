@@ -5,13 +5,13 @@ import com.example.TimeAttendanceAPI.dto.FormRecordDTO;
 import java.util.List;
 
 public interface FormRecordService {
-    FormRecordDTO createFormRecord(FormRecordDTO FormRecordDTO);
+    FormRecordDTO createFormRecord(FormRecordDTO request);
 
     List<FormRecordDTO> getFormRecordList();
 
-    FormRecordDTO getSingleFormRecord(String FormRecordId);
+    FormRecordDTO getSingleFormRecord(Integer formId);
 
-    FormRecordDTO updateFormRecord(FormRecordDTO FormRecordDTO);
+    FormRecordDTO updateFormRecord(FormRecordDTO request);
 
-    void deleteFormRecord(String FormRecordId);
+    void deleteFormRecord(Integer formId);
 }
