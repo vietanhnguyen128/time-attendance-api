@@ -3,11 +3,13 @@ package com.example.TimeAttendanceAPI.controller.department;
 import com.example.TimeAttendanceAPI.dto.DepartmentDTO;
 import com.example.TimeAttendanceAPI.service.department.DepartmentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -23,8 +25,10 @@ public class DepartmentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<DepartmentDTO>> getAllDepartment() {
-        return new ResponseEntity<>(departmentService.getDepartmentList(), HttpStatus.OK);
+    public ResponseEntity<Page<DepartmentDTO>> getDepartmentList(@RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
+                                                                 @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
+                                                                 @RequestParam(name = "sortBy") String sortBy) {
+        return new ResponseEntity<>(departmentService.getDepartmentList(pageNo, pageSize, sortBy), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
