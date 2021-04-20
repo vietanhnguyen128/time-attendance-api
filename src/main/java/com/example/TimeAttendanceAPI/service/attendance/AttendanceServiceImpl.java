@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 @RequiredArgsConstructor
 public class AttendanceServiceImpl implements AttendanceService {
@@ -17,6 +19,12 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public Page<AttendanceRecordDTO> getAttendanceRecordList(int pageNo, int pageSize, String sortBy) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        return attendanceRepository.findAll(pageable).map(AttendanceRecordDTO::new);
+    }
+
+    @Override
+    public Page<AttendanceRecordDTO> getAttendanceRecordListOfMonth(int pageNo, int pageSize, String sortBy, LocalDate date) {
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
         return attendanceRepository.findAll(pageable).map(AttendanceRecordDTO::new);
     }

@@ -10,4 +10,5 @@ import java.util.ArrayList;
 
 @Repository
 public interface AttendanceRepository extends JpaRepository<AttendanceRecord, Integer> {
+
 }
