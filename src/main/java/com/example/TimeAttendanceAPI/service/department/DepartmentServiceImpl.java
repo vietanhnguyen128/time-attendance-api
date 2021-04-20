@@ -35,7 +35,7 @@ public class DepartmentServiceImpl implements DepartmentService {
             if (manager.isPresent()) {
                 input.setManager(manager.get());
             } else {
-                throw new RuntimeException("Deparment not found");
+                throw new RuntimeException("Department not found");
             }
         }
 
@@ -45,9 +45,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Page<DepartmentDTO> getDepartmentList(int pageNo, int pageSize, String sortBy) {
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-        Page<Department> departmentPage = departmentRepository.findAll(pageable);
-        Page<DepartmentDTO> departmentDTOPage = departmentPage.map(DepartmentDTO::new);
-        return departmentDTOPage;
+        return departmentRepository.findAll(pageable).map(DepartmentDTO::new);
     }
 
     @Override
