@@ -6,6 +6,10 @@ import com.example.TimeAttendanceAPI.model.User;
 import com.example.TimeAttendanceAPI.repository.FormRecordRepository;
 import com.example.TimeAttendanceAPI.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,8 +37,9 @@ public class FormRecordServiceImpl implements FormRecordService {
     }
 
     @Override
-    public List<FormRecordDTO> getFormRecordList() {
-        return formRecordRepository.findAll().stream().map(FormRecordDTO::new).collect(Collectors.toList());
+    public Page<FormRecordDTO> getFormRecordList(int pageNo, int pageSize, String sortBy) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        return formRecordRepository.findAll(pageable).map(FormRecordDTO::new);
     }
 
     @Override
