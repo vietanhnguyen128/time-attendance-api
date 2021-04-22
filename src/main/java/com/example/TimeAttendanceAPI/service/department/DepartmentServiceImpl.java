@@ -5,7 +5,9 @@ import com.example.TimeAttendanceAPI.model.Department;
 import com.example.TimeAttendanceAPI.model.User;
 import com.example.TimeAttendanceAPI.repository.DepartmentRepository;
 import com.example.TimeAttendanceAPI.repository.UserRepository;
+import com.example.TimeAttendanceAPI.utils.PageableUtils;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -44,7 +46,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Page<DepartmentDTO> getDepartmentList(int pageNo, int pageSize, String sortBy) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        Pageable pageable = PageableUtils.createPageable(pageNo, pageSize, sortBy);
         return departmentRepository.findAll(pageable).map(DepartmentDTO::new);
     }
 

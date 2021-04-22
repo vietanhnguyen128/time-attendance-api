@@ -3,6 +3,7 @@ package com.example.TimeAttendanceAPI.service.attendance;
 import com.example.TimeAttendanceAPI.dto.AttendanceRecordDTO;
 import com.example.TimeAttendanceAPI.model.AttendanceRecord;
 import com.example.TimeAttendanceAPI.repository.AttendanceRepository;
+import com.example.TimeAttendanceAPI.utils.PageableUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,13 +20,13 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public Page<AttendanceRecordDTO> getAttendanceRecordList(int pageNo, int pageSize, String sortBy) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        Pageable pageable = PageableUtils.createPageable(pageNo, pageSize, sortBy);
         return attendanceRepository.findAll(pageable).map(AttendanceRecordDTO::new);
     }
 
     @Override
     public Page<AttendanceRecordDTO> getAttendanceRecordListOfMonth(int pageNo, int pageSize, String sortBy, LocalDate date) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        Pageable pageable = PageableUtils.createPageable(pageNo, pageSize, sortBy);
         return attendanceRepository.findAll(pageable).map(AttendanceRecordDTO::new);
     }
 

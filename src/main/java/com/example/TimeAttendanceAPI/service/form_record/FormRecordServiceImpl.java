@@ -6,6 +6,7 @@ import com.example.TimeAttendanceAPI.model.User;
 import com.example.TimeAttendanceAPI.model._enum.FormStatus;
 import com.example.TimeAttendanceAPI.repository.FormRecordRepository;
 import com.example.TimeAttendanceAPI.repository.UserRepository;
+import com.example.TimeAttendanceAPI.utils.PageableUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,7 +40,7 @@ public class FormRecordServiceImpl implements FormRecordService {
 
     @Override
     public Page<FormRecordDTO> getFormRecordList(int pageNo, int pageSize, String sortBy) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        Pageable pageable = PageableUtils.createPageable(pageNo, pageSize, sortBy);
         return formRecordRepository.findAll(pageable).map(FormRecordDTO::new);
     }
 
