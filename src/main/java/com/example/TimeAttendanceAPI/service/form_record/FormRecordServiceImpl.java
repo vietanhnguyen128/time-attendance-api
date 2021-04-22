@@ -3,6 +3,7 @@ package com.example.TimeAttendanceAPI.service.form_record;
 import com.example.TimeAttendanceAPI.dto.FormRecordDTO;
 import com.example.TimeAttendanceAPI.model.FormRecord;
 import com.example.TimeAttendanceAPI.model.User;
+import com.example.TimeAttendanceAPI.model._enum.FormStatus;
 import com.example.TimeAttendanceAPI.repository.FormRecordRepository;
 import com.example.TimeAttendanceAPI.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -60,7 +61,23 @@ public class FormRecordServiceImpl implements FormRecordService {
         }
 
         FormRecord toUpdate = result.get();
-        toUpdate.updateFromDTO(request);
+        if (toUpdate.getStatus().equals(FormStatus.PENDING)) {
+            toUpdate.updateFromDTO(request);
+            return new FormRecordDTO(formRecordRepository.save(toUpdate));
+        }
+
+        throw new RuntimeException("Can not modify!");
+    }
+
+    @Override
+    public FormRecordDTO processFormRecord(FormRecordDTO request) {
+        Optional<FormRecord> result = formRecordRepository.findById(request.getId());
+        if (result.isEmpty()) {
+            throw new RuntimeException("Form not found!");
+        }
+
+        FormRecord toUpdate = result.get();
+        toUpdate.setStatus(request.getStatus());
 
         return new FormRecordDTO(formRecordRepository.save(toUpdate));
     }

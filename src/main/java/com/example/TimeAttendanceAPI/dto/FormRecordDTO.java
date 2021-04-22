@@ -1,9 +1,12 @@
 package com.example.TimeAttendanceAPI.dto;
 
 import com.example.TimeAttendanceAPI.model.FormRecord;
+import com.example.TimeAttendanceAPI.model._enum.FormStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -24,9 +27,8 @@ public class FormRecordDTO {
 
     private LocalTime endTime;
 
-    private String status  = "PENDING";
-
-    private Boolean canModify;
+    @Enumerated(EnumType.STRING)
+    private FormStatus status  = FormStatus.PENDING;
 
     public FormRecordDTO(FormRecord formRecord) {
         this.id = formRecord.getId();

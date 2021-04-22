@@ -14,5 +14,7 @@ public interface FormRecordService {
 
     FormRecordDTO updateFormRecord(FormRecordDTO request);
 
+    FormRecordDTO processFormRecord(FormRecordDTO request);
+
     void deleteFormRecord(Integer formId);
 }

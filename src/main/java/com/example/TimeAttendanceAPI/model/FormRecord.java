@@ -1,6 +1,7 @@
 package com.example.TimeAttendanceAPI.model;
 
 import com.example.TimeAttendanceAPI.dto.FormRecordDTO;
+import com.example.TimeAttendanceAPI.model._enum.FormStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
@@ -11,6 +12,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -57,10 +60,8 @@ public class FormRecord {
     @JsonSerialize(using = LocalTimeSerializer.class)
     private LocalTime endTime;
 
-    private String status;
-
-    //todo set canModify to prevent modify after accept/decline
-    private Boolean canModify;
+    @Enumerated(EnumType.STRING)
+    private FormStatus status;
 
     public FormRecord(FormRecordDTO record) {
         this.formType = record.getFormType();
@@ -68,7 +69,6 @@ public class FormRecord {
         this.startTime = record.getStartTime();
         this.endTime = record.getEndTime();
         this.status = record.getStatus();
-        this.canModify = record.getCanModify();
     }
 
     public void updateFromDTO(FormRecordDTO record) {
@@ -77,6 +77,5 @@ public class FormRecord {
         this.startTime = record.getStartTime();
         this.endTime = record.getEndTime();
         this.status = record.getStatus();
-        this.canModify = record.getCanModify();
     }
 }
