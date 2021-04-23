@@ -12,21 +12,8 @@ public class UserDTO {
 
     private String password;
 
-    private String name;
-
-    private int age;
-
-    private String gender;
-
-    private int role;
-
-    private String managerId;
-
-    private String departmentId;
-
-    private Shift shiftType;
-
-    public UserDTO(User user) {
-
+    public UserDTO(User request) {
+        this.userId = request.getUserId();
+        this.password = request.getPassword();
     }
 }

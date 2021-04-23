@@ -19,8 +19,7 @@ public class UserServiceImpl implements UserService {
         if (checkUsername.isPresent()) {
             throw new RuntimeException("Username already exists");
         }
-
-        return null;
+        return new UserDTO(userRepository.save(new User(request)));
     }
 
     @Override

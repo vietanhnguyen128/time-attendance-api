@@ -1,10 +1,14 @@
 package com.example.TimeAttendanceAPI.model;
 
+import com.example.TimeAttendanceAPI.dto.UserDTO;
+import com.example.TimeAttendanceAPI.model._enum.Gender;
 import com.example.TimeAttendanceAPI.model._enum.Shift;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -21,13 +25,14 @@ import java.util.List;
 public class User {
 
     @Id
-    private Integer userId;
+    private String userId;
 
     private String name;
 
     private Integer age;
 
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
@@ -41,6 +46,7 @@ public class User {
     @JoinColumn(name = "department_id")
     private Department department;
 
+    @Enumerated(EnumType.STRING)
     private Shift shiftType;
 
     private String password;
@@ -56,4 +62,9 @@ public class User {
 
     @OneToMany(mappedBy = "manager", fetch = FetchType.LAZY)
     private List<FormRecord> managedForms;
+
+    public User(UserDTO request) {
+        this.userId = request.getUserId();
+        this.password = request.getPassword();
+    }
 }
