@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,7 +27,8 @@ import java.util.List;
 public class User {
 
     @Id
-    private String userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer userId;
 
     private String name;
 
@@ -49,6 +52,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Shift shiftType;
 
+    private String username;
+
     private String password;
 
     @OneToMany(mappedBy = "manager", fetch = FetchType.LAZY)
@@ -64,7 +69,7 @@ public class User {
     private List<FormRecord> managedForms;
 
     public User(UserDTO request) {
-        this.userId = request.getUserId();
+        this.username = request.getUsername();
         this.password = request.getPassword();
     }
 }
