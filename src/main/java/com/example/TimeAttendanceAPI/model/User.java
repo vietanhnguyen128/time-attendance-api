@@ -1,6 +1,7 @@
 package com.example.TimeAttendanceAPI.model;
 
 import com.example.TimeAttendanceAPI.dto.UserDTO;
+import com.example.TimeAttendanceAPI.dto.UserInfoDTO;
 import com.example.TimeAttendanceAPI.model._enum.Gender;
 import com.example.TimeAttendanceAPI.model._enum.Shift;
 import lombok.Data;
@@ -18,12 +19,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "username"),
+        @UniqueConstraint(columnNames = "email")
+})
 public class User {
 
     @Id
@@ -56,6 +61,8 @@ public class User {
 
     private String password;
 
+    private String email;
+
     @OneToMany(mappedBy = "manager", fetch = FetchType.LAZY)
     private List<User> managedUsers;
 
@@ -71,5 +78,12 @@ public class User {
     public User(UserDTO request) {
         this.username = request.getUsername();
         this.password = request.getPassword();
+    }
+
+    public void updatePersonalInfo(UserInfoDTO userInfoDTO) {
+        this.name = userInfoDTO.getName();
+        this.age = userInfoDTO.getAge();
+        this.gender = userInfoDTO.getGender();
+        this.email = userInfoDTO.getEmail();
     }
 }

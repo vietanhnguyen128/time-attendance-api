@@ -1,9 +1,16 @@
 package com.example.TimeAttendanceAPI.dto;
 
 import com.example.TimeAttendanceAPI.model.User;
+import com.example.TimeAttendanceAPI.model._enum.ERole;
 import com.example.TimeAttendanceAPI.model._enum.Gender;
 import com.example.TimeAttendanceAPI.model._enum.Shift;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.validation.constraints.Email;
+
+@Getter
+@Setter
 public class UserInfoDTO {
     private String name;
 
@@ -11,9 +18,9 @@ public class UserInfoDTO {
 
     private Gender gender;
 
-    private String role;
+    private ERole role;
 
-    private String managerId;
+    private Integer managerId;
 
     private String managerName;
 
@@ -23,15 +30,19 @@ public class UserInfoDTO {
 
     private Shift shiftType;
 
+    @Email
+    private String email;
+
     public UserInfoDTO(User user) {
         this.name = user.getName();
         this.age = user.getAge();
         this.gender = user.getGender();
-        this.role = user.getRole().getRoleName();
+        this.role = user.getRole().getName();
         this.managerId = user.getManager().getUserId();
         this.managerName = user.getManager().getName();
         this.departmentId = user.getDepartment().getDepartmentId();
         this.departmentName = user.getDepartment().getDepartmentName();
         this.shiftType = user.getShiftType();
+        this.email = user.getEmail();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.TimeAttendanceAPI.model;
 
+import com.example.TimeAttendanceAPI.model._enum.ERole;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,7 +23,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String roleName;
+    private ERole name;
 
     private String description;
 
