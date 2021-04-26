@@ -80,6 +80,11 @@ public class User {
         this.password = request.getPassword();
     }
 
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public void updatePersonalInfo(UserInfoDTO userInfoDTO) {
         this.name = userInfoDTO.getName();
         this.age = userInfoDTO.getAge();
