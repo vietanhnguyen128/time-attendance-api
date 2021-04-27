@@ -1,4 +1,4 @@
-package com.example.TimeAttendanceAPI.security;
+package com.example.TimeAttendanceAPI.controller.authentication;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
