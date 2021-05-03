@@ -9,9 +9,11 @@ import com.example.TimeAttendanceAPI.repository.UserRepository;
 import com.example.TimeAttendanceAPI.security.JwtResponse;
 import com.example.TimeAttendanceAPI.security.jwt.JwtUtils;
 import com.example.TimeAttendanceAPI.security.RegisterRequest;
+import com.example.TimeAttendanceAPI.security.service.AuthenticationService;
 import com.example.TimeAttendanceAPI.security.service.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,50 +36,16 @@ import java.util.stream.Collectors;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
-    private final AuthenticationManager authenticationManager;
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtUtils jwtUtils;
+    private final AuthenticationService authenticationService;
 
-    @PostMapping("/sign-in")
+    @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody @Valid UserDTO loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
-
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles));
+        return new ResponseEntity<>(authenticationService.login(loginRequest), HttpStatus.OK);
     }
 
-    @PostMapping("/sign-up")
+    @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody @Valid RegisterRequest registerRequest) {
-        if (userRepository.existsByUsername(registerRequest.getUsername())) {
-            return ResponseEntity.badRequest().body("Username is already taken!");
-        }
-
-        //After validation, create new account
-        User user = new User(registerRequest.getUsername(), passwordEncoder.encode(registerRequest.getPassword()));
-
-        Role assignedRole;
-
-        if (!StringUtils.isNotBlank(registerRequest.getRole().name())) {
-            assignedRole = roleRepository.findByName(ERole.ROLE_EMPLOYEE)
-                    .orElseThrow(() -> new RuntimeException("Role not found!"));
-        } else {
-            assignedRole = roleRepository.findByName(registerRequest.getRole())
-                    .orElseThrow(() -> new RuntimeException("Role not found!"));
-        }
-
-        user.setRole(assignedRole);
-        userRepository.save(user);
-
-        return ResponseEntity.ok("User registered successfully!");
+        return new ResponseEntity<>(authenticationService.createUser(registerRequest) ? "User registered successfully!" : "Username is already taken",
+                HttpStatus.OK);
     }
 }

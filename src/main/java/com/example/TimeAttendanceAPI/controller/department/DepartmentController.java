@@ -25,7 +25,7 @@ public class DepartmentController {
         return new ResponseEntity<>(departmentService.createDepartment(request), HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<Page<DepartmentDTO>> getDepartmentList(@RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
                                                                  @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
                                                                  @RequestParam(name = "sortBy") String sortBy) {
