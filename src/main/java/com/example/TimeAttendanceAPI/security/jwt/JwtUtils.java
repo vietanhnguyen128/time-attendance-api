@@ -1,5 +1,6 @@
-package com.example.TimeAttendanceAPI.security;
+package com.example.TimeAttendanceAPI.security.jwt;
 
+import com.example.TimeAttendanceAPI.security.service.UserDetailsImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;

@@ -1,4 +1,4 @@
-package com.example.TimeAttendanceAPI.security;
+package com.example.TimeAttendanceAPI.security.service;
 
 import com.example.TimeAttendanceAPI.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;

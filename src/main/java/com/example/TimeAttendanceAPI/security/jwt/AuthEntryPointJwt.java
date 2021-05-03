@@ -1,4 +1,4 @@
-package com.example.TimeAttendanceAPI.security;
+package com.example.TimeAttendanceAPI.security.jwt;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

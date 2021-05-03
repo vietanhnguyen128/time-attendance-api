@@ -1,7 +1,5 @@
-package com.example.TimeAttendanceAPI.security;
+package com.example.TimeAttendanceAPI.security.jwt;
 
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

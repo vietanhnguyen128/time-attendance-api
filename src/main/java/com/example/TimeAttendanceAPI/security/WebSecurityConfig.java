@@ -1,5 +1,7 @@
 package com.example.TimeAttendanceAPI.security;
 
+import com.example.TimeAttendanceAPI.security.jwt.AuthEntryPointJwt;
+import com.example.TimeAttendanceAPI.security.jwt.AuthTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
