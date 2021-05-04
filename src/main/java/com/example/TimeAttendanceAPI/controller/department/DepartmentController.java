@@ -42,12 +42,12 @@ public class DepartmentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DepartmentDTO> updateDepartmentInfo(@RequestBody @Valid DepartmentDTO departmentInfo) {
+    public ResponseEntity<DepartmentDTO> updateDepartmentInfo(@PathVariable("id") Integer departmentId, @RequestBody @Valid DepartmentDTO departmentInfo) {
         return new ResponseEntity<>(departmentService.updateDepartment(departmentInfo), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteDepartment(Integer departmentId) {
+    public ResponseEntity<?> deleteDepartment(@PathVariable("id") Integer departmentId) {
         departmentService.deleteDepartment(departmentId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
