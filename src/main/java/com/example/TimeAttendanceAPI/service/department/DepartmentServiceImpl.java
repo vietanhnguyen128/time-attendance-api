@@ -66,18 +66,12 @@ public class DepartmentServiceImpl implements DepartmentService {
             throw new RuntimeException("Department not found!");
         }
 
-        Optional<Department> checkIfNameExists = departmentRepository.findByDepartmentName(departmentDTO.getDepartmentName());
-        if (checkIfNameExists.isPresent()) {
-            throw new RuntimeException("Department name already exists!");
-        }
-
         Optional<User> managerOpt = userRepository.findById(departmentDTO.getManagerId());
         if (managerOpt.isEmpty()) {
             throw new RuntimeException("Manager not found!");
         }
 
         Department toUpdate = result.get();
-        toUpdate.setDepartmentName(departmentDTO.getDepartmentName());
         toUpdate.setManager(managerOpt.get());
 
         return new DepartmentDTO(departmentRepository.save(toUpdate));
