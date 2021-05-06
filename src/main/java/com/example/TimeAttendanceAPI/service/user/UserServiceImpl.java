@@ -16,7 +16,12 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public UserInfoDTO updateUserInfo(Integer userId, UserInfoDTO request) {
+    public UserInfoDTO updateUserInfoAdmin(Integer userId, UserInfoDTO request) {
+        return new UserInfoDTO();
+    }
+
+    @Override
+    public UserInfoDTO updateUserInfo(UserInfoDTO request) {
         return null;
     }
 

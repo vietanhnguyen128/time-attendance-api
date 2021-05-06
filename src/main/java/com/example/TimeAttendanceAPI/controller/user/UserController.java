@@ -18,7 +18,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUserInfo(@PathVariable("id") Integer userId, UserInfoDTO userDTO) {
-        return new ResponseEntity<>(userService.updateUserInfo(userId, userDTO), HttpStatus.OK);
+        return new ResponseEntity<>(userService.updateUserInfo(userDTO), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
