@@ -1,5 +1,7 @@
 package com.example.TimeAttendanceAPI.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +19,8 @@ import java.time.LocalTime;
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class AttendanceRecord {
 
     @Id
@@ -31,8 +35,7 @@ public class AttendanceRecord {
     private LocalDate date;
 
     @Column(columnDefinition = "TIME")
-    private LocalTime checkIn;
+    private LocalTime timestamp;
 
-    @Column(columnDefinition = "TIME")
-    private LocalTime checkOut;
+    private boolean isCheckIn;
 }

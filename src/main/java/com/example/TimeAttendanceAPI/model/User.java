@@ -3,7 +3,6 @@ package com.example.TimeAttendanceAPI.model;
 import com.example.TimeAttendanceAPI.dto.UserDTO;
 import com.example.TimeAttendanceAPI.dto.UserInfoDTO;
 import com.example.TimeAttendanceAPI.model._enum.Gender;
-import com.example.TimeAttendanceAPI.model._enum.Shift;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -53,9 +52,6 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Department department;
-
-    @Enumerated(EnumType.STRING)
-    private Shift shiftType;
 
     private String username;
 

@@ -23,7 +23,7 @@ public class FormRecordDTO {
 
     private LocalDate date;
 
-    private LocalTime startTime;
+    private LocalTime startTime; //todo refactor fields
 
     private LocalTime endTime;
 

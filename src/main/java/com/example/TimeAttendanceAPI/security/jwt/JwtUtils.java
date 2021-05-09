@@ -1,6 +1,6 @@
 package com.example.TimeAttendanceAPI.security.jwt;
 
-import com.example.TimeAttendanceAPI.security.service.UserDetailsImpl;
+import com.example.TimeAttendanceAPI.security.service.CustomUserDetails;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -26,7 +26,7 @@ public class JwtUtils {
     private int jwtExpiration;
 
     public String generateJwtToken(Authentication authentication) {
-        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+        CustomUserDetails userPrincipal = (CustomUserDetails) authentication.getPrincipal();
 
         return Jwts.builder()
                 .setSubject(userPrincipal.getUsername())

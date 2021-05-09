@@ -19,7 +19,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDetailsImpl implements UserDetails {
+public class CustomUserDetails implements UserDetails {
     private static final long serialVersionUID = 1L;
 
     private Integer id;
@@ -33,10 +33,10 @@ public class UserDetailsImpl implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public static UserDetailsImpl build(User user) {
+    public static CustomUserDetails build(User user) {
         List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole().getName().name()));
 
-        return new UserDetailsImpl(
+        return new CustomUserDetails(
                 user.getUserId(),
                 user.getUsername(),
                 user.getEmail(),
@@ -73,7 +73,7 @@ public class UserDetailsImpl implements UserDetails {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserDetailsImpl that = (UserDetailsImpl) o;
+        CustomUserDetails that = (CustomUserDetails) o;
         return id.equals(that.id);
     }
 

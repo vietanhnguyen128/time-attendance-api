@@ -12,7 +12,7 @@ public interface AttendanceService {
 
     Page<AttendanceRecordDTO> getAttendanceRecordListOfMonth(int pageNo, int pageSize, String sortBy, LocalDate date);
 
-    AttendanceRecordDTO updateAttendanceRecord(AttendanceRecordDTO AttendanceRecordDTO);
+    void checkingIn(AttendanceRecordDTO checkIn);
 
-    void deleteAttendanceRecord(String AttendanceRecordId);
+    void checkingOut(AttendanceRecordDTO checkOut);
 }

@@ -19,34 +19,34 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 
-@RestController("/department")
+@RestController
 @RequiredArgsConstructor
 public class DepartmentController {
     private final DepartmentService departmentService;
 
-    @PostMapping("/new")
+    @PostMapping("/department/new")
     public ResponseEntity<DepartmentDTO> createDepartment(DepartmentDTO request) {
         return new ResponseEntity<>(departmentService.createDepartment(request), HttpStatus.OK);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/department/all")
     public ResponseEntity<Page<DepartmentDTO>> getDepartmentList(@RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
                                                                  @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
                                                                  @RequestParam(name = "sortBy") String sortBy) {
         return new ResponseEntity<>(departmentService.getDepartmentList(pageNo, pageSize, sortBy), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/department/{id}")
     public ResponseEntity<DepartmentDTO> getDepartmentById(@PathVariable("id") Integer departmentId) {
         return new ResponseEntity<>(departmentService.getSingleDepartment(departmentId), HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/department/{id}")
     public ResponseEntity<DepartmentDTO> updateDepartmentInfo(@PathVariable("id") Integer departmentId, @RequestBody @Valid DepartmentDTO departmentInfo) {
         return new ResponseEntity<>(departmentService.updateDepartment(departmentInfo), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/department/{id}")
     public ResponseEntity<?> deleteDepartment(@PathVariable("id") Integer departmentId) {
         departmentService.deleteDepartment(departmentId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
