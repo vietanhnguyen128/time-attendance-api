@@ -40,12 +40,13 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public void checkingIn(AttendanceRecordDTO checkIn) {
+
         Optional<User> userOpt = userRepository.findById(checkIn.getUserId());
 
         if (userOpt.isPresent()) {
             AttendanceRecord checkInRecord = AttendanceRecord.builder()
                     .user(userOpt.get())
-                    .date(checkIn.getDate())
+                    .date(LocalDate.now())
                     .timestamp(LocalTime.now())
                     .isCheckIn(true)
                     .build();
@@ -61,7 +62,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         if (userOpt.isPresent()) {
             AttendanceRecord checkOutRecord = AttendanceRecord.builder()
                     .user(userOpt.get())
-                    .date(checkOut.getDate())
+                    .date(LocalDate.now())
                     .timestamp(LocalTime.now())
                     .isCheckIn(false)
                     .build();
