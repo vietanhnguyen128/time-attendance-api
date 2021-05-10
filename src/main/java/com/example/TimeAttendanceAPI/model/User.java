@@ -71,6 +71,9 @@ public class User {
     @OneToMany(mappedBy = "manager", fetch = FetchType.LAZY)
     private List<FormRecord> managedForms;
 
+    @OneToOne(mappedBy = "user")
+    private AttendanceCache attendanceCache;
+
     public User(UserDTO request) {
         this.username = request.getUsername();
         this.password = request.getPassword();

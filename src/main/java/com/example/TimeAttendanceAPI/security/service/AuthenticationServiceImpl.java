@@ -1,9 +1,11 @@
 package com.example.TimeAttendanceAPI.security.service;
 
 import com.example.TimeAttendanceAPI.dto.UserDTO;
+import com.example.TimeAttendanceAPI.model.AttendanceCache;
 import com.example.TimeAttendanceAPI.model.Role;
 import com.example.TimeAttendanceAPI.model.User;
 import com.example.TimeAttendanceAPI.model._enum.ERole;
+import com.example.TimeAttendanceAPI.repository.AttendanceCacheRepository;
 import com.example.TimeAttendanceAPI.repository.RoleRepository;
 import com.example.TimeAttendanceAPI.repository.UserRepository;
 import com.example.TimeAttendanceAPI.security.JwtResponse;
@@ -24,6 +26,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final AttendanceCacheRepository attendanceCacheRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
 
@@ -47,7 +50,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         user.setRole(assignedRole);
-        userRepository.save(user);
+        User result = userRepository.save(user);
+
+        AttendanceCache newCache = new AttendanceCache();
+        newCache.setUser(result);
+        newCache.setCheckIn(false);
+        attendanceCacheRepository.save(newCache);
 
         return true;
     }
