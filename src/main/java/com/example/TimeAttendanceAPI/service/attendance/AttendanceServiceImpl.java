@@ -1,5 +1,6 @@
 package com.example.TimeAttendanceAPI.service.attendance;
 
+import com.example.TimeAttendanceAPI.dto.AttendanceInfo;
 import com.example.TimeAttendanceAPI.dto.AttendanceRecordDTO;
 import com.example.TimeAttendanceAPI.model.AttendanceCache;
 import com.example.TimeAttendanceAPI.model.AttendanceRecord;
@@ -9,16 +10,25 @@ import com.example.TimeAttendanceAPI.repository.AttendanceRepository;
 import com.example.TimeAttendanceAPI.repository.UserRepository;
 import com.example.TimeAttendanceAPI.security.service.CustomUserDetails;
 import com.example.TimeAttendanceAPI.utils.PageableUtils;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.jni.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -85,7 +95,59 @@ public class AttendanceServiceImpl implements AttendanceService {
         }
     }
 
+    @Override
+    public AttendanceInfo getAttendanceInfo(int userId, int month, int year) {
+        return null;
+    }
+
+    @Override
+    public List<AttendanceRecordDTO> getAttendanceRecords(int userId, int month, int year) {
+        dateOfMonth parsed = constructLocalDate(month, year);
+        List<AttendanceRecord> result = attendanceRepository.findALlByUser_UserIdAndDateBetween(
+                userId,
+                parsed.getFromDate(),
+                parsed.getToDate());
+
+        return result.stream().map(AttendanceRecordDTO::new).collect(Collectors.toList());
+    }
+
     private CustomUserDetails getUserDetails() {
         return (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    private dateOfMonth constructLocalDate(int month, int year) {
+        String startDate = "01/";
+        String endDate;
+
+        if (month < 10) {
+            startDate = startDate + "0" + month + "/" + year;
+        } else {
+            startDate = startDate + month + "/" + year;
+        }
+
+        LocalDate convertedDate = LocalDate.parse(startDate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        int endOfMonth = convertedDate.withDayOfMonth(convertedDate.getMonth().length(convertedDate.isLeapYear())).getDayOfMonth();
+
+        if (endOfMonth < 10) {
+            endDate = "0" + endOfMonth + startDate.substring(2);
+        } else {
+            endDate = endOfMonth + startDate.substring(2);
+        }
+
+        return new dateOfMonth(startDate, endDate);
+    }
+}
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+class dateOfMonth {
+    private LocalDate fromDate;
+
+    private LocalDate toDate;
+
+    public dateOfMonth(String startDate, String endDate) {
+        fromDate = LocalDate.parse(startDate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        toDate = LocalDate.parse(endDate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 }
