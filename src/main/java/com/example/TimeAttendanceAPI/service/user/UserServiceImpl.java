@@ -16,13 +16,18 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public UserInfoDTO updateUserInfoAdmin(Integer userId, UserInfoDTO request) {
-        return new UserInfoDTO();
+    public void updateUserInfoAdmin(UserInfoDTO request) {
+
     }
 
     @Override
-    public UserInfoDTO updateUserInfo(UserInfoDTO request) {
-        return null;
+    public void updateUserInfo(UserInfoDTO request) {
+        Optional<User> userOpt = userRepository.findById(request.getUserId());
+        if (userOpt.isPresent()) {
+            User entity = userOpt.get();
+            entity.updatePersonalInfo(request);
+            userRepository.save(entity);
+        }
     }
 
     @Override

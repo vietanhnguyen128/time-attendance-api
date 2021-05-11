@@ -4,7 +4,7 @@ import com.example.TimeAttendanceAPI.dto.UserDTO;
 import com.example.TimeAttendanceAPI.dto.UserInfoDTO;
 
 public interface UserService {
-    UserInfoDTO updateUserInfoAdmin(Integer userId, UserInfoDTO request);
-    UserInfoDTO updateUserInfo(UserInfoDTO request);
+    void updateUserInfoAdmin(UserInfoDTO request);
+    void updateUserInfo(UserInfoDTO request);
     UserInfoDTO getUserInfo(Integer userId);
 }

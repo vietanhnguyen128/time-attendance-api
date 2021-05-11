@@ -15,6 +15,8 @@ import javax.validation.constraints.Email;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserInfoDTO {
+    private int userId;
+
     private String name;
 
     private int age;
@@ -35,6 +37,7 @@ public class UserInfoDTO {
     private String email;
 
     public UserInfoDTO(User user) {
+        this.userId = user.getUserId();
         this.name = user.getName();
         this.age = user.getAge();
         this.gender = user.getGender();

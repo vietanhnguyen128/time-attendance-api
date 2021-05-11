@@ -44,7 +44,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public void checkingIn(AttendanceRecordDTO checkIn) {
         Optional<User> userOpt = userRepository.findById(checkIn.getUserId());
-        Optional<AttendanceCache> attendanceCacheOpt = attendanceCacheRepository.findByUserId(checkIn.getUserId());
+        Optional<AttendanceCache> attendanceCacheOpt = attendanceCacheRepository.findByUser_UserId(checkIn.getUserId());
         if (userOpt.isPresent() && attendanceCacheOpt.isPresent()) {
             AttendanceCache attendanceCache = attendanceCacheOpt.get();
             if (!attendanceCache.isCheckIn()) { //if previous record is not check in
@@ -66,7 +66,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public void checkingOut(AttendanceRecordDTO checkOut) {
         Optional<User> userOpt = userRepository.findById(checkOut.getUserId());
-        Optional<AttendanceCache> attendanceCacheOpt = attendanceCacheRepository.findByUserId(checkOut.getUserId());
+        Optional<AttendanceCache> attendanceCacheOpt = attendanceCacheRepository.findByUser_UserId(checkOut.getUserId());
         if (userOpt.isPresent() && attendanceCacheOpt.isPresent()) {
             AttendanceCache attendanceCache = attendanceCacheOpt.get();
             if (attendanceCache.isCheckIn()) { //if previous record is not check out

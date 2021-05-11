@@ -17,9 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserService userService;
 
+    @PutMapping("/admin/{id}")
+    public ResponseEntity<?> updateUserInfoAdmin(@PathVariable("id") Integer userId, @RequestBody UserInfoDTO userDTO) {
+        userService.updateUserInfoAdmin(userDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUserInfo(@PathVariable("id") Integer userId, @RequestBody UserInfoDTO userDTO) {
-        return new ResponseEntity<>(userService.updateUserInfo(userDTO), HttpStatus.OK);
+        userService.updateUserInfo(userDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
