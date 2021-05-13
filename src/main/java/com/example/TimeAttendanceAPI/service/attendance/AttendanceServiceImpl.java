@@ -122,6 +122,8 @@ public class AttendanceServiceImpl implements AttendanceService {
             }
         }
 
+        Duration totalAttendanceTime = Duration.ofMinutes(totalAttendanceInMinutes);
+
         return result;
     }
 
