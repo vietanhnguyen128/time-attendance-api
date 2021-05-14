@@ -11,6 +11,7 @@ import com.example.TimeAttendanceAPI.repository.AttendanceRepository;
 import com.example.TimeAttendanceAPI.repository.UserRepository;
 import com.example.TimeAttendanceAPI.security.service.CustomUserDetails;
 import com.example.TimeAttendanceAPI.service.form_record.FormRecordService;
+import com.example.TimeAttendanceAPI.utils.ConversionUtils;
 import com.example.TimeAttendanceAPI.utils.PageableUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.ListUtils;
@@ -101,7 +102,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         AttendanceInfo result = new AttendanceInfo();
         long totalAttendanceInMinutes = 0;
 
-        DateOfMonth parsed = constructLocalDate(month, year);
+        DateOfMonth parsed = ConversionUtils.constructLocalDate(month, year);
         List<AttendanceRecord> attendanceRecordOfMonth = attendanceRepository
                 .findALlByUser_UserIdAndDateBetween(userId, parsed.getFromDate(), parsed.getToDate());
 
@@ -127,7 +128,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public List<AttendanceRecordDTO> getAttendanceRecords(int userId, int month, int year) {
-        DateOfMonth parsed = constructLocalDate(month, year);
+        DateOfMonth parsed = ConversionUtils.constructLocalDate(month, year);
         List<AttendanceRecord> result = attendanceRepository.findALlByUser_UserIdAndDateBetween(
                 userId,
                 parsed.getFromDate(),
@@ -138,28 +139,6 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     private CustomUserDetails getUserDetails() {
         return (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
-
-    private DateOfMonth constructLocalDate(int month, int year) {
-        String startDate = "01/";
-        String endDate;
-
-        if (month < 10) {
-            startDate = startDate + "0" + month + "/" + year;
-        } else {
-            startDate = startDate + month + "/" + year;
-        }
-
-        LocalDate convertedDate = LocalDate.parse(startDate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        int endOfMonth = convertedDate.withDayOfMonth(convertedDate.getMonth().length(convertedDate.isLeapYear())).getDayOfMonth();
-
-        if (endOfMonth < 10) {
-            endDate = "0" + endOfMonth + startDate.substring(2);
-        } else {
-            endDate = endOfMonth + startDate.substring(2);
-        }
-
-        return new DateOfMonth(startDate, endDate);
     }
 
     private long getDifference(LocalTime checkIn, LocalTime checkOut) {
