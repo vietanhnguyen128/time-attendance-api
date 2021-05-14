@@ -4,6 +4,7 @@ import com.example.TimeAttendanceAPI.dto.AttendanceInfo;
 import com.example.TimeAttendanceAPI.dto.AttendanceRecordDTO;
 import com.example.TimeAttendanceAPI.model.AttendanceCache;
 import com.example.TimeAttendanceAPI.model.AttendanceRecord;
+import com.example.TimeAttendanceAPI.model.DateOfMonth;
 import com.example.TimeAttendanceAPI.model.User;
 import com.example.TimeAttendanceAPI.repository.AttendanceCacheRepository;
 import com.example.TimeAttendanceAPI.repository.AttendanceRepository;
@@ -11,9 +12,6 @@ import com.example.TimeAttendanceAPI.repository.UserRepository;
 import com.example.TimeAttendanceAPI.security.service.CustomUserDetails;
 import com.example.TimeAttendanceAPI.service.form_record.FormRecordService;
 import com.example.TimeAttendanceAPI.utils.PageableUtils;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.ListUtils;
 import org.springframework.data.domain.Page;
@@ -178,19 +176,5 @@ public class AttendanceServiceImpl implements AttendanceService {
         }
 
         return elapsedMinutes - subtractBreakTime;
-    }
-}
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-class DateOfMonth {
-    private LocalDate fromDate;
-
-    private LocalDate toDate;
-
-    public DateOfMonth(String startDate, String endDate) {
-        fromDate = LocalDate.parse(startDate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        toDate = LocalDate.parse(endDate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 }
