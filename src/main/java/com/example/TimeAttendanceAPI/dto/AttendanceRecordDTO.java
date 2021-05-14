@@ -25,7 +25,11 @@ public class AttendanceRecordDTO {
 
     @JsonFormat(pattern = "HH:mm:ss")
     @JsonSerialize(using = LocalTimeSerializer.class)
-    private LocalTime timestamp;
+    private LocalTime checkInTimestamp;
+
+    @JsonFormat(pattern = "HH:mm:ss")
+    @JsonSerialize(using = LocalTimeSerializer.class)
+    private LocalTime checkOutTimestamp;
 
     @JsonProperty
     private boolean isCheckIn;
@@ -33,7 +37,8 @@ public class AttendanceRecordDTO {
     public AttendanceRecordDTO(AttendanceRecord record) {
         this.userId = record.getUser().getUserId();
         this.date = record.getDate();
-        this.timestamp = record.getTimestamp();
+        this.checkInTimestamp = record.getCheckInTimestamp();
+        this.checkOutTimestamp = record.getCheckOutTimestamp();
         this.isCheckIn = record.isCheckIn();
     }
 }

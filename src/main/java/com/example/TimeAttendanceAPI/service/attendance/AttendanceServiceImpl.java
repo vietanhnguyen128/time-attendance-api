@@ -63,13 +63,27 @@ public class AttendanceServiceImpl implements AttendanceService {
                 AttendanceRecord checkInRecord = AttendanceRecord.builder()
                         .user(userOpt.get())
                         .date(LocalDate.now())
-                        .timestamp(LocalTime.now())
+                        .checkInTimestamp(LocalTime.now())
                         .isCheckIn(true)
                         .build();
 
-                attendanceRepository.save(checkInRecord);
+                checkInRecord = attendanceRepository.save(checkInRecord);
 
                 attendanceCache.setCheckIn(true);
+                attendanceCache.setLastRecordDate(LocalDate.now());
+                attendanceCache.setLastRecordId(checkInRecord.getId());
+
+                attendanceCacheRepository.save(attendanceCache);
+            } else if (attendanceCache.getLastRecordDate().isBefore(LocalDate.now())) {
+                AttendanceRecord currentRecord = attendanceRepository.getOne(attendanceCache.getLastRecordId());
+
+                currentRecord.setDate(LocalDate.now());
+                currentRecord.setCheckInTimestamp(LocalTime.now());
+                currentRecord.setCheckIn(true);
+
+                attendanceRepository.save(currentRecord);
+                attendanceCache.setLastRecordDate(LocalDate.now());
+
                 attendanceCacheRepository.save(attendanceCache);
             }
         }
@@ -82,14 +96,10 @@ public class AttendanceServiceImpl implements AttendanceService {
         if (userOpt.isPresent() && attendanceCacheOpt.isPresent()) {
             AttendanceCache attendanceCache = attendanceCacheOpt.get();
             if (attendanceCache.isCheckIn()) { //if previous record is not check out
-                AttendanceRecord checkOutRecord = AttendanceRecord.builder()
-                        .user(userOpt.get())
-                        .date(LocalDate.now())
-                        .timestamp(LocalTime.now())
-                        .isCheckIn(false)
-                        .build();
+                AttendanceRecord currentRecord = attendanceRepository.getOne(attendanceCache.getLastRecordId());
+                currentRecord.setCheckOutTimestamp(LocalTime.now());
 
-                attendanceRepository.save(checkOutRecord);
+                attendanceRepository.save(currentRecord);
 
                 attendanceCache.setCheckIn(false);
                 attendanceCacheRepository.save(attendanceCache);

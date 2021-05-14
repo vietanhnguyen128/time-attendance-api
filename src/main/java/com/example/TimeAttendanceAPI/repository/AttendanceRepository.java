@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public interface AttendanceRepository extends JpaRepository<AttendanceRecord, Integer> {
+public interface AttendanceRepository extends JpaRepository<AttendanceRecord, Long> {
     List<AttendanceRecord> findALlByUser_UserIdAndDateBetween(int userId, LocalDate fromDate, LocalDate toDate);
 
     Page<AttendanceRecord> findAllByIdAndDate(int userId, LocalDate date, Pageable pageable);

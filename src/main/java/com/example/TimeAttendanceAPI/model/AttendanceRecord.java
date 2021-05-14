@@ -25,7 +25,7 @@ public class AttendanceRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -35,7 +35,10 @@ public class AttendanceRecord {
     private LocalDate date;
 
     @Column(columnDefinition = "TIME")
-    private LocalTime timestamp;
+    private LocalTime checkInTimestamp;
+
+    @Column(columnDefinition = "TIME")
+    private LocalTime checkOutTimestamp;
 
     private boolean isCheckIn;
 }

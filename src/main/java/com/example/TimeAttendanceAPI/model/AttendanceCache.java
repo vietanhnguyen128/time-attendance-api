@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -24,6 +25,10 @@ public class AttendanceCache {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
+
+    private Long lastRecordId;
+
+    private LocalDate lastRecordDate;
 
     private boolean isCheckIn;
 }
