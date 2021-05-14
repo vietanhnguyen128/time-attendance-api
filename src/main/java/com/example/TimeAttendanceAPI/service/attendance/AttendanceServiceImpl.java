@@ -95,7 +95,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         Optional<AttendanceCache> attendanceCacheOpt = attendanceCacheRepository.findByUser_UserId(checkOut.getUserId());
         if (userOpt.isPresent() && attendanceCacheOpt.isPresent()) {
             AttendanceCache attendanceCache = attendanceCacheOpt.get();
-            if (attendanceCache.isCheckIn()) { //if previous record is not check out
+            if (attendanceCache.isCheckIn() && attendanceCache.getLastRecordDate().isEqual(LocalDate.now())) { //if previous record is not check out
                 AttendanceRecord currentRecord = attendanceRepository.getOne(attendanceCache.getLastRecordId());
                 currentRecord.setCheckOutTimestamp(LocalTime.now());
 
@@ -116,19 +116,23 @@ public class AttendanceServiceImpl implements AttendanceService {
         List<AttendanceRecord> attendanceRecordOfMonth = attendanceRepository
                 .findALlByUser_UserIdAndDateBetween(userId, parsed.getFromDate(), parsed.getToDate());
 
-        List<AttendanceRecord> checkInRecords = attendanceRecordOfMonth.stream().filter(AttendanceRecord::isCheckIn).collect(Collectors.toList());
-        List<AttendanceRecord> checkOutRecords = ListUtils.subtract(attendanceRecordOfMonth, checkInRecords);
+//        List<AttendanceRecord> checkInRecords = attendanceRecordOfMonth.stream().filter(AttendanceRecord::isCheckIn).collect(Collectors.toList());
+//        List<AttendanceRecord> checkOutRecords = ListUtils.subtract(attendanceRecordOfMonth, checkInRecords);
+//
+//        Queue<AttendanceRecord> checkInQueue = new LinkedList<>(checkInRecords);
+//        Queue<AttendanceRecord> checkOutQueue = new LinkedList<>(checkOutRecords);
+//
+//        while (!checkInQueue.isEmpty()) {
+//            AttendanceRecord checkIn = checkInQueue.poll();
+//            AttendanceRecord checkOut = checkOutQueue.peek();
+//
+//            if (checkIn.getDate().getDayOfMonth() == checkOut.getDate().getDayOfMonth()) {
+//                totalAttendanceInMinutes+= getDifference(checkIn.getTimestamp(), checkOut.getTimestamp());
+//            }
+//        }
 
-        Queue<AttendanceRecord> checkInQueue = new LinkedList<>(checkInRecords);
-        Queue<AttendanceRecord> checkOutQueue = new LinkedList<>(checkOutRecords);
-
-        while (!checkInQueue.isEmpty()) {
-            AttendanceRecord checkIn = checkInQueue.poll();
-            AttendanceRecord checkOut = checkOutQueue.peek();
-
-            if (checkIn.getDate().getDayOfMonth() == checkOut.getDate().getDayOfMonth()) {
-                totalAttendanceInMinutes+= getDifference(checkIn.getTimestamp(), checkOut.getTimestamp());
-            }
+        for (AttendanceRecord record : attendanceRecordOfMonth) {
+            totalAttendanceInMinutes+= getDifference(record.getCheckInTimestamp(), record.getCheckOutTimestamp());
         }
 
         Duration totalAttendanceTime = Duration.ofMinutes(totalAttendanceInMinutes);
