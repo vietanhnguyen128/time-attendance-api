@@ -39,6 +39,4 @@ public class AttendanceRecord {
 
     @Column(columnDefinition = "TIME")
     private LocalTime checkOutTimestamp;
-
-    private boolean isCheckIn;
 }

@@ -42,10 +42,10 @@ public class UserInfoDTO {
         this.age = user.getAge();
         this.gender = user.getGender();
         this.role = user.getRole().getName();
-        this.managerId = user.getManager().getUserId();
-        this.managerName = user.getManager().getName();
-        this.departmentId = user.getDepartment().getDepartmentId();
-        this.departmentName = user.getDepartment().getDepartmentName();
-        this.email = user.getEmail();
+        this.managerId = user.getManager().getUserId() == null ? 0 : user.getManager().getUserId();
+        this.managerName = user.getManager().getName() == null ? "" : user.getManager().getName();
+        this.departmentId = user.getDepartment().getDepartmentId() == null ? 0 : user.getDepartment().getDepartmentId();
+        this.departmentName = user.getDepartment().getDepartmentName() == null ? "" : user.getDepartment().getDepartmentName();
+        this.email = user.getEmail() == null ? "" : user.getEmail();
     }
 }

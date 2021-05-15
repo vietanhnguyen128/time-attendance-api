@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 
 @Data
@@ -16,7 +17,7 @@ public class AttendanceInfo {
 
     private int month;
 
-    private Duration totalCheckInTime;
+    private double totalCheckInTimeInHours;
 
     private int totalAbsentDays;
 

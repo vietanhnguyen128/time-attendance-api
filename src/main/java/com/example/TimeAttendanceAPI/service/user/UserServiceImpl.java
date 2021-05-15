@@ -3,12 +3,16 @@ package com.example.TimeAttendanceAPI.service.user;
 import com.example.TimeAttendanceAPI.dto.UserDTO;
 import com.example.TimeAttendanceAPI.dto.UserInfoDTO;
 import com.example.TimeAttendanceAPI.model.User;
+import com.example.TimeAttendanceAPI.model._enum.ERole;
 import com.example.TimeAttendanceAPI.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,5 +43,18 @@ public class UserServiceImpl implements UserService {
         }
 
         return new UserInfoDTO(userOpt.get());
+    }
+
+    @Override
+    public List<UserInfoDTO> getUserList(String role) {
+        List<User> userList;
+
+        if (StringUtils.isNotEmpty(role)) {
+            userList = userRepository.findAllByRole(ERole.valueOf(role));
+        } else {
+            userList = userRepository.findAll();
+        }
+
+        return userList.stream().map(UserInfoDTO::new).collect(Collectors.toList());
     }
 }

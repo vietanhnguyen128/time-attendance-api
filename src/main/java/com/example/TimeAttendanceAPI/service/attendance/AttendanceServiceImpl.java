@@ -22,6 +22,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -62,7 +63,6 @@ public class AttendanceServiceImpl implements AttendanceService {
                         .user(userOpt.get())
                         .date(LocalDate.now())
                         .checkInTimestamp(LocalTime.now())
-                        .isCheckIn(true)
                         .build();
 
                 checkInRecord = attendanceRepository.save(checkInRecord);
@@ -77,7 +77,6 @@ public class AttendanceServiceImpl implements AttendanceService {
 
                 currentRecord.setDate(LocalDate.now());
                 currentRecord.setCheckInTimestamp(LocalTime.now());
-                currentRecord.setCheckIn(true);
 
                 attendanceRepository.save(currentRecord);
                 attendanceCache.setLastRecordDate(LocalDate.now());
@@ -108,7 +107,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public AttendanceInfo getAttendanceInfo(int userId, int month, int year) {
         AttendanceInfo result = new AttendanceInfo();
-        long totalAttendanceInMinutes = 0;
+        double totalAttendanceInHours = 0;
         int totalLateTime = 0;
 
         DateOfMonth parsed = ConversionUtils.constructLocalDate(month, year);
@@ -133,7 +132,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         AttendanceRecord previousRecord = null;
 
         for (AttendanceRecord record : attendanceRecordOfMonth) {
-            totalAttendanceInMinutes+= getDifference(record.getCheckInTimestamp(), record.getCheckOutTimestamp());
+            totalAttendanceInHours+= getDifferenceInHours(record.getCheckInTimestamp(), record.getCheckOutTimestamp());
 
             if (previousRecord != null) {
                 if (previousRecord.getDate().isBefore(record.getDate())) {
@@ -146,12 +145,10 @@ public class AttendanceServiceImpl implements AttendanceService {
             previousRecord = record;
         }
 
-        Duration totalAttendanceTime = Duration.ofMinutes(totalAttendanceInMinutes);
-
-        int totalApprovedAbsent = formRecordService.getFormOfTypeOfStatusOfMonth(userId, FormType.ABSENT.name(), FormStatus.ACCEPTED.name(), month, year);
+        int totalApprovedAbsent = formRecordService.getFormOfTypeOfStatusOfMonth(userId, FormType.ABSENT, FormStatus.ACCEPTED, month, year);
 
         return AttendanceInfo.builder()
-                .totalCheckInTime(totalAttendanceTime)
+                .totalCheckInTimeInHours(totalAttendanceInHours)
                 .year(year)
                 .month(month)
                 .totalApprovedAbsentDays(totalApprovedAbsent)
@@ -174,19 +171,25 @@ public class AttendanceServiceImpl implements AttendanceService {
         return (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    private long getDifference(LocalTime checkIn, LocalTime checkOut) {
-        long elapsedMinutes = Duration.between(checkOut, checkIn).toMinutes();
+    private double getDifferenceInHours(LocalTime checkIn, LocalTime checkOut) {
+        long elapsedTime = Duration.between(checkIn, checkOut).toSeconds();
 
         long subtractBreakTime;
 
-        if (checkOut.compareTo(LocalTime.of(12, 0)) <= 0) {
+        if (checkIn.compareTo(LocalTime.of(12, 0)) <= 0) {
+            if (checkOut.compareTo(LocalTime.of(12, 0)) <= 0) {
+                subtractBreakTime = 0;
+            } else if (checkOut.compareTo(LocalTime.of(13, 0)) >= 0) {
+                subtractBreakTime = Duration.ofHours(1).toSeconds();
+            } else {
+                subtractBreakTime = Duration.between(LocalTime.of(12, 0), checkOut).toSeconds();
+            }
+        } else if (checkIn.compareTo(LocalTime.of(13, 0)) >= 0) {
             subtractBreakTime = 0;
-        } else if (checkOut.compareTo(LocalTime.of(13, 0)) >= 0) {
-            subtractBreakTime = 60;
         } else {
-            subtractBreakTime = Duration.between(checkOut, LocalTime.of(12, 0)).toMinutes();
+            subtractBreakTime = Duration.between(LocalTime.of(12, 0), checkIn).toSeconds();
         }
 
-        return elapsedMinutes - subtractBreakTime;
+        return (elapsedTime - subtractBreakTime) / 3600.0;
     }
 }

@@ -5,6 +5,7 @@ import com.example.TimeAttendanceAPI.model.DateOfMonth;
 import com.example.TimeAttendanceAPI.model.FormRecord;
 import com.example.TimeAttendanceAPI.model.User;
 import com.example.TimeAttendanceAPI.model._enum.FormStatus;
+import com.example.TimeAttendanceAPI.model._enum.FormType;
 import com.example.TimeAttendanceAPI.repository.FormRecordRepository;
 import com.example.TimeAttendanceAPI.repository.UserRepository;
 import com.example.TimeAttendanceAPI.utils.ConversionUtils;
@@ -90,7 +91,7 @@ public class FormRecordServiceImpl implements FormRecordService {
     }
 
     @Override
-    public int getFormOfTypeOfStatusOfMonth(int userId, String formType, String status, int month, int year) {
+    public int getFormOfTypeOfStatusOfMonth(int userId, FormType formType, FormStatus status, int month, int year) {
         DateOfMonth converted = ConversionUtils.constructLocalDate(month, year);
         List<FormRecord> retrievedList = formRecordRepository
                 .findALlByUser_UserIdAndFormTypeAndStatusAndDateBetween(userId, formType, status, converted.getStartDate(), converted.getEndDate());

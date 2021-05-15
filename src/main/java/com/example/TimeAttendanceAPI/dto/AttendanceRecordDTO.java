@@ -17,6 +17,8 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AttendanceRecordDTO {
+    private Long id;
+
     private int userId;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
@@ -31,14 +33,11 @@ public class AttendanceRecordDTO {
     @JsonSerialize(using = LocalTimeSerializer.class)
     private LocalTime checkOutTimestamp;
 
-    @JsonProperty
-    private boolean isCheckIn;
-
     public AttendanceRecordDTO(AttendanceRecord record) {
+        this.id = record.getId();
         this.userId = record.getUser().getUserId();
         this.date = record.getDate();
         this.checkInTimestamp = record.getCheckInTimestamp();
         this.checkOutTimestamp = record.getCheckOutTimestamp();
-        this.isCheckIn = record.isCheckIn();
     }
 }
