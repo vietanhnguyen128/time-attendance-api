@@ -90,10 +90,10 @@ public class FormRecordServiceImpl implements FormRecordService {
     }
 
     @Override
-    public int getFormOfTypeOfStatusOfMonth(int userId, int month, int year, String formType, String status) {
+    public int getFormOfTypeOfStatusOfMonth(int userId, String formType, String status, int month, int year) {
         DateOfMonth converted = ConversionUtils.constructLocalDate(month, year);
         List<FormRecord> retrievedList = formRecordRepository
                 .findALlByUser_UserIdAndFormTypeAndStatusAndDateBetween(userId, formType, status, converted.getStartDate(), converted.getEndDate());
-        return 0;
+        return retrievedList.size();
     }
 }

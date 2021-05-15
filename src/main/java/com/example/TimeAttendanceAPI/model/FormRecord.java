@@ -2,6 +2,7 @@ package com.example.TimeAttendanceAPI.model;
 
 import com.example.TimeAttendanceAPI.dto.FormRecordDTO;
 import com.example.TimeAttendanceAPI.model._enum.FormStatus;
+import com.example.TimeAttendanceAPI.model._enum.FormType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
@@ -43,7 +44,8 @@ public class FormRecord {
     @JoinColumn(name = "manager_id")
     private User manager;
 
-    private String formType;
+    @Enumerated(EnumType.STRING)
+    private FormType formType;
 
     @Column(columnDefinition = "DATE")
     @JsonFormat(pattern = "dd-MM-yyyy")

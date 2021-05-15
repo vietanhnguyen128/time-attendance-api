@@ -2,6 +2,7 @@ package com.example.TimeAttendanceAPI.dto;
 
 import com.example.TimeAttendanceAPI.model.FormRecord;
 import com.example.TimeAttendanceAPI.model._enum.FormStatus;
+import com.example.TimeAttendanceAPI.model._enum.FormType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +20,7 @@ public class FormRecordDTO {
 
     private String managerName;
 
-    private String formType;
+    private FormType formType;
 
     private LocalDate date;
 

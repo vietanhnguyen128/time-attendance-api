@@ -6,6 +6,8 @@ import com.example.TimeAttendanceAPI.model.AttendanceCache;
 import com.example.TimeAttendanceAPI.model.AttendanceRecord;
 import com.example.TimeAttendanceAPI.model.DateOfMonth;
 import com.example.TimeAttendanceAPI.model.User;
+import com.example.TimeAttendanceAPI.model._enum.FormStatus;
+import com.example.TimeAttendanceAPI.model._enum.FormType;
 import com.example.TimeAttendanceAPI.repository.AttendanceCacheRepository;
 import com.example.TimeAttendanceAPI.repository.AttendanceRepository;
 import com.example.TimeAttendanceAPI.repository.UserRepository;
@@ -107,6 +109,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     public AttendanceInfo getAttendanceInfo(int userId, int month, int year) {
         AttendanceInfo result = new AttendanceInfo();
         long totalAttendanceInMinutes = 0;
+        int totalLateTime = 0;
 
         DateOfMonth parsed = ConversionUtils.constructLocalDate(month, year);
         List<AttendanceRecord> attendanceRecordOfMonth = attendanceRepository
@@ -127,13 +130,33 @@ public class AttendanceServiceImpl implements AttendanceService {
 //            }
 //        }
 
+        AttendanceRecord previousRecord = null;
+
         for (AttendanceRecord record : attendanceRecordOfMonth) {
             totalAttendanceInMinutes+= getDifference(record.getCheckInTimestamp(), record.getCheckOutTimestamp());
+
+            if (previousRecord != null) {
+                if (previousRecord.getDate().isBefore(record.getDate())) {
+                    if (record.getCheckInTimestamp().isAfter(LocalTime.of(8, 15))) {
+                        totalLateTime++;
+                    }
+                }
+            }
+
+            previousRecord = record;
         }
 
         Duration totalAttendanceTime = Duration.ofMinutes(totalAttendanceInMinutes);
 
-        return result;
+        int totalApprovedAbsent = formRecordService.getFormOfTypeOfStatusOfMonth(userId, FormType.ABSENT.name(), FormStatus.ACCEPTED.name(), month, year);
+
+        return AttendanceInfo.builder()
+                .totalCheckInTime(totalAttendanceTime)
+                .year(year)
+                .month(month)
+                .totalApprovedAbsentDays(totalApprovedAbsent)
+                .totalLateDays(totalLateTime)
+                .build();
     }
 
     @Override
