@@ -11,12 +11,12 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DateOfMonth {
-    private LocalDate fromDate;
+    private LocalDate startDate;
 
-    private LocalDate toDate;
+    private LocalDate endDate;
 
     public DateOfMonth(String startDate, String endDate) {
-        fromDate = LocalDate.parse(startDate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        toDate = LocalDate.parse(endDate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        this.startDate = LocalDate.parse(startDate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        this.endDate = LocalDate.parse(endDate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 }

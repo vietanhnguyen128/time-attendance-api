@@ -16,5 +16,7 @@ public interface FormRecordService {
 
     FormRecordDTO processFormRecord(FormRecordDTO request);
 
+    int getFormOfTypeOfStatusOfMonth(int userId, int month, int year, String formType, String status);
+
     void deleteFormRecord(Integer formId);
 }

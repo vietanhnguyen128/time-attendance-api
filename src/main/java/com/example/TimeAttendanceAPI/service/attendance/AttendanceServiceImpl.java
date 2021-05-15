@@ -14,7 +14,6 @@ import com.example.TimeAttendanceAPI.service.form_record.FormRecordService;
 import com.example.TimeAttendanceAPI.utils.ConversionUtils;
 import com.example.TimeAttendanceAPI.utils.PageableUtils;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.collections4.ListUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
@@ -24,11 +23,8 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Queue;
 import java.util.stream.Collectors;
 
 @Service
@@ -114,7 +110,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
         DateOfMonth parsed = ConversionUtils.constructLocalDate(month, year);
         List<AttendanceRecord> attendanceRecordOfMonth = attendanceRepository
-                .findALlByUser_UserIdAndDateBetween(userId, parsed.getFromDate(), parsed.getToDate());
+                .findALlByUser_UserIdAndDateBetween(userId, parsed.getStartDate(), parsed.getEndDate());
 
 //        List<AttendanceRecord> checkInRecords = attendanceRecordOfMonth.stream().filter(AttendanceRecord::isCheckIn).collect(Collectors.toList());
 //        List<AttendanceRecord> checkOutRecords = ListUtils.subtract(attendanceRecordOfMonth, checkInRecords);
@@ -145,8 +141,8 @@ public class AttendanceServiceImpl implements AttendanceService {
         DateOfMonth parsed = ConversionUtils.constructLocalDate(month, year);
         List<AttendanceRecord> result = attendanceRepository.findALlByUser_UserIdAndDateBetween(
                 userId,
-                parsed.getFromDate(),
-                parsed.getToDate());
+                parsed.getStartDate(),
+                parsed.getEndDate());
 
         return result.stream().map(AttendanceRecordDTO::new).collect(Collectors.toList());
     }
