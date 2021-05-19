@@ -4,12 +4,15 @@ import com.example.TimeAttendanceAPI.dto.AttendanceInfo;
 import com.example.TimeAttendanceAPI.dto.AttendanceRecordDTO;
 import com.example.TimeAttendanceAPI.model.AttendanceCache;
 import com.example.TimeAttendanceAPI.model.AttendanceRecord;
+import com.example.TimeAttendanceAPI.model.DateInfo;
 import com.example.TimeAttendanceAPI.model.DateOfMonth;
+import com.example.TimeAttendanceAPI.model.FormRecord;
 import com.example.TimeAttendanceAPI.model.User;
 import com.example.TimeAttendanceAPI.model._enum.FormStatus;
 import com.example.TimeAttendanceAPI.model._enum.FormType;
 import com.example.TimeAttendanceAPI.repository.AttendanceCacheRepository;
 import com.example.TimeAttendanceAPI.repository.AttendanceRepository;
+import com.example.TimeAttendanceAPI.repository.FormRecordRepository;
 import com.example.TimeAttendanceAPI.repository.UserRepository;
 import com.example.TimeAttendanceAPI.security.service.CustomUserDetails;
 import com.example.TimeAttendanceAPI.service.form_record.FormRecordService;
@@ -23,6 +26,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -37,6 +41,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     private final UserRepository userRepository;
     private final AttendanceRepository attendanceRepository;
     private final AttendanceCacheRepository attendanceCacheRepository;
+    private final FormRecordRepository formRecordRepository;
     private final FormRecordService formRecordService;
 
     @Override
@@ -106,53 +111,66 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public AttendanceInfo getAttendanceInfo(int userId, int month, int year) {
-        AttendanceInfo result = new AttendanceInfo();
+        DateInfo[] dateInfoArray = new DateInfo[32];
+        DateOfMonth parsed = ConversionUtils.constructLocalDate(month, year);
+
+        for (int i = 1; i <= parsed.getEndDate().getDayOfMonth(); i++) {
+            DateInfo initial = new DateInfo();
+            initial.setDate(LocalDate.of(year, month, i));
+            dateInfoArray[i] = initial;
+        }
+
         double totalAttendanceInHours = 0;
         int totalLateTime = 0;
+        int totalAbsentDay = 0;
+        int totalApprovedAbsent = 0;
 
-        DateOfMonth parsed = ConversionUtils.constructLocalDate(month, year);
+        //Add attendance info to respective element in array
         List<AttendanceRecord> attendanceRecordOfMonth = attendanceRepository
                 .findALlByUser_UserIdAndDateBetween(userId, parsed.getStartDate(), parsed.getEndDate());
 
-//        List<AttendanceRecord> checkInRecords = attendanceRecordOfMonth.stream().filter(AttendanceRecord::isCheckIn).collect(Collectors.toList());
-//        List<AttendanceRecord> checkOutRecords = ListUtils.subtract(attendanceRecordOfMonth, checkInRecords);
-//
-//        Queue<AttendanceRecord> checkInQueue = new LinkedList<>(checkInRecords);
-//        Queue<AttendanceRecord> checkOutQueue = new LinkedList<>(checkOutRecords);
-//
-//        while (!checkInQueue.isEmpty()) {
-//            AttendanceRecord checkIn = checkInQueue.poll();
-//            AttendanceRecord checkOut = checkOutQueue.peek();
-//
-//            if (checkIn.getDate().getDayOfMonth() == checkOut.getDate().getDayOfMonth()) {
-//                totalAttendanceInMinutes+= getDifference(checkIn.getTimestamp(), checkOut.getTimestamp());
-//            }
-//        }
-
-        AttendanceRecord previousRecord = null;
-
         for (AttendanceRecord record : attendanceRecordOfMonth) {
-            totalAttendanceInHours+= getDifferenceInHours(record.getCheckInTimestamp(), record.getCheckOutTimestamp());
+            int dayOfMonth = record.getDate().getDayOfMonth();
+            DateInfo respectiveDate = dateInfoArray[dayOfMonth];
 
-            if (previousRecord != null) {
-                if (previousRecord.getDate().isBefore(record.getDate())) {
-                    if (record.getCheckInTimestamp().isAfter(LocalTime.of(8, 15))) {
-                        totalLateTime++;
-                    }
-                }
+            double difference = getDifferenceInHours(record.getCheckInTimestamp(), record.getCheckOutTimestamp());
+
+            respectiveDate.addTotalHours(difference); //add total check in time
+
+            if (respectiveDate.getFirstCheckIn() == null) { //set first check in timestamp
+                respectiveDate.setFirstCheckIn(record.getCheckInTimestamp());
             }
-
-            previousRecord = record;
         }
 
-        int totalApprovedAbsent = formRecordService.getFormOfTypeOfStatusOfMonth(userId, FormType.ABSENT, FormStatus.ACCEPTED, month, year);
+        //Add absent info to respective element in array
+        List<FormRecord> absentRequestList = formRecordRepository.findAllByUser_UserIdAndFormTypeAndDateBetween(userId, FormType.ABSENT, parsed.getStartDate(), parsed.getEndDate());
+        for (FormRecord record : absentRequestList) {
+            int dayOfMonth = record.getDate().getDayOfMonth();
+            dateInfoArray[dayOfMonth].setHaveAbsent(true);
+            dateInfoArray[dayOfMonth].setAbsentApproved(record.getStatus().equals(FormStatus.ACCEPTED));
+        }
+
+        for (int i = 1; i <= parsed.getEndDate().getDayOfMonth(); i++) {
+            DateInfo current = dateInfoArray[i];
+            totalAttendanceInHours+= current.getTotalInHours();
+            if (current.isAbsentApproved()) {
+                totalApprovedAbsent++;
+            }
+            if (current.getTotalInHours() < 240 && !isWeekendOrHoliday(current)) {
+                totalAbsentDay++;
+            }
+            if (current.getFirstCheckIn().isAfter(LocalTime.of(8, 15))) {
+                totalLateTime++;
+            }
+        }
 
         return AttendanceInfo.builder()
                 .totalCheckInTimeInHours(totalAttendanceInHours)
                 .year(year)
                 .month(month)
-                .totalApprovedAbsentDays(totalApprovedAbsent)
                 .totalLateDays(totalLateTime)
+                .totalAbsentDays(totalAbsentDay)
+                .totalApprovedAbsentDays(totalApprovedAbsent)
                 .build();
     }
 
@@ -191,5 +209,9 @@ public class AttendanceServiceImpl implements AttendanceService {
         }
 
         return (elapsedTime - subtractBreakTime) / 3600.0;
+    }
+
+    private boolean isWeekendOrHoliday(DateInfo record) {
+        return record.isHoliday() || record.getDate().getDayOfWeek().equals(DayOfWeek.SATURDAY) || record.getDate().getDayOfWeek().equals(DayOfWeek.SUNDAY);
     }
 }
