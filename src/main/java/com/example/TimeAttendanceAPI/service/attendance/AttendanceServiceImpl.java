@@ -153,7 +153,7 @@ public class AttendanceServiceImpl implements AttendanceService {
             if (current.isAbsentApproved()) {
                 totalApprovedAbsent++;
             }
-            if (current.getTotalInHours() < 240 && !isWeekendOrHoliday(current)) {
+            if (current.getTotalInHours() < 240 && !isWeekendOrHoliday(current)) { // is absent if total check in time less than 4 hours and is not a holiday or weekend
                 totalAbsentDay++;
             }
             if (current.getFirstCheckIn().isAfter(LocalTime.of(8, 15))) {
