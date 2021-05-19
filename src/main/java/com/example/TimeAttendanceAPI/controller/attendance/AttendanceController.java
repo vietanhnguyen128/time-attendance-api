@@ -30,28 +30,26 @@ public class AttendanceController {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
     @PostMapping("/attendance/check-in")
-    @Secured({"ROLE_ADMIN", "ROLE_MANAGER", "ROLE_EMPLOYEE"})
     public ResponseEntity<?> checkIn(@RequestBody @Valid AttendanceRecordDTO checkIn) {
         attendanceService.checkingIn(checkIn);
         return new ResponseEntity<>("Current time: " + LocalDateTime.now().format(formatter),HttpStatus.OK);
     }
 
     @PostMapping("/attendance/check-out")
-    @Secured({"ROLE_ADMIN", "ROLE_MANAGER", "ROLE_EMPLOYEE"})
     public ResponseEntity<?> checkOut(@RequestBody @Valid AttendanceRecordDTO checkOut) {
         attendanceService.checkingOut(checkOut);
         return new ResponseEntity<>("Current time: " + LocalDateTime.now().format(formatter), HttpStatus.OK);
     }
 
     @GetMapping("/attendance/list/{id}")
-    @Secured({"ROLE_ADMIN", "ROLE_MANAGER", "ROLE_EMPLOYEE"})
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
     public ResponseEntity<?> getAttendanceList(@PathVariable("id") int userId, @RequestParam int month, @RequestParam int year) {
         List<AttendanceRecordDTO> result = attendanceService.getAttendanceRecords(userId, month, year);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/attendance/info/{id}")
-    @Secured({"ROLE_ADMIN", "ROLE_MANAGER", "ROLE_EMPLOYEE"})
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
     public ResponseEntity<?> getAttendanceInfo(@PathVariable("id") int userId, @RequestParam int month, @RequestParam int year) {
         AttendanceInfo result = attendanceService.getAttendanceInfo(userId, month, year);
         return new ResponseEntity<>(result, HttpStatus.OK);

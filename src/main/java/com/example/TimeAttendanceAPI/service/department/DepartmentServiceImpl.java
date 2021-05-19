@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Secured({"ROLE_ADMIN", "ROLE_MANAGER", "ROLE_EMPLOYEE"})
 public class DepartmentServiceImpl implements DepartmentService {
     private final UserRepository userRepository;
     private final DepartmentRepository departmentRepository;
