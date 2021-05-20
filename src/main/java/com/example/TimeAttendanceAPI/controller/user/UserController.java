@@ -42,7 +42,10 @@ public class UserController {
 
     @GetMapping("/user/list")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> getUserList(@RequestParam String role) {
-        return new ResponseEntity<>(userService.getUserList(role), HttpStatus.OK);
+    public ResponseEntity<?> getUserList(@RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
+                                         @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
+                                         @RequestParam(name = "sortBy", defaultValue = "") String sortBy,
+                                         @RequestParam(defaultValue = "") String role) {
+        return new ResponseEntity<>(userService.getUserList(pageNo, pageSize, sortBy, role), HttpStatus.OK);
     }
 }

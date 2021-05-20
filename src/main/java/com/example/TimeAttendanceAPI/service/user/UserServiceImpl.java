@@ -1,12 +1,16 @@
 package com.example.TimeAttendanceAPI.service.user;
 
+import com.example.TimeAttendanceAPI.dto.PagedResponse;
 import com.example.TimeAttendanceAPI.dto.UserDTO;
 import com.example.TimeAttendanceAPI.dto.UserInfoDTO;
 import com.example.TimeAttendanceAPI.model.User;
 import com.example.TimeAttendanceAPI.model._enum.ERole;
 import com.example.TimeAttendanceAPI.repository.UserRepository;
+import com.example.TimeAttendanceAPI.utils.PageableUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
@@ -46,15 +50,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserInfoDTO> getUserList(String role) {
-        List<User> userList;
+    public PagedResponse getUserList(int pageNo, int pageSize, String sortBy, String role) {
+        Page<UserInfoDTO> userList;
+
+        Pageable pageable = PageableUtils.createPageable(pageNo, pageSize, sortBy);
 
         if (StringUtils.isNotEmpty(role)) {
-            userList = userRepository.findAllByRole(ERole.valueOf(role));
+            userList = userRepository.findAllByRole(pageable, ERole.valueOf(role)).map(UserInfoDTO::new);
         } else {
-            userList = userRepository.findAll();
+            userList = userRepository.findAll(pageable).map(UserInfoDTO::new);
         }
 
-        return userList.stream().map(UserInfoDTO::new).collect(Collectors.toList());
+        return PagedResponse.builder()
+                .totalPages(userList.getTotalPages())
+                .totalItems(userList.getTotalElements())
+                .currentPage(userList.getPageable().getPageNumber())
+                .data(userList.getContent())
+                .build();
     }
 }
