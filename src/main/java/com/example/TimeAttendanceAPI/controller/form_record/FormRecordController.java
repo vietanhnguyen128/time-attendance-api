@@ -39,6 +39,15 @@ public class FormRecordController {
         return new ResponseEntity<>(formRecordService.getFormRecordList(pageNo, pageSize, sortBy, formType), HttpStatus.OK);
     }
 
+    @GetMapping("/form/managed/all")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+    public ResponseEntity<?> getSubordinatesRecordList(@RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
+                                               @RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
+                                               @RequestParam(value = "sortBy", defaultValue = "") String sortBy,
+                                               @RequestParam(value = "formType", defaultValue = "") String formType) {
+        return new ResponseEntity<>(formRecordService.getSubordinatesFormList(pageNo, pageSize, sortBy, formType), HttpStatus.OK);
+    }
+
     @GetMapping("/form/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
     public ResponseEntity<?> getSingleFormRecord(@PathVariable("id") int formId) {
