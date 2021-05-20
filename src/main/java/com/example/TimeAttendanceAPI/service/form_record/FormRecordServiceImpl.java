@@ -64,6 +64,25 @@ public class FormRecordServiceImpl implements FormRecordService {
     }
 
     @Override
+    public PagedResponse getSubordinatesFormList(int pageNo, int pageSize, String sortBy, String formType) {
+        CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Pageable pageable = PageableUtils.createPageable(pageNo, pageSize, sortBy);
+        Page<FormRecordDTO> result;
+        if (StringUtils.isNotEmpty(formType)) {
+            result = formRecordRepository.findAllByManager_UserIdAndFormType(user.getId(), FormType.valueOf(formType), pageable).map(FormRecordDTO::new);
+        } else {
+            result = formRecordRepository.findAllByManager_UserId(user.getId(), pageable).map(FormRecordDTO::new);
+        }
+
+        return PagedResponse.builder()
+                .totalItems(result.getTotalElements())
+                .totalPages(result.getTotalPages())
+                .currentPage(result.getPageable().getPageNumber())
+                .data(result.getContent())
+                .build();
+    }
+
+    @Override
     public FormRecordDTO getSingleFormRecord(Integer formId) {
         Optional<FormRecord> result = formRecordRepository.findById(formId);
         if (result.isEmpty()) {

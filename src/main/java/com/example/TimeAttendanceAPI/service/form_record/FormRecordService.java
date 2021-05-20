@@ -14,6 +14,8 @@ public interface FormRecordService {
 
     PagedResponse getFormRecordList(int pageNo, int pageSize, String sortBy, String formType);
 
+    PagedResponse getSubordinatesFormList(int pageNo, int pageSize, String sortBy, String formType);
+
     FormRecordDTO getSingleFormRecord(Integer formId);
 
     FormRecordDTO updateFormRecord(FormRecordDTO request);

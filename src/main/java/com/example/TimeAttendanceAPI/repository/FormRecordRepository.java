@@ -23,5 +23,9 @@ public interface FormRecordRepository extends JpaRepository<FormRecord, Integer>
 
     Page<FormRecord> findAllByUser_UserId(int userId, Pageable pageable);
 
+    Page<FormRecord> findAllByManager_UserIdAndFormType(int userId, FormType formType, Pageable pageable);
+
+    Page<FormRecord> findAllByManager_UserId(int userId, Pageable pageable);
+
     List<FormRecord> findAllByManager_UserIdAndDateBetween(int managerId, LocalDate fromDate, LocalDate toDate);
 }
