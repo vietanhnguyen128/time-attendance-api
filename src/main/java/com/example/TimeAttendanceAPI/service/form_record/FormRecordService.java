@@ -1,6 +1,7 @@
 package com.example.TimeAttendanceAPI.service.form_record;
 
 import com.example.TimeAttendanceAPI.dto.FormRecordDTO;
+import com.example.TimeAttendanceAPI.dto.PagedResponse;
 import com.example.TimeAttendanceAPI.model.FormRecord;
 import com.example.TimeAttendanceAPI.model._enum.FormStatus;
 import com.example.TimeAttendanceAPI.model._enum.FormType;
@@ -11,7 +12,7 @@ import java.util.List;
 public interface FormRecordService {
     FormRecordDTO createFormRecord(FormRecordDTO request);
 
-    Page<FormRecordDTO> getFormRecordList(int pageNo, int pageSize, String sortBy);
+    PagedResponse getFormRecordList(int pageNo, int pageSize, String sortBy, String formType);
 
     FormRecordDTO getSingleFormRecord(Integer formId);
 

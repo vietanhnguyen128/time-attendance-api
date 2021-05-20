@@ -1,6 +1,7 @@
 package com.example.TimeAttendanceAPI.service.form_record;
 
 import com.example.TimeAttendanceAPI.dto.FormRecordDTO;
+import com.example.TimeAttendanceAPI.dto.PagedResponse;
 import com.example.TimeAttendanceAPI.model.DateOfMonth;
 import com.example.TimeAttendanceAPI.model.FormRecord;
 import com.example.TimeAttendanceAPI.model.User;
@@ -8,12 +9,15 @@ import com.example.TimeAttendanceAPI.model._enum.FormStatus;
 import com.example.TimeAttendanceAPI.model._enum.FormType;
 import com.example.TimeAttendanceAPI.repository.FormRecordRepository;
 import com.example.TimeAttendanceAPI.repository.UserRepository;
+import com.example.TimeAttendanceAPI.security.service.CustomUserDetails;
 import com.example.TimeAttendanceAPI.utils.ConversionUtils;
 import com.example.TimeAttendanceAPI.utils.PageableUtils;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,9 +45,22 @@ public class FormRecordServiceImpl implements FormRecordService {
     }
 
     @Override
-    public Page<FormRecordDTO> getFormRecordList(int pageNo, int pageSize, String sortBy) {
+    public PagedResponse getFormRecordList(int pageNo, int pageSize, String sortBy, String formType) {
+        CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Pageable pageable = PageableUtils.createPageable(pageNo, pageSize, sortBy);
-        return formRecordRepository.findAll(pageable).map(FormRecordDTO::new);
+        Page<FormRecordDTO> result;
+        if (StringUtils.isNotEmpty(formType)) {
+            result = formRecordRepository.findAllByUser_UserIdAndFormType(user.getId(), FormType.valueOf(formType), pageable).map(FormRecordDTO::new);
+        } else {
+            result = formRecordRepository.findAllByUser_UserId(user.getId(), pageable).map(FormRecordDTO::new);
+        }
+
+        return PagedResponse.builder()
+                .totalItems(result.getTotalElements())
+                .totalPages(result.getTotalPages())
+                .currentPage(result.getPageable().getPageNumber())
+                .data(result.getContent())
+                .build();
     }
 
     @Override
