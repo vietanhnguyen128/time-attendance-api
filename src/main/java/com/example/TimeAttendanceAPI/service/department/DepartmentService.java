@@ -1,5 +1,6 @@
 package com.example.TimeAttendanceAPI.service.department;
 import com.example.TimeAttendanceAPI.dto.DepartmentDTO;
+import com.example.TimeAttendanceAPI.dto.PagedResponse;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 public interface DepartmentService {
     DepartmentDTO createDepartment(DepartmentDTO departmentDTO);
 
-    Page<DepartmentDTO> getDepartmentList(int pageNo, int pageSize, String sortBy);
+    PagedResponse getDepartmentList(int pageNo, int pageSize, String sortBy);
 
     DepartmentDTO getSingleDepartment(Integer departmentId);
 

@@ -1,6 +1,7 @@
 package com.example.TimeAttendanceAPI.service.department;
 
 import com.example.TimeAttendanceAPI.dto.DepartmentDTO;
+import com.example.TimeAttendanceAPI.dto.PagedResponse;
 import com.example.TimeAttendanceAPI.model.Department;
 import com.example.TimeAttendanceAPI.model.User;
 import com.example.TimeAttendanceAPI.repository.DepartmentRepository;
@@ -46,9 +47,15 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Page<DepartmentDTO> getDepartmentList(int pageNo, int pageSize, String sortBy) {
+    public PagedResponse getDepartmentList(int pageNo, int pageSize, String sortBy) {
         Pageable pageable = PageableUtils.createPageable(pageNo, pageSize, sortBy);
-        return departmentRepository.findAll(pageable).map(DepartmentDTO::new);
+        Page<DepartmentDTO> result = departmentRepository.findAll(pageable).map(DepartmentDTO::new);
+        return PagedResponse.builder()
+                .totalItems(result.getTotalElements())
+                .totalPages(result.getTotalPages())
+                .currentPage(result.getPageable().getPageNumber())
+                .data(result.getContent())
+                .build();
     }
 
     @Override
