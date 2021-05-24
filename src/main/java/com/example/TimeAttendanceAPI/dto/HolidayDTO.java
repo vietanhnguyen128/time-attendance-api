@@ -15,11 +15,11 @@ public class HolidayDTO {
 
     private LocalDate date;
 
-    private String holidayName;
+    private String holidayDescription;
 
     public HolidayDTO(Holiday data) {
         this.holidayId = data.getHolidayId();
         this.date = data.getDate();
-        this.holidayName = data.getHolidayName();
+        this.holidayDescription = data.getHolidayDescription();
     }
 }

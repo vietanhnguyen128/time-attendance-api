@@ -22,10 +22,10 @@ public class Holiday {
 
     private LocalDate date;
 
-    private String holidayName;
+    private String holidayDescription;
 
     public Holiday(HolidayDTO request) {
         this.date = request.getDate();
-        this.holidayName = request.getHolidayName();
+        this.holidayDescription = request.getHolidayDescription();
     }
 }
