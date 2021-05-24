@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -34,7 +35,9 @@ public class HolidayController {
 
     @GetMapping("/holiday")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> getHolidayList(int pageNo, int pageSize, String sortBy) {
+    public ResponseEntity<?> getHolidayList(@RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
+                                            @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
+                                            @RequestParam(name = "sortBy", defaultValue = "") String sortBy) {
         return new ResponseEntity<>(holidayService.getHolidayList(pageNo, pageSize, sortBy), HttpStatus.OK);
     }
 
