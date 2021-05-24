@@ -32,6 +32,12 @@ public class HolidayController {
         return new ResponseEntity<>(holidayService.getHoliday(holidayId), HttpStatus.OK);
     }
 
+    @GetMapping("/holiday")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> getHolidayList(int pageNo, int pageSize, String sortBy) {
+        return new ResponseEntity<>(holidayService.getHolidayList(pageNo, pageSize, sortBy), HttpStatus.OK);
+    }
+
     @PutMapping("/holiday/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> updateHoliday(@PathVariable("id") long id, @RequestBody HolidayDTO request) {

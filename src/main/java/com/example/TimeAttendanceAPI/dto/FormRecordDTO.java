@@ -3,6 +3,9 @@ package com.example.TimeAttendanceAPI.dto;
 import com.example.TimeAttendanceAPI.model.FormRecord;
 import com.example.TimeAttendanceAPI.model._enum.FormStatus;
 import com.example.TimeAttendanceAPI.model._enum.FormType;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,6 +25,8 @@ public class FormRecordDTO {
 
     private FormType formType;
 
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate date;
 
     private LocalTime startTime; //todo refactor fields

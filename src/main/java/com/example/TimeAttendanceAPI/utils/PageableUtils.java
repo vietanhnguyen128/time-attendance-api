@@ -7,6 +7,16 @@ import org.springframework.data.domain.Sort;
 
 public class PageableUtils {
     public static Pageable createPageable(int pageNo, int pageSize, String sortBy) {
-        return PageRequest.of(pageNo, pageSize, StringUtils.isNotBlank(sortBy) ? Sort.by(sortBy) : Sort.unsorted());
+        if (StringUtils.isNotBlank(sortBy)) {
+            if (sortBy.startsWith("+")) {
+                return PageRequest.of(pageNo, pageSize, Sort.by(sortBy.substring(1)));
+            } else if (sortBy.startsWith("-")) {
+                return PageRequest.of(pageNo, pageSize, Sort.by(sortBy.substring(1)).descending());
+            } else {
+                throw new RuntimeException("Invalid parameter.");
+            }
+        }
+
+        return PageRequest.of(pageNo, pageSize, Sort.unsorted());
     }
 }

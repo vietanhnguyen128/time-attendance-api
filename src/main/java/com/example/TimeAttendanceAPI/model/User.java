@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -36,7 +37,7 @@ public class User {
 
     private String name;
 
-    private Integer age;
+    private LocalDate birthdate;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -86,7 +87,7 @@ public class User {
 
     public void updatePersonalInfo(UserInfoDTO userInfoDTO) {
         this.name = userInfoDTO.getName();
-        this.age = userInfoDTO.getAge();
+        this.birthdate = userInfoDTO.getBirthdate();
         this.gender = userInfoDTO.getGender();
         this.email = userInfoDTO.getEmail();
     }

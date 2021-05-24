@@ -1,6 +1,7 @@
 package com.example.TimeAttendanceAPI.service.holiday;
 
 import com.example.TimeAttendanceAPI.dto.HolidayDTO;
+import com.example.TimeAttendanceAPI.dto.PagedResponse;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface HolidayService {
 
     HolidayDTO getHoliday(long holidayId);
 
-    List<HolidayDTO> getHolidayList();
+    PagedResponse getHolidayList(int pageNo, int pageSize, String sortBy);
 
     void deleteHoliday(long holidayId);
 }

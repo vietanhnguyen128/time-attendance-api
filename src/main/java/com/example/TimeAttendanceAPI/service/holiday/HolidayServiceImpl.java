@@ -1,9 +1,13 @@
 package com.example.TimeAttendanceAPI.service.holiday;
 
 import com.example.TimeAttendanceAPI.dto.HolidayDTO;
+import com.example.TimeAttendanceAPI.dto.PagedResponse;
 import com.example.TimeAttendanceAPI.model.Holiday;
 import com.example.TimeAttendanceAPI.repository.HolidayRepository;
+import com.example.TimeAttendanceAPI.utils.PageableUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,8 +51,18 @@ public class HolidayServiceImpl implements HolidayService {
     }
 
     @Override
-    public List<HolidayDTO> getHolidayList() {
-        return holidayRepository.findAll().stream().map(HolidayDTO::new).collect(Collectors.toList());
+    public PagedResponse getHolidayList(int pageNo, int pageSize, String sortBy) {
+        Page<HolidayDTO> holidayList;
+        Pageable pageable = PageableUtils.createPageable(pageNo, pageSize, sortBy);
+
+        holidayList = holidayRepository.findAll(pageable).map(HolidayDTO::new);
+
+        return PagedResponse.builder()
+                .totalPages(holidayList.getTotalPages())
+                .totalItems(holidayList.getTotalElements())
+                .currentPage(holidayList.getPageable().getPageNumber())
+                .data(holidayList.getContent())
+                .build();
     }
 
     @Override

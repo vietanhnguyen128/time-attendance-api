@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Email;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -19,7 +20,7 @@ public class UserInfoDTO {
 
     private String name;
 
-    private int age;
+    private LocalDate birthdate;
 
     private Gender gender;
 
@@ -39,7 +40,7 @@ public class UserInfoDTO {
     public UserInfoDTO(User user) {
         this.userId = user.getUserId();
         this.name = user.getName() == null ? "" : user.getName();
-        this.age = user.getAge() == null ? 0 : user.getAge();
+        this.birthdate = user.getBirthdate() == null ? null : user.getBirthdate();
         this.gender = user.getGender() == null ? Gender.NOT_SPECIFIED : user.getGender();
         this.role = user.getRole().getName();
         this.managerId = user.getManager() == null ? 0 : user.getManager().getUserId();
