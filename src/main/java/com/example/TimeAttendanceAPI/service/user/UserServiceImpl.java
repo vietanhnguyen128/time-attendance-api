@@ -1,13 +1,16 @@
 package com.example.TimeAttendanceAPI.service.user;
 
 import com.example.TimeAttendanceAPI.dto.PagedResponse;
-import com.example.TimeAttendanceAPI.dto.UserDTO;
 import com.example.TimeAttendanceAPI.dto.UserInfoDTO;
+import com.example.TimeAttendanceAPI.model.Department;
 import com.example.TimeAttendanceAPI.model.User;
 import com.example.TimeAttendanceAPI.model._enum.ERole;
+import com.example.TimeAttendanceAPI.repository.DepartmentRepository;
 import com.example.TimeAttendanceAPI.repository.UserRepository;
+import com.example.TimeAttendanceAPI.service.department.DepartmentService;
 import com.example.TimeAttendanceAPI.utils.PageableUtils;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,19 +22,50 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final DepartmentRepository departmentRepository;
 
     @Override
-    public void updateUserInfoAdmin(UserInfoDTO request) {
+    public UserInfoDTO updateUserInfoAdmin(UserInfoDTO request) {
+        Optional<User> userOpt = userRepository.findById(request.getUserId());
+        if (userOpt.isEmpty()) {
+            throw new RuntimeException("User not found");
+        } else {
+            User entity = userOpt.get();
+            entity.updatePersonalInfo(request);
 
+            if (EnumUtils.isValidEnum(ERole.class, request.getRole())) {
+                entity.setRole(ERole.valueOf(request.getRole()));
+            } else {
+                throw new RuntimeException("Role is empty!");
+            }
+
+            Optional<User> managerOpt = userRepository.findById(request.getManagerId());
+            if (managerOpt.isPresent()) {
+                entity.setManager(managerOpt.get());
+            } else {
+                entity.setManager(null);
+            }
+
+            Optional<Department> departmentOpt = departmentRepository.findById(request.getDepartmentId());
+            if (departmentOpt.isPresent()) {
+                entity.setDepartment(departmentOpt.get());
+            } else {
+                entity.setDepartment(null);
+            }
+
+            return new UserInfoDTO(userRepository.save(entity));
+        }
     }
 
     @Override
-    public void updateUserInfo(UserInfoDTO request) {
+    public UserInfoDTO updateUserInfo(UserInfoDTO request) {
         Optional<User> userOpt = userRepository.findById(request.getUserId());
         if (userOpt.isPresent()) {
             User entity = userOpt.get();
             entity.updatePersonalInfo(request);
-            userRepository.save(entity);
+            return new UserInfoDTO(userRepository.save(entity));
+        } else {
+            throw new RuntimeException("User not found");
         }
     }
 

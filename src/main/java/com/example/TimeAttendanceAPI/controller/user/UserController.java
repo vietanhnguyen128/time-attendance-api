@@ -23,15 +23,13 @@ public class UserController {
     @PutMapping("/user/admin/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> updateUserInfoAdmin(@PathVariable("id") Integer userId, @RequestBody UserInfoDTO userDTO) {
-        userService.updateUserInfoAdmin(userDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(userService.updateUserInfoAdmin(userDTO), HttpStatus.OK);
     }
 
     @PutMapping("/user/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
     public ResponseEntity<?> updateUserInfo(@PathVariable("id") Integer userId, @RequestBody UserInfoDTO userDTO) {
-        userService.updateUserInfo(userDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(userService.updateUserInfo(userDTO), HttpStatus.OK);
     }
 
     @GetMapping("/user/{id}")

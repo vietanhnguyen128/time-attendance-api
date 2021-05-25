@@ -2,6 +2,7 @@ package com.example.TimeAttendanceAPI.model;
 
 import com.example.TimeAttendanceAPI.dto.UserDTO;
 import com.example.TimeAttendanceAPI.dto.UserInfoDTO;
+import com.example.TimeAttendanceAPI.model._enum.ERole;
 import com.example.TimeAttendanceAPI.model._enum.Gender;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,9 +43,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @Enumerated(EnumType.STRING)
+    private ERole role;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id")
