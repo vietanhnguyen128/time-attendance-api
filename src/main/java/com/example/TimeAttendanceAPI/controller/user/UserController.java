@@ -1,5 +1,6 @@
 package com.example.TimeAttendanceAPI.controller.user;
 
+import com.example.TimeAttendanceAPI.dto.PasswordDTO;
 import com.example.TimeAttendanceAPI.dto.UserDTO;
 import com.example.TimeAttendanceAPI.dto.UserInfoDTO;
 import com.example.TimeAttendanceAPI.service.user.UserService;
@@ -10,6 +11,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,5 +47,11 @@ public class UserController {
                                          @RequestParam(name = "sortBy", defaultValue = "") String sortBy,
                                          @RequestParam(defaultValue = "") String role) {
         return new ResponseEntity<>(userService.getUserList(pageNo, pageSize, sortBy, role), HttpStatus.OK);
+    }
+
+    @PostMapping("/user/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody PasswordDTO request) {
+        userService.changePassword(request);
+        return new ResponseEntity<>("Password successfully changed.", HttpStatus.OK);
     }
 }
