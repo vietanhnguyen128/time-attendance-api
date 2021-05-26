@@ -25,17 +25,17 @@ import java.util.List;
 public class DepartmentController {
     private final DepartmentService departmentService;
 
-    @PostMapping("/department/new")
+    @PostMapping("/department")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<DepartmentDTO> createDepartment(@RequestBody DepartmentDTO request) {
         return new ResponseEntity<>(departmentService.createDepartment(request), HttpStatus.OK);
     }
 
-    @GetMapping("/department/all")
+    @GetMapping("/department")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getDepartmentList(@RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
-                                                                 @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
-                                                                 @RequestParam(name = "sortBy", defaultValue = "") String sortBy) {
+                                               @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
+                                               @RequestParam(name = "sortBy", defaultValue = "") String sortBy) {
         return new ResponseEntity<>(departmentService.getDepartmentList(pageNo, pageSize, sortBy), HttpStatus.OK);
     }
 

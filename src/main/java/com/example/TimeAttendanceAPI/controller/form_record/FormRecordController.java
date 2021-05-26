@@ -24,13 +24,13 @@ import java.text.Normalizer;
 public class FormRecordController {
     private final FormRecordService formRecordService;
 
-    @PostMapping("/form/new")
+    @PostMapping("/form")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
     public ResponseEntity<?> createForm(FormRecordDTO request) {
         return new ResponseEntity<>(formRecordService.createFormRecord(request), HttpStatus.OK);
     }
 
-    @GetMapping("/form/all")
+    @GetMapping("/form")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
     public ResponseEntity<?> getFormRecordList(@RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
                                                @RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
@@ -39,7 +39,7 @@ public class FormRecordController {
         return new ResponseEntity<>(formRecordService.getFormRecordList(pageNo, pageSize, sortBy, formType), HttpStatus.OK);
     }
 
-    @GetMapping("/form/managed/all")
+    @GetMapping("/form/managed")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
     public ResponseEntity<?> getSubordinatesRecordList(@RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
                                                @RequestParam(value = "pageSize", defaultValue = "20") int pageSize,

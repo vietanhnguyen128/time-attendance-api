@@ -40,7 +40,7 @@ public class UserController {
         return new ResponseEntity<>(userService.getUserInfo(userId), HttpStatus.OK);
     }
 
-    @GetMapping("/user/list")
+    @GetMapping("/user")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getUserList(@RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
                                          @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
