@@ -32,14 +32,18 @@ public class FormRecordServiceImpl implements FormRecordService {
 
     @Override
     public FormRecordDTO createFormRecord(FormRecordDTO request) {
-        Optional<User> employee = userRepository.findById(request.getUserId());
-        if (employee.isEmpty()) {
-            throw new RuntimeException("User not found!");
-        }
+        CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+//        Optional<User> employee = userRepository.findById(request.getUserId());
+//        if (employee.isEmpty()) {
+//            throw new RuntimeException("User not found!");
+//        }
+
+        User employee = userRepository.getOne(user.getId());
 
         FormRecord toCreate = new FormRecord(request);
-        toCreate.setUser(employee.get());
-        toCreate.setManager(employee.get().getManager());
+        toCreate.setUser(employee);
+        toCreate.setManager(employee.getManager());
 
         return new FormRecordDTO(formRecordRepository.save(toCreate));
     }
