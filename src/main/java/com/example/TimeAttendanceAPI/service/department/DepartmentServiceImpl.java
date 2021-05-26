@@ -35,11 +35,15 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
 
         if (departmentDTO.getManagerId() != null) {
-            Optional<User> manager = userRepository.findById(departmentDTO.getManagerId());
-            if (manager.isPresent()) {
-                input.setManager(manager.get());
+            Optional<User> managerOpt = userRepository.findById(departmentDTO.getManagerId());
+            if (managerOpt.isPresent()) {
+                if (managerOpt.get().getManagedDepartments() == null) {
+                    input.setManager(managerOpt.get());
+                } else {
+                    throw new RuntimeException("Manager has been assigned to another department");
+                }
             } else {
-                throw new RuntimeException("Department not found");
+                throw new RuntimeException("Manager not found");
             }
         }
 

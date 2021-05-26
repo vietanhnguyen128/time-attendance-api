@@ -35,7 +35,7 @@ public class DepartmentController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getDepartmentList(@RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
                                                @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
-                                               @RequestParam(name = "sortBy", defaultValue = "") String sortBy) {
+                                               @RequestParam(name = "sortBy", defaultValue = "+departmentId") String sortBy) {
         return new ResponseEntity<>(departmentService.getDepartmentList(pageNo, pageSize, sortBy), HttpStatus.OK);
     }
 
