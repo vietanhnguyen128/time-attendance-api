@@ -5,6 +5,7 @@ import com.example.TimeAttendanceAPI.dto.PagedResponse;
 import com.example.TimeAttendanceAPI.model.DateOfMonth;
 import com.example.TimeAttendanceAPI.model.FormRecord;
 import com.example.TimeAttendanceAPI.model.User;
+import com.example.TimeAttendanceAPI.model._enum.ERole;
 import com.example.TimeAttendanceAPI.model._enum.FormStatus;
 import com.example.TimeAttendanceAPI.model._enum.FormType;
 import com.example.TimeAttendanceAPI.repository.FormRecordRepository;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -114,15 +116,24 @@ public class FormRecordServiceImpl implements FormRecordService {
 
     @Override
     public FormRecordDTO processFormRecord(FormRecordDTO request) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        boolean isAdminOrManager = userDetails.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals(ERole.ROLE_ADMIN.name()) || role
+        .getAuthority().equals(ERole.ROLE_MANAGER.name()));
+
         Optional<FormRecord> result = formRecordRepository.findById(request.getId());
         if (result.isEmpty()) {
             throw new RuntimeException("Form not found!");
         }
 
-        FormRecord toUpdate = result.get();
-        toUpdate.setStatus(request.getStatus());
+        if (isAdminOrManager && request.getManagerId().equals(userDetails.getId())) {
+            FormRecord toUpdate = result.get();
+            toUpdate.setStatus(request.getStatus());
 
-        return new FormRecordDTO(formRecordRepository.save(toUpdate));
+            return new FormRecordDTO(formRecordRepository.save(toUpdate));
+        } else {
+            throw new RuntimeException("Not authorized!");
+        }
     }
 
     @Override
