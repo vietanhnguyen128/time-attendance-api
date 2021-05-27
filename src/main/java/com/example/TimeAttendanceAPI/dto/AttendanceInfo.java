@@ -26,4 +26,6 @@ public class AttendanceInfo {
     private int totalEarlyBreakDays;
 
     private int totalApprovedAbsentDays;
+
+    private int totalUnapprovedAbsentDays;
 }

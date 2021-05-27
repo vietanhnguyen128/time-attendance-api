@@ -111,9 +111,14 @@ public class AttendanceServiceImpl implements AttendanceService {
         DateInfo[] dateInfoArray = new DateInfo[32];
         DateOfMonth parsed = ConversionUtils.constructLocalDate(month, year);
 
+        if (LocalDate.now().getMonthValue() < month) {
+            return new AttendanceInfo();
+        }
+
         for (int i = 1; i <= parsed.getEndDate().getDayOfMonth(); i++) {
             DateInfo initial = new DateInfo();
             initial.setDate(LocalDate.of(year, month, i));
+//            initial.setAbsentApproved(false);
             dateInfoArray[i] = initial;
         }
 
@@ -121,6 +126,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         int totalLateTime = 0;
         int totalAbsentDay = 0;
         int totalApprovedAbsent = 0;
+        int totalUnapprovedAbsent = 0;
 
         //Add attendance info to respective element in array
         List<AttendanceRecord> attendanceRecordOfMonth = attendanceRepository
@@ -147,16 +153,29 @@ public class AttendanceServiceImpl implements AttendanceService {
             dateInfoArray[dayOfMonth].setAbsentApproved(record.getStatus().equals(FormStatus.ACCEPTED));
         }
 
-        for (int i = 1; i <= parsed.getEndDate().getDayOfMonth(); i++) {
+        //set total day to calculate, based on current date
+        int upperLimit = LocalDate.now().getMonthValue() > parsed.getEndDate().getMonthValue() ? parsed.getEndDate().getDayOfMonth() : LocalDate.now().getDayOfMonth();
+
+        for (int i = 1; i <= upperLimit; i++) {
             DateInfo current = dateInfoArray[i];
             totalAttendanceInHours+= current.getTotalInHours();
-            if (current.isAbsentApproved()) {
-                totalApprovedAbsent++;
-            }
-            if (current.getTotalInHours() < 240 && !isWeekendOrHoliday(current)) { // is absent if total check in time less than 4 hours and is not a holiday or weekend
+
+//            if (current.isAbsentApproved()) {
+//                totalApprovedAbsent++;
+//            }
+
+            if (current.getTotalInHours() < 4 && !isWeekendOrHoliday(current)) { // is absent if total check in time less than 4 hours and is not a holiday or weekend
                 totalAbsentDay++;
+
+                if (current.isAbsentApproved()) {
+                    totalApprovedAbsent++;
+                } else {
+                    totalUnapprovedAbsent++;
+                }
+
             }
-            if (current.getFirstCheckIn().isAfter(LocalTime.of(8, 15))) {
+
+            if (current.getFirstCheckIn() != null && current.getFirstCheckIn().isAfter(LocalTime.of(8, 15))) {
                 totalLateTime++;
             }
         }
@@ -168,6 +187,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                 .totalLateDays(totalLateTime)
                 .totalAbsentDays(totalAbsentDay)
                 .totalApprovedAbsentDays(totalApprovedAbsent)
+                .totalUnapprovedAbsentDays(totalUnapprovedAbsent)
                 .build();
     }
 
@@ -205,7 +225,7 @@ public class AttendanceServiceImpl implements AttendanceService {
             subtractBreakTime = Duration.between(LocalTime.of(12, 0), checkIn).toSeconds();
         }
 
-        return (elapsedTime - subtractBreakTime) / 3600.0;
+        return (elapsedTime - subtractBreakTime) / 3600.0; //convert to hours
     }
 
     private boolean isWeekendOrHoliday(DateInfo record) {
