@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -21,27 +22,23 @@ import java.time.LocalTime;
 public class FormRecordDTO {
     private Integer id;
 
-    @NotBlank
+    @Valid
     private Integer userId;
 
     private Integer managerId;
 
     private String managerName;
 
-    @NotBlank
     private FormType formType;
 
-    @NotBlank
     @JsonFormat(pattern = "dd-MM-yyyy")
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate date;
 
-    @NotBlank
     @JsonFormat(pattern = "HH:mm:ss")
     @JsonSerialize(using = LocalTimeSerializer.class)
     private LocalTime startTime; //todo refactor fields
 
-    @NotBlank
     @JsonFormat(pattern = "HH:mm:ss")
     @JsonSerialize(using = LocalTimeSerializer.class)
     private LocalTime endTime;

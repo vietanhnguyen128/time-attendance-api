@@ -26,7 +26,7 @@ public class FormRecordController {
 
     @PostMapping("/form")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
-    public ResponseEntity<?> createForm(@RequestBody FormRecordDTO request) {
+    public ResponseEntity<?> createForm(@RequestBody @Valid FormRecordDTO request) {
         return new ResponseEntity<>(formRecordService.createFormRecord(request), HttpStatus.OK);
     }
 
