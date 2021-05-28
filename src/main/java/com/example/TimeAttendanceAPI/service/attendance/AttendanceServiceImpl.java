@@ -211,6 +211,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
         long subtractBreakTime;
 
+        // minus break time
         if (checkIn.compareTo(LocalTime.of(12, 0)) <= 0) {
             if (checkOut.compareTo(LocalTime.of(12, 0)) <= 0) {
                 subtractBreakTime = 0;
