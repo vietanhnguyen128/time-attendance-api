@@ -169,21 +169,24 @@ public class AttendanceServiceImpl implements AttendanceService {
 
         for (int i = 1; i <= upperLimit; i++) {
             DateInfo current = dateInfoArray[i];
-            totalAttendanceInHours+= current.getTotalInHours();
 
-            if (current.getTotalInHours() < 4 && !isWeekendOrHoliday(current)) { // is absent if total check in time less than 4 hours and is not a holiday or weekend
-                totalAbsentDay++;
+            if (!isWeekendOrHoliday(current)) {
+                totalAttendanceInHours += current.getTotalInHours();
 
-                if (current.isAbsentApproved()) {
-                    totalApprovedAbsent++;
-                } else {
-                    totalUnapprovedAbsent++;
+                if (current.getTotalInHours() < 4) { // is absent if total check in time less than 4 hours and is not a holiday or weekend
+                    totalAbsentDay++;
+
+                    if (current.isAbsentApproved()) {
+                        totalApprovedAbsent++;
+                    } else {
+                        totalUnapprovedAbsent++;
+                    }
+
                 }
 
-            }
-
-            if (current.getFirstCheckIn() != null && current.getFirstCheckIn().isAfter(LocalTime.of(8, 15))) {
-                totalLateTime++;
+                if (current.getFirstCheckIn() != null && current.getFirstCheckIn().isAfter(LocalTime.of(8, 15))) {
+                    totalLateTime++;
+                }
             }
         }
 
