@@ -7,12 +7,14 @@ import com.example.TimeAttendanceAPI.model.AttendanceRecord;
 import com.example.TimeAttendanceAPI.model.DateInfo;
 import com.example.TimeAttendanceAPI.model.DateOfMonth;
 import com.example.TimeAttendanceAPI.model.FormRecord;
+import com.example.TimeAttendanceAPI.model.Holiday;
 import com.example.TimeAttendanceAPI.model.User;
 import com.example.TimeAttendanceAPI.model._enum.FormStatus;
 import com.example.TimeAttendanceAPI.model._enum.FormType;
 import com.example.TimeAttendanceAPI.repository.AttendanceCacheRepository;
 import com.example.TimeAttendanceAPI.repository.AttendanceRepository;
 import com.example.TimeAttendanceAPI.repository.FormRecordRepository;
+import com.example.TimeAttendanceAPI.repository.HolidayRepository;
 import com.example.TimeAttendanceAPI.repository.UserRepository;
 import com.example.TimeAttendanceAPI.security.service.CustomUserDetails;
 import com.example.TimeAttendanceAPI.service.form_record.FormRecordService;
@@ -40,6 +42,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     private final AttendanceRepository attendanceRepository;
     private final AttendanceCacheRepository attendanceCacheRepository;
     private final FormRecordRepository formRecordRepository;
+    private final HolidayRepository holidayRepository;
 
     @Override
     public Page<AttendanceRecordDTO> getAttendanceRecordList(int pageNo, int pageSize, String sortBy) {
@@ -118,7 +121,6 @@ public class AttendanceServiceImpl implements AttendanceService {
         for (int i = 1; i <= parsed.getEndDate().getDayOfMonth(); i++) {
             DateInfo initial = new DateInfo();
             initial.setDate(LocalDate.of(year, month, i));
-//            initial.setAbsentApproved(false);
             dateInfoArray[i] = initial;
         }
 
@@ -127,6 +129,15 @@ public class AttendanceServiceImpl implements AttendanceService {
         int totalAbsentDay = 0;
         int totalApprovedAbsent = 0;
         int totalUnapprovedAbsent = 0;
+
+        //Add holiday to respective element in array
+        List<Holiday> holidaysInMonth = holidayRepository.findByDateBetween(parsed.getStartDate(), parsed.getEndDate());
+
+        for (Holiday record : holidaysInMonth) {
+            int dayOfMonth = record.getDate().getDayOfMonth();
+            DateInfo assignedDate = dateInfoArray[dayOfMonth];
+            assignedDate.setHoliday(true);
+        }
 
         //Add attendance info to respective element in array
         List<AttendanceRecord> attendanceRecordOfMonth = attendanceRepository
@@ -159,10 +170,6 @@ public class AttendanceServiceImpl implements AttendanceService {
         for (int i = 1; i <= upperLimit; i++) {
             DateInfo current = dateInfoArray[i];
             totalAttendanceInHours+= current.getTotalInHours();
-
-//            if (current.isAbsentApproved()) {
-//                totalApprovedAbsent++;
-//            }
 
             if (current.getTotalInHours() < 4 && !isWeekendOrHoliday(current)) { // is absent if total check in time less than 4 hours and is not a holiday or weekend
                 totalAbsentDay++;
