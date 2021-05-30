@@ -3,6 +3,8 @@ package com.example.TimeAttendanceAPI.controller.holiday;
 import com.example.TimeAttendanceAPI.dto.HolidayDTO;
 import com.example.TimeAttendanceAPI.model.Holiday;
 import com.example.TimeAttendanceAPI.service.holiday.HolidayService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,18 +25,21 @@ public class HolidayController {
 
     @PostMapping("/holiday")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<?> createHoliday(@RequestBody HolidayDTO request) {
         return new ResponseEntity<>(holidayService.createHoliday(request), HttpStatus.OK);
     }
 
     @GetMapping("/holiday/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<?> getHoliday(@PathVariable("id") long holidayId) {
         return new ResponseEntity<>(holidayService.getHoliday(holidayId), HttpStatus.OK);
     }
 
     @GetMapping("/holiday")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<?> getHolidayList(@RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
                                             @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
                                             @RequestParam(name = "sortBy", defaultValue = "") String sortBy) {
@@ -43,12 +48,14 @@ public class HolidayController {
 
     @PutMapping("/holiday/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<?> updateHoliday(@PathVariable("id") long id, @RequestBody HolidayDTO request) {
         return new ResponseEntity<>(holidayService.updateHoliday(request), HttpStatus.OK);
     }
 
     @DeleteMapping("/holiday/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<?> deleteHoliday(@PathVariable("id") long holidayId) {
         holidayService.deleteHoliday(holidayId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

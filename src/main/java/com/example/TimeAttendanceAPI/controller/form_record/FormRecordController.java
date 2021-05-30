@@ -2,6 +2,8 @@ package com.example.TimeAttendanceAPI.controller.form_record;
 
 import com.example.TimeAttendanceAPI.dto.FormRecordDTO;
 import com.example.TimeAttendanceAPI.service.form_record.FormRecordService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,12 +28,14 @@ public class FormRecordController {
 
     @PostMapping("/form")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<?> createForm(@RequestBody @Valid FormRecordDTO request) {
         return new ResponseEntity<>(formRecordService.createFormRecord(request), HttpStatus.OK);
     }
 
     @GetMapping("/form")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<?> getFormRecordList(@RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
                                                @RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
                                                @RequestParam(value = "sortBy", defaultValue = "") String sortBy,
@@ -41,6 +45,7 @@ public class FormRecordController {
 
     @GetMapping("/form/managed")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<?> getSubordinatesRecordList(@RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
                                                @RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
                                                @RequestParam(value = "sortBy", defaultValue = "") String sortBy,
@@ -50,24 +55,28 @@ public class FormRecordController {
 
     @GetMapping("/form/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<?> getSingleFormRecord(@PathVariable("id") int formId) {
         return new ResponseEntity<>(formRecordService.getSingleFormRecord(formId), HttpStatus.OK);
     }
 
     @PutMapping("/form/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<?> updateFormRecord(@RequestBody @Valid FormRecordDTO request) {
         return new ResponseEntity<>(formRecordService.updateFormRecord(request), HttpStatus.OK);
     }
 
     @PutMapping("/form/{id}/process")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<?> processFormRecord(@RequestBody @Valid FormRecordDTO request) {
         return new ResponseEntity<>(formRecordService.processFormRecord(request), HttpStatus.OK);
     }
 
     @DeleteMapping("/form/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<?> deleteFormRecord(@PathVariable("id") int formId) {
         formRecordService.deleteFormRecord(formId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

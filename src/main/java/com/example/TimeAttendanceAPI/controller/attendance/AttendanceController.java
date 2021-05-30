@@ -4,6 +4,8 @@ import com.example.TimeAttendanceAPI.dto.AttendanceInfo;
 import com.example.TimeAttendanceAPI.dto.AttendanceRecordDTO;
 import com.example.TimeAttendanceAPI.model.AttendanceRecord;
 import com.example.TimeAttendanceAPI.service.attendance.AttendanceService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +45,7 @@ public class AttendanceController {
 
     @GetMapping("/attendance/list/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<?> getAttendanceList(@PathVariable("id") int userId, @RequestParam int month, @RequestParam int year) {
         List<AttendanceRecordDTO> result = attendanceService.getAttendanceRecords(userId, month, year);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -50,6 +53,7 @@ public class AttendanceController {
 
     @GetMapping("/attendance/info/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<?> getAttendanceInfo(@PathVariable("id") int userId, @RequestParam int month, @RequestParam int year) {
         AttendanceInfo result = attendanceService.getAttendanceInfo(userId, month, year);
         return new ResponseEntity<>(result, HttpStatus.OK);

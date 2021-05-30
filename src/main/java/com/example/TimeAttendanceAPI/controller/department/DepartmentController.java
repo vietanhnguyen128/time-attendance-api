@@ -3,6 +3,8 @@ package com.example.TimeAttendanceAPI.controller.department;
 import com.example.TimeAttendanceAPI.dto.DepartmentDTO;
 import com.example.TimeAttendanceAPI.model.Department;
 import com.example.TimeAttendanceAPI.service.department.DepartmentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -27,12 +29,14 @@ public class DepartmentController {
 
     @PostMapping("/department")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<DepartmentDTO> createDepartment(@RequestBody DepartmentDTO request) {
         return new ResponseEntity<>(departmentService.createDepartment(request), HttpStatus.OK);
     }
 
     @GetMapping("/department")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<?> getDepartmentList(@RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
                                                @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
                                                @RequestParam(name = "sortBy", defaultValue = "+departmentId") String sortBy) {
@@ -41,18 +45,21 @@ public class DepartmentController {
 
     @GetMapping("/department/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<DepartmentDTO> getDepartmentById(@PathVariable("id") Integer departmentId) {
         return new ResponseEntity<>(departmentService.getSingleDepartment(departmentId), HttpStatus.OK);
     }
 
     @PutMapping("/department/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<DepartmentDTO> updateDepartmentInfo(@PathVariable("id") Integer departmentId, @RequestBody @Valid DepartmentDTO departmentInfo) {
         return new ResponseEntity<>(departmentService.updateDepartment(departmentInfo), HttpStatus.OK);
     }
 
     @DeleteMapping("/department/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<?> deleteDepartment(@PathVariable("id") Integer departmentId) {
         departmentService.deleteDepartment(departmentId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
