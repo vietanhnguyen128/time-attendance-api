@@ -4,6 +4,8 @@ import com.example.TimeAttendanceAPI.dto.PasswordDTO;
 import com.example.TimeAttendanceAPI.dto.UserDTO;
 import com.example.TimeAttendanceAPI.dto.UserInfoDTO;
 import com.example.TimeAttendanceAPI.service.user.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,24 +26,28 @@ public class UserController {
 
     @PutMapping("/user/admin/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<?> updateUserInfoAdmin(@PathVariable("id") Integer userId, @RequestBody UserInfoDTO userDTO) {
         return new ResponseEntity<>(userService.updateUserInfoAdmin(userDTO), HttpStatus.OK);
     }
 
     @PutMapping("/user/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<?> updateUserInfo(@PathVariable("id") Integer userId, @RequestBody UserInfoDTO userDTO) {
         return new ResponseEntity<>(userService.updateUserInfo(userDTO), HttpStatus.OK);
     }
 
     @GetMapping("/user/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<?> getUserInfo(@PathVariable("id") Integer userId) {
         return new ResponseEntity<>(userService.getUserInfo(userId), HttpStatus.OK);
     }
 
     @GetMapping("/user")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<?> getUserList(@RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
                                          @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
                                          @RequestParam(name = "sortBy", defaultValue = "") String sortBy,
@@ -50,6 +56,8 @@ public class UserController {
     }
 
     @PostMapping("/user/change-password")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<?> changePassword(@RequestBody PasswordDTO request) {
         userService.changePassword(request);
         return new ResponseEntity<>("Password successfully changed.", HttpStatus.OK);
