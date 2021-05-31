@@ -1,6 +1,7 @@
 package com.example.TimeAttendanceAPI.controller.authentication;
 
 import com.example.TimeAttendanceAPI.dto.UserDTO;
+import com.example.TimeAttendanceAPI.security.JwtResponse;
 import com.example.TimeAttendanceAPI.security.RegisterRequest;
 import com.example.TimeAttendanceAPI.security.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
@@ -22,12 +23,12 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody @Valid UserDTO loginRequest) {
+    public ResponseEntity<JwtResponse> authenticateUser(@RequestBody @Valid UserDTO loginRequest) {
         return new ResponseEntity<>(authenticationService.login(loginRequest), HttpStatus.OK);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody @Valid RegisterRequest registerRequest) {
+    public ResponseEntity<String> registerUser(@RequestBody @Valid RegisterRequest registerRequest) {
         return new ResponseEntity<>(authenticationService.createUser(registerRequest) ? "User registered successfully!" : "Username is already taken",
                 HttpStatus.OK);
     }

@@ -32,13 +32,13 @@ public class AttendanceController {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
     @PostMapping("/attendance/check-in")
-    public ResponseEntity<?> checkIn(@RequestBody @Valid AttendanceRecordDTO checkIn) {
+    public ResponseEntity<String> checkIn(@RequestBody @Valid AttendanceRecordDTO checkIn) {
         attendanceService.checkingIn(checkIn);
         return new ResponseEntity<>("Current time: " + LocalDateTime.now().format(formatter),HttpStatus.OK);
     }
 
     @PostMapping("/attendance/check-out")
-    public ResponseEntity<?> checkOut(@RequestBody @Valid AttendanceRecordDTO checkOut) {
+    public ResponseEntity<String> checkOut(@RequestBody @Valid AttendanceRecordDTO checkOut) {
         attendanceService.checkingOut(checkOut);
         return new ResponseEntity<>("Current time: " + LocalDateTime.now().format(formatter), HttpStatus.OK);
     }
@@ -46,7 +46,7 @@ public class AttendanceController {
     @GetMapping("/attendance/list/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
     @Operation(security = @SecurityRequirement(name = "bearerAuth"))
-    public ResponseEntity<?> getAttendanceList(@PathVariable("id") int userId, @RequestParam int month, @RequestParam int year) {
+    public ResponseEntity<List<AttendanceRecordDTO>> getAttendanceList(@PathVariable("id") int userId, @RequestParam int month, @RequestParam int year) {
         List<AttendanceRecordDTO> result = attendanceService.getAttendanceRecords(userId, month, year);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -54,7 +54,7 @@ public class AttendanceController {
     @GetMapping("/attendance/info/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
     @Operation(security = @SecurityRequirement(name = "bearerAuth"))
-    public ResponseEntity<?> getAttendanceInfo(@PathVariable("id") int userId, @RequestParam int month, @RequestParam int year) {
+    public ResponseEntity<AttendanceInfo> getAttendanceInfo(@PathVariable("id") int userId, @RequestParam int month, @RequestParam int year) {
         AttendanceInfo result = attendanceService.getAttendanceInfo(userId, month, year);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

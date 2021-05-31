@@ -45,19 +45,6 @@ public class AttendanceServiceImpl implements AttendanceService {
     private final HolidayRepository holidayRepository;
 
     @Override
-    public Page<AttendanceRecordDTO> getAttendanceRecordList(int pageNo, int pageSize, String sortBy) {
-        Pageable pageable = PageableUtils.createPageable(pageNo, pageSize, sortBy);
-        return attendanceRepository.findAll(pageable).map(AttendanceRecordDTO::new);
-    }
-
-    @Override
-    public Page<AttendanceRecordDTO> getAttendanceRecordListOfMonth(int pageNo, int pageSize, String sortBy, LocalDate date) {
-        Pageable pageable = PageableUtils.createPageable(pageNo, pageSize, sortBy);
-        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return attendanceRepository.findAllByIdAndDate(userDetails.getId(), date, pageable).map(AttendanceRecordDTO::new);
-    }
-
-    @Override
     public void checkingIn(AttendanceRecordDTO checkIn) {
         Optional<User> userOpt = userRepository.findById(checkIn.getUserId());
         Optional<AttendanceCache> attendanceCacheOpt = attendanceCacheRepository.findByUser_UserId(checkIn.getUserId());
