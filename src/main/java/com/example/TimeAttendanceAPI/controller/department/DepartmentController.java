@@ -5,6 +5,10 @@ import com.example.TimeAttendanceAPI.dto.PagedResponse;
 import com.example.TimeAttendanceAPI.model.Department;
 import com.example.TimeAttendanceAPI.service.department.DepartmentService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -38,6 +42,10 @@ public class DepartmentController {
     @GetMapping("/department")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponse(
+            responseCode = "200",
+            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = DepartmentDTO.class)))}
+    )
     public ResponseEntity<PagedResponse> getDepartmentList(@RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
                                                            @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
                                                            @RequestParam(name = "sortBy", defaultValue = "+departmentId") String sortBy) {
@@ -61,7 +69,7 @@ public class DepartmentController {
     @DeleteMapping("/department/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(security = @SecurityRequirement(name = "bearerAuth"))
-    public ResponseEntity<HttpStatus> deleteDepartment(@PathVariable("id") Integer departmentId) {
+    public ResponseEntity<?> deleteDepartment(@PathVariable("id") Integer departmentId) {
         departmentService.deleteDepartment(departmentId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
