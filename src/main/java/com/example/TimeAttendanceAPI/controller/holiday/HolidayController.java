@@ -71,6 +71,7 @@ public class HolidayController {
     @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponse(
             responseCode = "200",
+            description = "Updated holiday info",
             content = { @Content(mediaType = "application/json", schema = @Schema(implementation = HolidayDTO.class))}
     )
     public ResponseEntity<HolidayDTO> updateHoliday(@PathVariable("id") long id, @RequestBody HolidayDTO request) {

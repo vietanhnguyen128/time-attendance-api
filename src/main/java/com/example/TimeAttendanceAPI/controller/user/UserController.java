@@ -34,6 +34,7 @@ public class UserController {
     @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponse(
             responseCode = "200",
+            description = "User info after update",
             content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserInfoDTO.class))}
     )
     public ResponseEntity<UserInfoDTO> updateUserInfoAdmin(@PathVariable("id") Integer userId, @RequestBody UserInfoDTO userDTO) {
@@ -45,6 +46,7 @@ public class UserController {
     @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponse(
             responseCode = "200",
+            description = "User info after update",
             content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserInfoDTO.class))}
     )
     public ResponseEntity<UserInfoDTO> updateUserInfo(@PathVariable("id") Integer userId, @RequestBody UserInfoDTO userDTO) {
@@ -56,6 +58,7 @@ public class UserController {
     @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponse(
             responseCode = "200",
+            description = "User info retrieved",
             content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserInfoDTO.class))}
     )
     public ResponseEntity<UserInfoDTO> getUserInfo(@PathVariable("id") Integer userId) {
@@ -67,6 +70,7 @@ public class UserController {
     @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponse(
             responseCode = "200",
+            description = "List of users",
             content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserInfoDTO.class)))}
     )
     public ResponseEntity<PagedResponse> getUserList(@RequestParam(name = "pageNo", defaultValue = "0") int pageNo,

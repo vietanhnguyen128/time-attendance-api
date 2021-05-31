@@ -43,6 +43,7 @@ public class FormRecordController {
     @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponse(
             responseCode = "200",
+            description = "List of form records",
             content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = FormRecordDTO.class)))}
     )
     public ResponseEntity<PagedResponse> getFormRecordList(@RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
@@ -57,6 +58,7 @@ public class FormRecordController {
     @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponse(
             responseCode = "200",
+            description = "List of form records",
             content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = FormRecordDTO.class)))}
     )
     public ResponseEntity<PagedResponse> getSubordinatesRecordList(@RequestParam(value = "pageNo", defaultValue = "0") int pageNo,

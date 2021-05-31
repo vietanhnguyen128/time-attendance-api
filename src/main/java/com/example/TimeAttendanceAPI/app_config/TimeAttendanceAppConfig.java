@@ -4,6 +4,9 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.models.OpenAPI;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
@@ -13,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
         scheme = "bearer"
 )
 @OpenAPIDefinition(
-        info = @Info(title = "Time Attendance API", version = "v1.0")
+        info = @Info(title = "Time Attendance API", version = "v1.0", description = "REST APIs for Time Attendance System")
 )
 public class TimeAttendanceAppConfig {
 
