@@ -87,4 +87,12 @@ public class UserController {
         userService.changePassword(request);
         return new ResponseEntity<>("Password successfully changed.", HttpStatus.OK);
     }
+
+    @PostMapping("/user/reset-password")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
+    public ResponseEntity<String> resetPassword(@RequestBody PasswordDTO request) {
+        userService.resetPassword(request);
+        return new ResponseEntity<>("Password successfully reset", HttpStatus.OK);
+    }
 }

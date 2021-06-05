@@ -118,4 +118,15 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Old password is not correct!");
         }
     }
+
+    @Override
+    public void resetPassword(PasswordDTO request) {
+        Optional<User> userOpt = userRepository.findById(request.getUserId());
+        if (userOpt.isEmpty()) {
+            throw new RuntimeException("User not found.");
+        }
+        User user = userOpt.get();
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+    }
 }

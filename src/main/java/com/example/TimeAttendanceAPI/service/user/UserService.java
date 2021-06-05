@@ -10,4 +10,5 @@ public interface UserService {
     UserInfoDTO getUserInfo(Integer userId);
     PagedResponse getUserList(int pageNo, int pageSize, String sortBy, String role);
     void changePassword(PasswordDTO request);
+    void resetPassword(PasswordDTO request);
 }
