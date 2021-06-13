@@ -62,7 +62,7 @@ public class HolidayController {
     )
     public ResponseEntity<PagedResponse> getHolidayList(@RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
                                                         @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
-                                                        @RequestParam(name = "sortBy", defaultValue = "") String sortBy) {
+                                                        @RequestParam(name = "sortBy", defaultValue = "+holidayId") String sortBy) {
         return new ResponseEntity<>(holidayService.getHolidayList(pageNo, pageSize, sortBy), HttpStatus.OK);
     }
 

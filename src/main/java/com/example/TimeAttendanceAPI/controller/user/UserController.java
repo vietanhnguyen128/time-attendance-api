@@ -75,7 +75,7 @@ public class UserController {
     )
     public ResponseEntity<PagedResponse> getUserList(@RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
                                                      @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
-                                                     @RequestParam(name = "sortBy", defaultValue = "") String sortBy,
+                                                     @RequestParam(name = "sortBy", defaultValue = "+userId") String sortBy,
                                                      @RequestParam(defaultValue = "") String role) {
         return new ResponseEntity<>(userService.getUserList(pageNo, pageSize, sortBy, role), HttpStatus.OK);
     }
