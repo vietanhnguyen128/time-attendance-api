@@ -140,8 +140,8 @@ public class FormRecordServiceImpl implements FormRecordService {
     @Override
     public void deleteFormRecord(Integer formId) {
         Optional<FormRecord> formOpt = formRecordRepository.findById(formId);
-        if (formOpt.isPresent() && formOpt.get().getStatus().equals(FormStatus.ACCEPTED)) {
-            throw new RuntimeException("Form was accepted, can't be deleted");
+        if (formOpt.isPresent() && !formOpt.get().getStatus().equals(FormStatus.PENDING)) {
+            throw new RuntimeException("Form is resolved, can't be deleted");
         } else {
             formRecordRepository.deleteById(formId);
         }
