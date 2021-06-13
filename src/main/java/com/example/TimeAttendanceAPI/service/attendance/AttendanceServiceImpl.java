@@ -31,6 +31,7 @@ import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -196,7 +197,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                 parsed.getStartDate(),
                 parsed.getEndDate());
 
-        return result.stream().map(AttendanceRecordDTO::new).collect(Collectors.toList());
+        return result.stream().map(AttendanceRecordDTO::new).sorted(Comparator.comparing(AttendanceRecordDTO::getId)).collect(Collectors.toList());
     }
 
     private CustomUserDetails getUserDetails() {

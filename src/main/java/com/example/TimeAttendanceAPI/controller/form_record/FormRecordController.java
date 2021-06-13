@@ -63,7 +63,7 @@ public class FormRecordController {
     )
     public ResponseEntity<PagedResponse> getSubordinatesRecordList(@RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
                                                @RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
-                                               @RequestParam(value = "sortBy", defaultValue = "") String sortBy,
+                                               @RequestParam(value = "sortBy", defaultValue = "+id") String sortBy,
                                                @RequestParam(value = "formType", defaultValue = "") String formType) {
         return new ResponseEntity<>(formRecordService.getSubordinatesFormList(pageNo, pageSize, sortBy, formType), HttpStatus.OK);
     }
