@@ -46,6 +46,7 @@ public class FormRecordServiceImpl implements FormRecordService {
         FormRecord toCreate = new FormRecord(request);
         toCreate.setUser(employee);
         toCreate.setManager(employee.getManager());
+        toCreate.setFormType(FormType.ABSENT);
 
         return new FormRecordDTO(formRecordRepository.save(toCreate));
     }
