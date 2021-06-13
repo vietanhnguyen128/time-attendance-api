@@ -21,6 +21,8 @@ import java.time.LocalDate;
 public class UserInfoDTO {
     private int userId;
 
+    private String username;
+
     private String name;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
@@ -44,6 +46,7 @@ public class UserInfoDTO {
 
     public UserInfoDTO(User user) {
         this.userId = user.getUserId();
+        this.username = user.getUsername();
         this.name = user.getName() == null ? "" : user.getName();
         this.birthdate = user.getBirthdate() == null ? null : user.getBirthdate();
         this.gender = user.getGender() == null ? Gender.NOT_SPECIFIED : user.getGender();
