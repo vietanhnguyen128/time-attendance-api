@@ -17,16 +17,11 @@ import com.example.TimeAttendanceAPI.repository.FormRecordRepository;
 import com.example.TimeAttendanceAPI.repository.HolidayRepository;
 import com.example.TimeAttendanceAPI.repository.UserRepository;
 import com.example.TimeAttendanceAPI.security.service.CustomUserDetails;
-import com.example.TimeAttendanceAPI.service.form_record.FormRecordService;
 import com.example.TimeAttendanceAPI.utils.ConversionUtils;
-import com.example.TimeAttendanceAPI.utils.PageableUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -144,7 +139,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         }
 
         //Add absent info to respective element in array
-        List<FormRecord> absentRequestList = formRecordRepository.findAllByUser_UserIdAndFormTypeAndDateBetween(userId, FormType.ABSENT, parsed.getStartDate(), parsed.getEndDate());
+        List<FormRecord> absentRequestList = formRecordRepository.findAllByUser_UserIdAndDateBetween(userId, parsed.getStartDate(), parsed.getEndDate());
         for (FormRecord record : absentRequestList) {
             int dayOfMonth = record.getDate().getDayOfMonth();
             dateInfoArray[dayOfMonth].setHaveAbsent(true);

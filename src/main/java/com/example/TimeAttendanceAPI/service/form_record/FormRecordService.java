@@ -12,9 +12,9 @@ import java.util.List;
 public interface FormRecordService {
     FormRecordDTO createFormRecord(FormRecordDTO request);
 
-    PagedResponse getFormRecordList(int pageNo, int pageSize, String sortBy, String formType);
+    PagedResponse getFormRecordList(int pageNo, int pageSize, String sortBy);
 
-    PagedResponse getSubordinatesFormList(int pageNo, int pageSize, String sortBy, String formType);
+    PagedResponse getSubordinatesFormList(int pageNo, int pageSize, String sortBy);
 
     FormRecordDTO getSingleFormRecord(Integer formId);
 
@@ -22,7 +22,7 @@ public interface FormRecordService {
 
     FormRecordDTO processFormRecord(FormRecordDTO request);
 
-    int getFormOfTypeOfStatusOfMonth(int userId, FormType formType, FormStatus status, int month, int year);
+    int getFormOfStatusOfMonth(int userId, FormStatus status, int month, int year);
 
     void deleteFormRecord(Integer formId);
 }

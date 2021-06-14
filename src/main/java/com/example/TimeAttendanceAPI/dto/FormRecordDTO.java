@@ -29,7 +29,7 @@ public class FormRecordDTO {
 
     private String managerName;
 
-    private FormType formType;
+//    private FormType formType;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     @JsonSerialize(using = LocalDateSerializer.class)
@@ -50,7 +50,7 @@ public class FormRecordDTO {
         this.userId = formRecord.getUser().getUserId();
         this.managerId = formRecord.getManager() == null ? null : formRecord.getManager().getUserId();
         this.managerName = formRecord.getManager() == null ? "" : formRecord.getManager().getName();
-        this.formType = formRecord.getFormType();
+//        this.formType = formRecord.getFormType();
         this.date = formRecord.getDate();
         this.startTime = formRecord.getStartTime();
         this.endTime = formRecord.getEndTime();

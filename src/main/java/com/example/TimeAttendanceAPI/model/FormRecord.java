@@ -44,8 +44,8 @@ public class FormRecord {
     @JoinColumn(name = "manager_id")
     private User manager;
 
-    @Enumerated(EnumType.STRING)
-    private FormType formType;
+//    @Enumerated(EnumType.STRING)
+//    private FormType formType;
 
     @Column(columnDefinition = "DATE")
     @JsonFormat(pattern = "dd-MM-yyyy")
@@ -66,7 +66,7 @@ public class FormRecord {
     private FormStatus status;
 
     public FormRecord(FormRecordDTO record) {
-        this.formType = record.getFormType();
+//        this.formType = record.getFormType();
         this.date = record.getDate();
         this.startTime = record.getStartTime();
         this.endTime = record.getEndTime();
@@ -74,7 +74,7 @@ public class FormRecord {
     }
 
     public void updateFromDTO(FormRecordDTO record) {
-        this.formType = record.getFormType();
+//        this.formType = record.getFormType();
         this.date = record.getDate();
         this.startTime = record.getStartTime();
         this.endTime = record.getEndTime();
