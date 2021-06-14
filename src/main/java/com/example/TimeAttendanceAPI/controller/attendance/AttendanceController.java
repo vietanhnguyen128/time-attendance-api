@@ -29,17 +29,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AttendanceController {
     private final AttendanceService attendanceService;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
     @PostMapping("/attendance/check-in")
-    public ResponseEntity<String> checkIn(@RequestBody @Valid AttendanceRecordDTO checkIn) {
-        attendanceService.checkingIn(checkIn);
+    public ResponseEntity<String> checkIn(@RequestParam int userId) {
+        attendanceService.checkingIn(userId);
         return new ResponseEntity<>("Current time: " + LocalDateTime.now().format(formatter),HttpStatus.OK);
     }
 
     @PostMapping("/attendance/check-out")
-    public ResponseEntity<String> checkOut(@RequestBody @Valid AttendanceRecordDTO checkOut) {
-        attendanceService.checkingOut(checkOut);
+    public ResponseEntity<String> checkOut(@RequestParam int userId) {
+        attendanceService.checkingOut(userId);
         return new ResponseEntity<>("Current time: " + LocalDateTime.now().format(formatter), HttpStatus.OK);
     }
 

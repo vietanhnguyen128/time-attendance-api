@@ -11,9 +11,9 @@ import java.util.List;
 
 public interface AttendanceService {
 
-    void checkingIn(AttendanceRecordDTO checkIn);
+    void checkingIn(int userId);
 
-    void checkingOut(AttendanceRecordDTO checkOut);
+    void checkingOut(int userId);
 
     AttendanceInfo getAttendanceInfo(int userId, int month, int year);
 
