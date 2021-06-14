@@ -52,15 +52,15 @@ public class FormRecord {
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate date;
 
-    @Column(columnDefinition = "TIME")
-    @JsonFormat(pattern = "HH:mm:ss")
-    @JsonSerialize(using = LocalTimeSerializer.class)
-    private LocalTime startTime;
+//    @Column(columnDefinition = "TIME")
+//    @JsonFormat(pattern = "HH:mm:ss")
+//    @JsonSerialize(using = LocalTimeSerializer.class)
+//    private LocalTime startTime;
 
-    @Column(columnDefinition = "TIME")
-    @JsonFormat(pattern = "HH:mm:ss")
-    @JsonSerialize(using = LocalTimeSerializer.class)
-    private LocalTime endTime;
+//    @Column(columnDefinition = "TIME")
+//    @JsonFormat(pattern = "HH:mm:ss")
+//    @JsonSerialize(using = LocalTimeSerializer.class)
+//    private LocalTime endTime;
 
     @Enumerated(EnumType.STRING)
     private FormStatus status;
@@ -68,16 +68,16 @@ public class FormRecord {
     public FormRecord(FormRecordDTO record) {
 //        this.formType = record.getFormType();
         this.date = record.getDate();
-        this.startTime = record.getStartTime();
-        this.endTime = record.getEndTime();
+//        this.startTime = record.getStartTime();
+//        this.endTime = record.getEndTime();
         this.status = record.getStatus();
     }
 
     public void updateFromDTO(FormRecordDTO record) {
 //        this.formType = record.getFormType();
         this.date = record.getDate();
-        this.startTime = record.getStartTime();
-        this.endTime = record.getEndTime();
+//        this.startTime = record.getStartTime();
+//        this.endTime = record.getEndTime();
         this.status = record.getStatus();
     }
 }
