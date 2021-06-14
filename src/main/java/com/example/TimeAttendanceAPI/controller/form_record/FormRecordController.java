@@ -48,9 +48,8 @@ public class FormRecordController {
     )
     public ResponseEntity<PagedResponse> getFormRecordList(@RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
                                                            @RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
-                                                           @RequestParam(value = "sortBy", defaultValue = "") String sortBy,
-                                                           @RequestParam(value = "formType", defaultValue = "") String formType) {
-        return new ResponseEntity<>(formRecordService.getFormRecordList(pageNo, pageSize, sortBy, formType), HttpStatus.OK);
+                                                           @RequestParam(value = "sortBy", defaultValue = "+id") String sortBy) {
+        return new ResponseEntity<>(formRecordService.getFormRecordList(pageNo, pageSize, sortBy), HttpStatus.OK);
     }
 
     @GetMapping("/form/managed")
@@ -63,9 +62,8 @@ public class FormRecordController {
     )
     public ResponseEntity<PagedResponse> getSubordinatesRecordList(@RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
                                                @RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
-                                               @RequestParam(value = "sortBy", defaultValue = "+id") String sortBy,
-                                               @RequestParam(value = "formType", defaultValue = "") String formType) {
-        return new ResponseEntity<>(formRecordService.getSubordinatesFormList(pageNo, pageSize, sortBy, formType), HttpStatus.OK);
+                                               @RequestParam(value = "sortBy", defaultValue = "+id") String sortBy) {
+        return new ResponseEntity<>(formRecordService.getSubordinatesFormList(pageNo, pageSize, sortBy), HttpStatus.OK);
     }
 
     @GetMapping("/form/{id}")
