@@ -41,9 +41,9 @@ public class AttendanceServiceImpl implements AttendanceService {
     private final HolidayRepository holidayRepository;
 
     @Override
-    public void checkingIn(AttendanceRecordDTO checkIn) {
-        Optional<User> userOpt = userRepository.findById(checkIn.getUserId());
-        Optional<AttendanceCache> attendanceCacheOpt = attendanceCacheRepository.findByUser_UserId(checkIn.getUserId());
+    public void checkingIn(int userId) {
+        Optional<User> userOpt = userRepository.findById(userId);
+        Optional<AttendanceCache> attendanceCacheOpt = attendanceCacheRepository.findByUser_UserId(userId);
         if (userOpt.isPresent() && attendanceCacheOpt.isPresent()) {
             AttendanceCache attendanceCache = attendanceCacheOpt.get();
             if (!attendanceCache.isCheckIn()) { //if previous record is not check in
@@ -75,9 +75,9 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
-    public void checkingOut(AttendanceRecordDTO checkOut) {
-        Optional<User> userOpt = userRepository.findById(checkOut.getUserId());
-        Optional<AttendanceCache> attendanceCacheOpt = attendanceCacheRepository.findByUser_UserId(checkOut.getUserId());
+    public void checkingOut(int userId) {
+        Optional<User> userOpt = userRepository.findById(userId);
+        Optional<AttendanceCache> attendanceCacheOpt = attendanceCacheRepository.findByUser_UserId(userId);
         if (userOpt.isPresent() && attendanceCacheOpt.isPresent()) {
             AttendanceCache attendanceCache = attendanceCacheOpt.get();
             if (attendanceCache.isCheckIn() && attendanceCache.getLastRecordDate().isEqual(LocalDate.now())) { //if previous record is not check out
