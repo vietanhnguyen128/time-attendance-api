@@ -14,7 +14,6 @@ import com.example.TimeAttendanceAPI.security.service.CustomUserDetails;
 import com.example.TimeAttendanceAPI.utils.ConversionUtils;
 import com.example.TimeAttendanceAPI.utils.PageableUtils;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
@@ -23,7 +22,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -52,15 +50,12 @@ public class FormRecordServiceImpl implements FormRecordService {
     }
 
     @Override
-    public PagedResponse getFormRecordList(int pageNo, int pageSize, String sortBy, String formType) {
+    public PagedResponse getFormRecordList(int pageNo, int pageSize, String sortBy) {
         CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Pageable pageable = PageableUtils.createPageable(pageNo, pageSize, sortBy);
         Page<FormRecordDTO> result;
-        if (StringUtils.isNotEmpty(formType)) {
-            result = formRecordRepository.findAllByUser_UserIdAndFormType(user.getId(), FormType.valueOf(formType), pageable).map(FormRecordDTO::new);
-        } else {
-            result = formRecordRepository.findAllByUser_UserId(user.getId(), pageable).map(FormRecordDTO::new);
-        }
+
+        result = formRecordRepository.findAllByUser_UserId(user.getId(), pageable).map(FormRecordDTO::new);
 
         return PagedResponse.builder()
                 .totalItems(result.getTotalElements())
@@ -71,15 +66,12 @@ public class FormRecordServiceImpl implements FormRecordService {
     }
 
     @Override
-    public PagedResponse getSubordinatesFormList(int pageNo, int pageSize, String sortBy, String formType) {
+    public PagedResponse getSubordinatesFormList(int pageNo, int pageSize, String sortBy) {
         CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Pageable pageable = PageableUtils.createPageable(pageNo, pageSize, sortBy);
         Page<FormRecordDTO> result;
-        if (StringUtils.isNotEmpty(formType)) {
-            result = formRecordRepository.findAllByManager_UserIdAndFormType(user.getId(), FormType.valueOf(formType), pageable).map(FormRecordDTO::new);
-        } else {
-            result = formRecordRepository.findAllByManager_UserId(user.getId(), pageable).map(FormRecordDTO::new);
-        }
+
+        result = formRecordRepository.findAllByManager_UserId(user.getId(), pageable).map(FormRecordDTO::new);
 
         return PagedResponse.builder()
                 .totalItems(result.getTotalElements())
@@ -148,10 +140,10 @@ public class FormRecordServiceImpl implements FormRecordService {
     }
 
     @Override
-    public int getFormOfTypeOfStatusOfMonth(int userId, FormType formType, FormStatus status, int month, int year) {
+    public int getFormOfStatusOfMonth(int userId, FormStatus status, int month, int year) {
         DateOfMonth converted = ConversionUtils.constructLocalDate(month, year);
         List<FormRecord> retrievedList = formRecordRepository
-                .findALlByUser_UserIdAndFormTypeAndStatusAndDateBetween(userId, formType, status, converted.getStartDate(), converted.getEndDate());
+                .findALlByUser_UserIdAndStatusAndDateBetween(userId, status, converted.getStartDate(), converted.getEndDate());
         return retrievedList.size();
     }
 }

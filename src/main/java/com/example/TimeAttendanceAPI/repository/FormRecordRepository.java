@@ -13,17 +13,12 @@ import java.util.List;
 
 @Repository
 public interface FormRecordRepository extends JpaRepository<FormRecord, Integer> {
-    List<FormRecord> findALlByUser_UserIdAndDateBetween(int userId, LocalDate fromDate, LocalDate toDate);
 
-    List<FormRecord> findAllByUser_UserIdAndFormTypeAndDateBetween(int userId, FormType formType, LocalDate fromDate, LocalDate toDate);
+    List<FormRecord> findAllByUser_UserIdAndDateBetween(int userId, LocalDate fromDate, LocalDate toDate);
 
-    List<FormRecord> findALlByUser_UserIdAndFormTypeAndStatusAndDateBetween(int userId, FormType formType, FormStatus status, LocalDate fromDate, LocalDate toDate);
-
-    Page<FormRecord> findAllByUser_UserIdAndFormType(int userId, FormType formType, Pageable pageable);
+    List<FormRecord> findALlByUser_UserIdAndStatusAndDateBetween(int userId, FormStatus status, LocalDate fromDate, LocalDate toDate);
 
     Page<FormRecord> findAllByUser_UserId(int userId, Pageable pageable);
-
-    Page<FormRecord> findAllByManager_UserIdAndFormType(int userId, FormType formType, Pageable pageable);
 
     Page<FormRecord> findAllByManager_UserId(int userId, Pageable pageable);
 

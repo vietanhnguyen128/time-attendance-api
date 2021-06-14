@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,35 +26,39 @@ public class FormRecordDTO {
     @Valid
     private Integer userId;
 
+    private String userName;
+
     private Integer managerId;
 
     private String managerName;
 
-    private FormType formType;
+//    private FormType formType;
 
+    @Schema(example = "dd-MM-yyyy")
     @JsonFormat(pattern = "dd-MM-yyyy")
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate date;
 
-    @JsonFormat(pattern = "HH:mm:ss")
-    @JsonSerialize(using = LocalTimeSerializer.class)
-    private LocalTime startTime; //todo refactor fields
-
-    @JsonFormat(pattern = "HH:mm:ss")
-    @JsonSerialize(using = LocalTimeSerializer.class)
-    private LocalTime endTime;
+//    @JsonFormat(pattern = "HH:mm:ss")
+//    @JsonSerialize(using = LocalTimeSerializer.class)
+//    private LocalTime startTime; //todo refactor fields
+//
+//    @JsonFormat(pattern = "HH:mm:ss")
+//    @JsonSerialize(using = LocalTimeSerializer.class)
+//    private LocalTime endTime;
 
     private FormStatus status  = FormStatus.PENDING;
 
     public FormRecordDTO(FormRecord formRecord) {
         this.id = formRecord.getId();
         this.userId = formRecord.getUser().getUserId();
+        this.userName = formRecord.getUser().getName();
         this.managerId = formRecord.getManager() == null ? null : formRecord.getManager().getUserId();
         this.managerName = formRecord.getManager() == null ? "" : formRecord.getManager().getName();
-        this.formType = formRecord.getFormType();
+//        this.formType = formRecord.getFormType();
         this.date = formRecord.getDate();
-        this.startTime = formRecord.getStartTime();
-        this.endTime = formRecord.getEndTime();
+//        this.startTime = formRecord.getStartTime();
+//        this.endTime = formRecord.getEndTime();
         this.status = formRecord.getStatus();
     }
 }
