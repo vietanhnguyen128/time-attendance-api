@@ -35,7 +35,16 @@ public class HolidayServiceImpl implements HolidayService {
         if (holidayOpt.isEmpty()) {
             throw new RuntimeException("Holiday not found.");
         }
+
         Holiday value = holidayOpt.get();
+
+        if (!value.getDate().isEqual(data.getDate())) {
+            if (holidayRepository.existsByDate(data.getDate())) {
+                throw new RuntimeException("Holiday on updated date is already existed.");
+            }
+        }
+
+        value.setDate(data.getDate());
         value.setHolidayDescription(data.getHolidayDescription());
         return new HolidayDTO(holidayRepository.save(value));
     }

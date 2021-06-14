@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>TimeAttendanceAPI</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-INITIAL</version>
 	<name>TimeAttendanceAPI</name>
 	<description>Time attendanceRecord counter</description>
 
