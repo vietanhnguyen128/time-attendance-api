@@ -26,6 +26,8 @@ public class FormRecordDTO {
     @Valid
     private Integer userId;
 
+    private String userName;
+
     private Integer managerId;
 
     private String managerName;
@@ -50,6 +52,7 @@ public class FormRecordDTO {
     public FormRecordDTO(FormRecord formRecord) {
         this.id = formRecord.getId();
         this.userId = formRecord.getUser().getUserId();
+        this.userName = formRecord.getUser().getName();
         this.managerId = formRecord.getManager() == null ? null : formRecord.getManager().getUserId();
         this.managerName = formRecord.getManager() == null ? "" : formRecord.getManager().getName();
 //        this.formType = formRecord.getFormType();
