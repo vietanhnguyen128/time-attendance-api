@@ -80,7 +80,7 @@ public class FormRecordController {
         return new ResponseEntity<>(formRecordService.updateFormRecord(request), HttpStatus.OK);
     }
 
-    @PutMapping("/form/{id}/process")
+    @PutMapping("/form/process/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
     @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<FormRecordDTO> processFormRecord(@RequestBody @Valid FormRecordDTO request) {
