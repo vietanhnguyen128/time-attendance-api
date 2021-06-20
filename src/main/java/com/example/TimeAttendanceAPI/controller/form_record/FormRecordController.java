@@ -90,6 +90,10 @@ public class FormRecordController {
     @DeleteMapping("/form/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
     @Operation(security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponse(
+            responseCode = "204",
+            description = "Delete success"
+    )
     public ResponseEntity<?> deleteFormRecord(@PathVariable("id") int formId) {
         formRecordService.deleteFormRecord(formId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

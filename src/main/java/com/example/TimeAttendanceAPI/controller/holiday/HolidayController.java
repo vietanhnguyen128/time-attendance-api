@@ -81,6 +81,10 @@ public class HolidayController {
     @DeleteMapping("/holiday/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponse(
+            responseCode = "204",
+            description = "Delete success"
+    )
     public ResponseEntity<?> deleteHoliday(@PathVariable("id") long holidayId) {
         holidayService.deleteHoliday(holidayId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

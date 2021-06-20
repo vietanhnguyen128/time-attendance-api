@@ -69,6 +69,10 @@ public class DepartmentController {
     @DeleteMapping("/department/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponse(
+            responseCode = "204",
+            description = "Delete success"
+    )
     public ResponseEntity<?> deleteDepartment(@PathVariable("id") Integer departmentId) {
         departmentService.deleteDepartment(departmentId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
