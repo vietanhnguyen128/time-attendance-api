@@ -23,8 +23,6 @@ public class AttendanceInfo {
 
     private int totalLateDays;
 
-    private int totalEarlyBreakDays;
-
     private int totalApprovedAbsentDays;
 
     private int totalUnapprovedAbsentDays;
