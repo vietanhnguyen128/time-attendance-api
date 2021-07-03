@@ -6,6 +6,7 @@ import com.example.TimeAttendanceAPI.dto.UserDTO;
 import com.example.TimeAttendanceAPI.dto.UserInfoDTO;
 import com.example.TimeAttendanceAPI.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,23 +31,26 @@ public class UserController {
     private final UserService userService;
 
     @PutMapping("/user/admin/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(
+            security = @SecurityRequirement(name = "bearerAuth"),
+            summary = "Chỉnh sửa thông tin tài khoản bất kì, dành cho admin")
     @ApiResponse(
             responseCode = "200",
-            description = "User info after update",
             content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserInfoDTO.class))}
     )
-    public ResponseEntity<UserInfoDTO> updateUserInfoAdmin(@PathVariable("id") Integer userId, @RequestBody UserInfoDTO userDTO) {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<UserInfoDTO> updateUserInfoAdmin(
+            @Parameter(description = "Id của tài khoản muốn sửa") @PathVariable("id") Integer userId,
+            @RequestBody UserInfoDTO userDTO) {
         return new ResponseEntity<>(userService.updateUserInfoAdmin(userDTO), HttpStatus.OK);
     }
 
     @PutMapping("/user/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
-    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(
+            security = @SecurityRequirement(name = "bearerAuth"),
+            summary = "Chỉnh sửa thông tin tài khoản cá nhân)")
     @ApiResponse(
             responseCode = "200",
-            description = "User info after update",
             content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserInfoDTO.class))}
     )
     public ResponseEntity<UserInfoDTO> updateUserInfo(@PathVariable("id") Integer userId, @RequestBody UserInfoDTO userDTO) {
@@ -54,11 +58,11 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
-    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(
+            security = @SecurityRequirement(name = "bearerAuth"),
+            summary = "Lấy chi tiết tài khoản")
     @ApiResponse(
             responseCode = "200",
-            description = "User info retrieved",
             content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserInfoDTO.class))}
     )
     public ResponseEntity<UserInfoDTO> getUserInfo(@PathVariable("id") Integer userId) {
@@ -66,31 +70,36 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(
+            security = @SecurityRequirement(name = "bearerAuth"),
+            summary = "Lấy danh sách tài khoản")
     @ApiResponse(
             responseCode = "200",
-            description = "List of users",
             content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserInfoDTO.class)))}
     )
-    public ResponseEntity<PagedResponse> getUserList(@RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
-                                                     @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
-                                                     @RequestParam(name = "sortBy", defaultValue = "+userId") String sortBy,
-                                                     @RequestParam(defaultValue = "") String role) {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<PagedResponse> getUserList(
+            @Parameter(description = "Số trang, mặc định: 0") @RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
+            @Parameter(description = "Kích thước trang, mặc định: 20") @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
+            @Parameter(description = "Sắp xếp theo, mặc định: userId tăng dần") @RequestParam(name = "sortBy", defaultValue = "+userId") String sortBy,
+            @Parameter(description = "Role cần tìm, mặc định: rỗng") @RequestParam(defaultValue = "") String role) {
         return new ResponseEntity<>(userService.getUserList(pageNo, pageSize, sortBy, role), HttpStatus.OK);
     }
 
     @PostMapping("/user/change-password")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
-    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(
+            security = @SecurityRequirement(name = "bearerAuth"),
+            summary = "Đổi mật khẩu")
     public ResponseEntity<String> changePassword(@RequestBody PasswordDTO request) {
         userService.changePassword(request);
         return new ResponseEntity<>("Password successfully changed.", HttpStatus.OK);
     }
 
     @PostMapping("/user/reset-password")
+    @Operation(
+            security = @SecurityRequirement(name = "bearerAuth"),
+            summary = "Reset mật khẩu tài khoản bất kì, dành cho admin")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<String> resetPassword(@RequestBody PasswordDTO request) {
         userService.resetPassword(request);
         return new ResponseEntity<>("Password successfully reset", HttpStatus.OK);

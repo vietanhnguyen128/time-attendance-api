@@ -33,12 +33,12 @@ public class AuthenticationController {
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "Đăng nhập thành công",
+                    description = "Success",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = JwtResponse.class))
             ),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Chứng thực không đúng",
+                    description = "Bad credentials",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
             )
     })
@@ -51,13 +51,13 @@ public class AuthenticationController {
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "Tạo tài khoản thành công",
-                    content = @Content(mediaType = "plain/text", schema = @Schema(type = "string", example = "Tạo tài khoản thành công"))
+                    description = "Success",
+                    content = @Content(mediaType = "plain/text", schema = @Schema(type = "string"))
             ),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Tên đăng nhập đã tồn tại",
-                    content = @Content(mediaType = "plain/text", schema = @Schema(type = "string", example = "Tên đăng nhập đã tồn tại"))
+                    description = "Username already exists",
+                    content = @Content(mediaType = "plain/text", schema = @Schema(type = "string"))
             )
     })
     public ResponseEntity<String> registerUser(@RequestBody @Valid RegisterRequest registerRequest) {

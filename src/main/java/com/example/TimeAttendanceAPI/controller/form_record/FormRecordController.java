@@ -4,6 +4,7 @@ import com.example.TimeAttendanceAPI.dto.FormRecordDTO;
 import com.example.TimeAttendanceAPI.dto.PagedResponse;
 import com.example.TimeAttendanceAPI.service.form_record.FormRecordService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -32,64 +33,75 @@ public class FormRecordController {
     private final FormRecordService formRecordService;
 
     @PostMapping("/form")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
-    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(
+            security = @SecurityRequirement(name = "bearerAuth"),
+            summary = "Tạo đơn nghỉ phép")
     public ResponseEntity<FormRecordDTO> createForm(@RequestBody @Valid FormRecordDTO request) {
         return new ResponseEntity<>(formRecordService.createFormRecord(request), HttpStatus.OK);
     }
 
     @GetMapping("/form")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
-    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(
+            security = @SecurityRequirement(name = "bearerAuth"),
+            summary = "Lấy danh sách đơn nghỉ phép")
     @ApiResponse(
             responseCode = "200",
-            description = "List of form records",
             content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = FormRecordDTO.class)))}
     )
-    public ResponseEntity<PagedResponse> getFormRecordList(@RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
-                                                           @RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
-                                                           @RequestParam(value = "sortBy", defaultValue = "+id") String sortBy) {
+    public ResponseEntity<PagedResponse> getFormRecordList(
+            @Parameter(description = "Số trang, mặc định: 0") @RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
+            @Parameter(description = "Kích thước trang, mặc định: 20") @RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
+            @Parameter(description = "Sắp xếp theo, mặc định: id tăng dần") @RequestParam(value = "sortBy", defaultValue = "+id") String sortBy) {
         return new ResponseEntity<>(formRecordService.getFormRecordList(pageNo, pageSize, sortBy), HttpStatus.OK);
     }
 
     @GetMapping("/form/managed")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
-    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(
+            security = @SecurityRequirement(name = "bearerAuth"),
+            summary = "Lấy danh sách đơn nghỉ phép của cấp dưới")
     @ApiResponse(
             responseCode = "200",
-            description = "List of form records",
             content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = FormRecordDTO.class)))}
     )
-    public ResponseEntity<PagedResponse> getSubordinatesRecordList(@RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
-                                               @RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
-                                               @RequestParam(value = "sortBy", defaultValue = "+id") String sortBy) {
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+    public ResponseEntity<PagedResponse> getSubordinatesRecordList(
+            @Parameter(description = "Số trang, mặc định: 0") @RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
+            @Parameter(description = "Kích thước trang, mặc định: 20") @RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
+            @Parameter(description = "Sắp xếp theo, mặc định: id tăng dần") @RequestParam(value = "sortBy", defaultValue = "+id") String sortBy) {
         return new ResponseEntity<>(formRecordService.getSubordinatesFormList(pageNo, pageSize, sortBy), HttpStatus.OK);
     }
 
     @GetMapping("/form/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
-    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(
+            security = @SecurityRequirement(name = "bearerAuth"),
+            summary = "Lấy chi tiết của đơn nghỉ phép")
     public ResponseEntity<FormRecordDTO> getSingleFormRecord(@PathVariable("id") int formId) {
         return new ResponseEntity<>(formRecordService.getSingleFormRecord(formId), HttpStatus.OK);
     }
 
     @PutMapping("/form/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
-    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(
+            security = @SecurityRequirement(name = "bearerAuth"),
+            summary = "Chỉnh sửa đơn nghỉ phép")
     public ResponseEntity<FormRecordDTO> updateFormRecord(@RequestBody @Valid FormRecordDTO request) {
         return new ResponseEntity<>(formRecordService.updateFormRecord(request), HttpStatus.OK);
     }
 
     @PutMapping("/form/process/{id}")
+    @Operation(
+            security = @SecurityRequirement(name = "bearerAuth"),
+            summary = "Duyệt đơn nghỉ phép",
+            description = "Duyệt đơn nghỉ phép. Chỉ dành cho ROLE_ADMIN và ROLE_MANAGER")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
-    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<FormRecordDTO> processFormRecord(@RequestBody @Valid FormRecordDTO request) {
         return new ResponseEntity<>(formRecordService.processFormRecord(request), HttpStatus.OK);
     }
 
     @DeleteMapping("/form/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_EMPLOYEE')")
-    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(
+            security = @SecurityRequirement(name = "bearerAuth"),
+            summary = "Xóa đơn nghỉ phép",
+            description = "Xóa đơn nghỉ phép. Không thể xóa nếu đơn đã được duyệt")
     @ApiResponse(
             responseCode = "204",
             description = "Delete success"
