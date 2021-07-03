@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
         scheme = "bearer"
 )
 @OpenAPIDefinition(
-        info = @Info(title = "Time Attendance API", version = "v1.0", description = "REST APIs for Time Attendance System")
+        info = @Info(title = "Time Attendance API", version = "v1.0", description = "Đồ án tốt nghiệp - API quản lý chấm công - Nguyễn Việt Anh - 58TH4")
 )
 public class TimeAttendanceAppConfig {
 
