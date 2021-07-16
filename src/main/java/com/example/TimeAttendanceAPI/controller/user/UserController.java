@@ -48,7 +48,7 @@ public class UserController {
     @PutMapping("/user/{id}")
     @Operation(
             security = @SecurityRequirement(name = "bearerAuth"),
-            summary = "Chỉnh sửa thông tin tài khoản cá nhân)")
+            summary = "Chỉnh sửa thông tin tài khoản cá nhân")
     @ApiResponse(
             responseCode = "200",
             content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserInfoDTO.class))}
