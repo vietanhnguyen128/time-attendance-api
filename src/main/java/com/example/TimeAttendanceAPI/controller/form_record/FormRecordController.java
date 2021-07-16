@@ -83,7 +83,7 @@ public class FormRecordController {
     @Operation(
             security = @SecurityRequirement(name = "bearerAuth"),
             summary = "Chỉnh sửa đơn nghỉ phép")
-    public ResponseEntity<FormRecordDTO> updateFormRecord(@RequestBody @Valid FormRecordDTO request) {
+    public ResponseEntity<FormRecordDTO> updateFormRecord(@PathVariable("id") int formId, @RequestBody @Valid FormRecordDTO request) {
         return new ResponseEntity<>(formRecordService.updateFormRecord(request), HttpStatus.OK);
     }
 
@@ -91,9 +91,9 @@ public class FormRecordController {
     @Operation(
             security = @SecurityRequirement(name = "bearerAuth"),
             summary = "Duyệt đơn nghỉ phép",
-            description = "Duyệt đơn nghỉ phép. Chỉ dành cho ROLE_ADMIN và ROLE_MANAGER")
+            description = "Duyệt đơn nghỉ phép. Chỉ dành cho ROLE_ADMIN và ROLE_MANAGER. Nhận 3 giá trị status: PENDING, ACCEPTED, DECLINED")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
-    public ResponseEntity<FormRecordDTO> processFormRecord(@RequestBody @Valid FormRecordDTO request) {
+    public ResponseEntity<FormRecordDTO> processFormRecord(@PathVariable("id") int formId, @RequestBody @Valid FormRecordDTO request) {
         return new ResponseEntity<>(formRecordService.processFormRecord(request), HttpStatus.OK);
     }
 
